@@ -1,0 +1,5 @@
+# requirements.txt
+streamlit==1.26.0
+pandas
+plotly==5.16.1
+gsheetsdb==x.x.x
