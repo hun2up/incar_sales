@@ -1,4 +1,5 @@
 # streamlit_app.py
+import pandas as pd
 import streamlit as st
 from google.oauth2 import service_account
 from gsheetsdb import connect
@@ -20,9 +21,7 @@ def run_query(query):
     rows = rows.fetchall()
     return rows
 
-sheet_url = st.secrets["private_gsheets_url"]
+sheet_url = st.secrets["https://docs.google.com/spreadsheets/d/1O54Xqw6tNLhJGGrlfh6V_Lje0rO_xUc1h0sTfPaJoiw/edit#gid=0l"]
 rows = run_query(f'SELECT * FROM "{sheet_url}"')
 
-# Print results.
-for row in rows:
-    st.write(f"{row.name} has a :{row.pet}:")
+dataframe = pd.DataFrame(rows)
