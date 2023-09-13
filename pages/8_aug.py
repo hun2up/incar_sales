@@ -22,7 +22,7 @@ list_linechart[3]: 차트 제목
 list_linechart[4]: df_apply: '월' / df_attend: '날짜'
 '''
 
-list_line_insuarance = [df_insurance, '보험종목', '영수/환급보험료', '영수/환급일', '보험종목별 매출액 추이']
+list_line_insuarance = [df_insurance, '보험종목', '매출액', '영수/환급일', '보험종목별 매출액 추이']
 fig_line_insurnace = fig_linechart(list_line_insuarance)
 
 ########################################################################################################################
