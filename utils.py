@@ -33,6 +33,7 @@ def df_running(df_insu):
             except:
                 pass
         df_total = pd.concat(['df_total','df_insu'], axis=0)
+        df_total = df_total.reset_index(drop=True)
         return df_total
 
 '''
