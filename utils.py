@@ -22,7 +22,7 @@ def df_insurance(df_month):
 
 def df_running(df_insu):
     insu = ['생명보험','손해보험']
-    df_total = pd.DataFrame()
+    df_total = pd.DataFrame(['보험종목','영수/환급일','매출액'])
     for i in range(2):
         # 생명보험이나 손해보험만 남기기
         df_insu = df_insu.drop(df_insu[df_insu.iloc[:,0] == insu[i]].index)
@@ -32,7 +32,7 @@ def df_running(df_insu):
                 df_insu.iloc[running+1,2] = df_insu.iloc[running+1,2] + df_insu.iloc[running,2]
             except:
                 pass
-        df_total = pd.concat(['df_total','df_insu'], axis=1)
+        df_total = pd.concat(['df_total','df_insu'], axis=0)
         return df_total
 
 '''
