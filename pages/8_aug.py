@@ -15,7 +15,7 @@ df_august['영수/환급일'] = pd.to_datetime(df_august['영수/환급일'])
 df_august['영수/환급보험료'] = pd.to_numeric(df_august['영수/환급보험료'], errors='coerce')
 df_insurance = df_august.groupby(['보험종목']).count()
 # df_insurance = df_august.groupby(['보험종목','영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
-st.write(type(df_august['영수/환급보험료']))
+st.write(type(df_august.iloc[1,7]))
 st.dataframe(df_insurance)
 
 '''
