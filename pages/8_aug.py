@@ -12,7 +12,9 @@ from utils import load_data, fig_linechart
 # 출석부 데이터베이스 호출 (교육과정수료현황) & 컬럼 삭제 (번호)
 df_august = load_data(st.secrets["aug_url"]).drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','월보험료','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
 df_august['영수/환급일'] = pd.to_datetime(df_august['영수/환급일'])
+st.dataframe(df_august)
 df_august['영수/환급보험료'] = pd.to_numeric(df_august['영수/환급보험료'], errors='coerce')
+st.dataframe(df_august)
 df_insurance = df_august.groupby(['보험종목','영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
 
 '''
