@@ -3,7 +3,7 @@
 ########################################################################################################################
 import pandas as pd
 import streamlit as st
-from utils import load_data, df_insurance, df_running ,fig_linechart
+from utils import load_data, df_insurance, fig_linechart
 
 ########################################################################################################################
 ################################################     자료 전처리     ######################################################
@@ -12,13 +12,11 @@ from utils import load_data, df_insurance, df_running ,fig_linechart
 # 출석부 데이터베이스 호출 (교육과정수료현황) & 컬럼 삭제 (번호)
 df_august = load_data(st.secrets["aug_url"]).drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
 df_insu = df_insurance(df_august)
-df_insu = df_running(df_insu)
 
 insu = ['생명보험','손해보험']
 df_total = pd.DataFrame(columns=['보험종목','영수/환급일','매출액'])
 for i in range(2):
     # 생명보험이나 손해보험만 남기기
-    df_running = pd.DataFrame(columns=['보험종목','영수/환급일','매출액'])
     df_running = df_insu.drop(df_insu[df_insu.iloc[:,0] == insu[i]].index)
     # 누적매출액 구하기
     for running in range(df_insu.shape[0]):
