@@ -15,6 +15,26 @@ def load_data(sheets_url):
     csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
     return pd.read_csv(csv_url)
 
+def df_insurance(df_month):
+    df_month['영수/환급보험료'] = pd.to_numeric(df['영수/환급보험료'].str.replace(",",""))
+    df_insurance = df_month.groupby(['보험종목','영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
+    return df_insurance
+
+def df_running(df_insu):
+    insu = ['생명보험','손해보험']
+    df_total = pd.DataFrame()
+    for i in range(2):
+        # 생명보험이나 손해보험만 남기기
+        df_insu = df_insu.drop(df_insu[df_insu.iloc[:,0] == insu[i]].index)
+        # 누적매출액 구하기
+        for running in range(df_insu.shape[0]):
+            try:
+                df_insu.iloc[running+1,2] = df_insu.iloc[running+1,2] + df_insu.iloc[running,2]
+            except:
+                pass
+        df_total = pd.concat(['df_total','df_insu'], axis=0)
+        return df_total
+
 '''
 list_linechart[0]: dataframe (df_stat, df_trnd)
 list_linechart[1]: 참조 컬럼 (소속부문, 입사연차, 과정명)
