@@ -26,7 +26,7 @@ for i in range(2):
             pass
     df_total = pd.concat(['df_total','df_running'], axis=0)
 
-
+st.dataframe(df_total)
 '''
 df_fire = df_insu.drop(df_insu[df_insu.iloc[:,0] == '생명보험'].index)
 df_fire = df_running(df_fire)
