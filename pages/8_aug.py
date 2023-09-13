@@ -14,6 +14,21 @@ df_august = load_data(st.secrets["aug_url"]).drop(columns=['SUNAB_PK','납입회
 df_insu = df_insurance(df_august)
 df_insu = df_running(df_insu)
 
+insu = ['생명보험','손해보험']
+df_total = pd.DataFrame(columns=['보험종목','영수/환급일','매출액'])
+for i in range(2):
+    # 생명보험이나 손해보험만 남기기
+    df_running = pd.DataFrame(columns=['보험종목','영수/환급일','매출액'])
+    df_running = df_insu.drop(df_insu[df_insu.iloc[:,0] == insu[i]].index)
+    # 누적매출액 구하기
+    for running in range(df_insu.shape[0]):
+        try:
+            df_running.iloc[running+1,2] = df_running.iloc[running+1,2] + df_running.iloc[running,2]
+        except:
+            pass
+    df_total = pd.concat(['df_total','df_running'], axis=0)
+
+
 '''
 df_fire = df_insu.drop(df_insu[df_insu.iloc[:,0] == '생명보험'].index)
 df_fire = df_running(df_fire)
