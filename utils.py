@@ -32,8 +32,7 @@ def df_running(df_insu):
                 df_insu.iloc[running+1,2] = df_insu.iloc[running+1,2] + df_insu.iloc[running,2]
             except:
                 pass
-        df_total = pd.concat(['df_total','df_insu'], axis=0)
-        df_total = df_total.reset_index(drop=True)
+        df_total = df_total.append(df_insu)
         return df_total
 
 '''
