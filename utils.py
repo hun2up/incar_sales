@@ -16,7 +16,7 @@ def load_data(sheets_url):
     return pd.read_csv(csv_url)
 
 def df_insurance(df_month):
-    df_month['영수/환급보험료'] = pd.to_numeric(df['영수/환급보험료'].str.replace(",",""))
+    df_month['영수/환급보험료'] = pd.to_numeric(df_month['영수/환급보험료'].str.replace(",",""))
     df_insurance = df_month.groupby(['보험종목','영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
     return df_insurance
 
