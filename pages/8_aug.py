@@ -19,7 +19,10 @@ df_fire = df_insurance.drop(df_insurance[df_insurance.iloc[:,0] == '생명보험
 df_life = df_insurance.drop(df_insurance[df_insurance.iloc[:,0] == '손해보험'].index)
 
 for running in range(df_fire.shape[0]):
-    df_fire.iloc[running+1,2] = df_fire.iloc[running+1,2] + df_fire.iloc[running,2]
+    try:
+        df_fire.iloc[running+1,2] = df_fire.iloc[running+1,2] + df_fire.iloc[running,2]
+    except:
+        pass
 
 st.dataframe(df_fire)
 
