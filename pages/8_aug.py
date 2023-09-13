@@ -15,6 +15,14 @@ df_august = load_data(st.secrets["aug_url"]).drop(columns=['SUNAB_PK','납입회
 df_august['영수/환급보험료'] = pd.to_numeric(df_august['영수/환급보험료'].str.replace(",",""))
 df_insurance = df_august.groupby(['보험종목']).count()
 df_insurance = df_august.groupby(['보험종목','영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
+df_fire = df_insurance.drop(df_insurance[df_insurance.iloc[:,0] == '생명보험'].index)
+df_life = df_insurance.drop(df_insurance[df_insurance.iloc[:,0] == '손해보험'].index)
+
+for running in range(df_fire.shape[0]):
+    df_fire.iloc[running+1,2] = df_fire.iloc[running+1,2] + df_fire.iloc[running,2]
+
+st.dataframe(df_fire)
+
 
 '''
 list_linechart[0]: dataframe (df_stat, df_trnd)
