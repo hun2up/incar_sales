@@ -25,7 +25,7 @@ for i in range(2):
         except:
             pass
     st.dataframe(df_running)
-    df_total = pd.concat([df_running, df_total], axis=1)
+    df_total = pd.concat([df_running, df_total], axis=0)
 
 st.dataframe(df_total)
 '''
