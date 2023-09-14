@@ -4,7 +4,6 @@
 import pandas as pd
 import streamlit as st
 import plotly as pl
-import plotly.express as px
 
 ########################################################################################################################
 ##############################################     function 정의     ####################################################
@@ -64,12 +63,6 @@ def fig_linechart(list_linechart):
         template='plotly_white'  # You can choose different templates if you prefer
     )
     return fig_line
-
-
-def fig_vbarchart_stack(df):
-    fig_vbar_stack = px.bar(df, x='영수일자', y='매출액', color='보험종목', height=400)
-    return fig_vbarchart_stack
-
 
 '''
 list_vbarchart[0]: dataframe ()
