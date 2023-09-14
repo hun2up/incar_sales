@@ -4,7 +4,6 @@
 import pandas as pd
 import streamlit as st
 import plotly as pl
-from datetime import datetime
 
 ########################################################################################################################
 ##############################################     function 정의     ####################################################
@@ -20,7 +19,8 @@ def df_insurance(df_month):
     df_insurance = df_month.groupby(['보험종목','영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
     return df_insurance
 
-def df_running(df_insu):
+def func_running(df_insu):
+    # 반복문 실행을 위한 구간 선언 
     insu = ['생명보험','손해보험']
     df_total = pd.DataFrame(columns=['보험종목','영수/환급일','매출액'])
     for i in range(2):
@@ -32,8 +32,8 @@ def df_running(df_insu):
                 df_running.iloc[running+1,2] = df_running.iloc[running+1,2] + df_running.iloc[running,2]
             except:
                 pass
-        df_total = pd.concat(['df_total','df_running'], axis=0)
-        return df_total
+        df_total = pd.concat([df_running, df_total], axis=0)
+    return df_total
 
 '''
 list_linechart[0]: dataframe (df_stat, df_trnd)
