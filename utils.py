@@ -4,6 +4,7 @@
 import pandas as pd
 import streamlit as st
 import plotly as pl
+import plotly.express as px
 
 ########################################################################################################################
 ##############################################     function 정의     ####################################################
@@ -36,11 +37,11 @@ def func_running(df_insu):
     return df_total
 
 '''
-list_linechart[0]: dataframe (df_stat, df_trnd)
-list_linechart[1]: 참조 컬럼 (소속부문, 입사연차, 과정명)
-list_linechart[2]: 데이터 (신청인원, 신청누계, 수료인원, 수료누계, 수료율, IMO신청률 등)
-list_linechart[3]: 차트 제목
-list_linechart[4]: df_apply: '월' / df_attend: '날짜'
+list_linechart[0]: dataframe ()
+list_linechart[1]: 참조 컬럼 (보험종목)
+list_linechart[2]: x축 (매출액)
+list_linechart[3]: y축 (영수일자)
+list_linechart[4]: 차트 제목
 '''
 def fig_linechart(list_linechart):
     fig_line = pl.graph_objs.Figure()
@@ -64,13 +65,19 @@ def fig_linechart(list_linechart):
     )
     return fig_line
 
+
+def fig_vbarchart_stack(df):
+    fig_vbar_stack = px.bar(df, x='영수일자', y='매출액', color='보험종목', height=400)
+    return fig_vbarchart_stack
+
+
 '''
 list_vbarchart[0]: dataframe ()
-list_vbarchart[1]: 색상 리스트 ()
-list_vbarchart[2]: outside 리스트 ()
-list_vbarchart[3]: 차트 제목
+list_vbarchart[3]: 색상 리스트 ()
+list_vbarchart[4]: outside 리스트 ()
+list_vbarchart[5]: 차트 제목
 '''
-def fig_vbarchart(list_vbarchart):
+def fig_vbarchart_double(list_vbarchart):
     # 오늘의 신청현황 막대그래프
     fig_vbar1 = pl.graph_objs.Bar(
         x=list_vbarchart[0]['과정명'],
@@ -85,12 +92,12 @@ def fig_vbarchart(list_vbarchart):
         y=list_vbarchart[0]['신청인원'],
         name='신청인원',
         text=list_vbarchart[0]['신청인원'],
-        marker={'color':list_vbarchart[1]},
+        marker={'color':list_vbarchart[3]},
         orientation='v'
     )
     data_fig_vbar = [fig_vbar1, fig_fig_vbar2]
-    layout_fig_vbar = pl.graph_objs.Layout(title=list_vbarchart[3],xaxis={'categoryorder':'array', 'categoryarray':None})
+    layout_fig_vbar = pl.graph_objs.Layout(title=list_vbarchart[5],xaxis={'categoryorder':'array', 'categoryarray':None})
     return_fig_vbar = pl.graph_objs.Figure(data=data_fig_vbar,layout=layout_fig_vbar)
-    return_fig_vbar.update_traces(textposition=list_vbarchart[2])
+    return_fig_vbar.update_traces(textposition=list_vbarchart[4])
     return_fig_vbar.update_layout(showlegend=True)
     return return_fig_vbar
