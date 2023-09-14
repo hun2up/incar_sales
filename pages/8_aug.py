@@ -22,9 +22,10 @@ for i in range(2):
     for running in range(df_insu.shape[0]):
         try:
             df_running.iloc[running+1,2] = df_running.iloc[running+1,2] + df_running.iloc[running,2]
+            st.dataframe(df_running)
         except:
             pass
-    df_total = pd.concat(df_total, df_running, axis=1)
+    df_total = pd.concat([df_running, df_total], axis=1)
 
 st.dataframe(df_total)
 '''
