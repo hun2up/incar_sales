@@ -17,6 +17,7 @@ def load_data(sheets_url):
 def df_insurance(df_month):
     df_month['영수/환급보험료'] = pd.to_numeric(df_month['영수/환급보험료'].str.replace(",",""))
     df_insurance = df_month.groupby(['보험종목','영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
+    df_insurance.rename(columns={'영수/환급일':'영수일자'}, inplace=True)
     return df_insurance
 
 def func_running(df_insu):
@@ -63,3 +64,34 @@ def fig_linechart(list_linechart):
         template='plotly_white'  # You can choose different templates if you prefer
     )
     return fig_line
+
+'''
+list_vbarchart[0]: dataframe ()
+list_vbarchart[1]: 색상 리스트 ()
+list_vbarchart[2]: outside 리스트 ()
+list_vbarchart[3]: 차트 제목
+'''
+def fig_vbarchart(list_vbarchart):
+    # 오늘의 신청현황 막대그래프
+    fig_vbar1 = pl.graph_objs.Bar(
+        x=list_vbarchart[0]['과정명'],
+        y=list_vbarchart[0]['목표인원'],
+        name='목표인원',
+        text=list_vbarchart[0]['목표인원'],
+        marker={'color':'grey'}, # 여기수정
+        orientation='v'
+    )
+    fig_fig_vbar2 = pl.graph_objs.Bar(
+        x=list_vbarchart[0]['과정명'],
+        y=list_vbarchart[0]['신청인원'],
+        name='신청인원',
+        text=list_vbarchart[0]['신청인원'],
+        marker={'color':list_vbarchart[1]},
+        orientation='v'
+    )
+    data_fig_vbar = [fig_vbar1, fig_fig_vbar2]
+    layout_fig_vbar = pl.graph_objs.Layout(title=list_vbarchart[3],xaxis={'categoryorder':'array', 'categoryarray':None})
+    return_fig_vbar = pl.graph_objs.Figure(data=data_fig_vbar,layout=layout_fig_vbar)
+    return_fig_vbar.update_traces(textposition=list_vbarchart[2])
+    return_fig_vbar.update_layout(showlegend=True)
+    return return_fig_vbar
