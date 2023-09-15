@@ -19,6 +19,7 @@ def df_insurance(df_month):
     df_insurance = df_month.groupby(['보험종목','영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
     df_sum = df_month.groupby(['영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
     df_sum['보험종목'] = '손생합계'
+    df_sum = df_sum['보험종목','영수/환급일','매출액']
     df_insurance = pd.concat([df_insurance, df_sum], axis=0)
     return df_insurance
 
