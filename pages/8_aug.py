@@ -5,7 +5,6 @@ import pandas as pd
 import streamlit as st
 import streamlit_authenticator as stauth
 hashed_passwords = stauth.Hasher(['incar_edu']).generate()
-print(hashed_passwords)
 import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
