@@ -14,14 +14,17 @@ def load_data(sheets_url):
     csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
     return pd.read_csv(csv_url)
 
-def df_insurance(df_month):
+def df_insurance(df_month):    
     df_month['영수/환급보험료'] = pd.to_numeric(df_month['영수/환급보험료'].str.replace(",",""))
     df_insurance = df_month.groupby(['보험종목','영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
+    df_sum = df_month.groupby(['영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
+    df_sum['보험종목'] = '손생합계'
+    df_insurance = pd.concat([df_insurance, df_sum], axis=0)
     return df_insurance
 
 def func_running(df_insu):
     # 반복문 실행을 위한 구간 선언 
-    insu = ['생명보험','손해보험']
+    insu = ['생명보험','손해보험','손생합계']
     df_total = pd.DataFrame(columns=['보험종목','영수/환급일','매출액'])
     for i in range(2):
         # 생명보험이나 손해보험만 남기기
