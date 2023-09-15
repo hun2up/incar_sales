@@ -7,7 +7,7 @@ credentials:
     incar_edu:
       email: incar_edu@incar.co.kr
       name: incar edu
-      password: $2b$12$Lkd36cKmjqf1YrMH0UhoVutW9spSdfW1tOg3f8xF5zkVRdOJn0adW
+      password: $2b$12$PKTu/QXqidR29c63jHT68ueMw9kiZZNY0N1yMuwRs2j/Ijn5bReZ6
 preauthorized:
   emails:
   - hun2up@gmail.com
