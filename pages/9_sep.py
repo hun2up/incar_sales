@@ -48,7 +48,7 @@ if authentication_status:
         st.text(f'i is : {insu[i]}')
         df_running = df_insu.drop(df_insu[df_insu.iloc[:,0] != insu[i]].index)
         # 누적매출액 구하기
-        for running in range(df_insu.shape[0]):
+        for running in range(df_running.shape[0]):
             try:
                 df_running.iloc[running+1,2] = df_running.iloc[running+1,2] + df_running.iloc[running,2]
             except:
