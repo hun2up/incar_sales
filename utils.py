@@ -43,7 +43,7 @@ def func_running(df_category):
     list_running = df_temp['구분'].tolist()
     # 반복문 실행을 위한 구간 선언 
     df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
-    for i in range(list_running.shape[0]):
+    for i in range(len(list_running)):
         # 생명보험이나 손해보험만 남기기
         df_running = df_category[df_category.iloc[:,0] == list_running[i]]
         # 누적매출액 구하기
