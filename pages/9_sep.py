@@ -36,16 +36,21 @@ if authentication_status:
     # 출석부 데이터베이스 호출 (교육과정수료현황) & 컬럼 삭제 (번호)
     df_sep = func_call("sep")
     df_insu = func_category(df_sep, '보험종목')
+    df_company = func_category(df_sep, '보험회사')
     # df_insu = ['보험종목','영수/환급일','매출액']
     df_insu = func_insurance(df_sep, df_insu)
     # 매출액 누적
-    df_running = func_running(df_insu)
+    running_insu = ['생명보험', '손해보험', '손생합계']
+    running_company = df_company.columns.tolist()
+    df_running_insu = func_running(df_insu, running_insu)
+    df_running_comapny = func_running(df_company, running_company)
 
     ########################################################################################################################
     ##################################################     차트 제작     #####################################################
     ########################################################################################################################
-    list_line_insuarance = [df_running, '보험종목', '매출액', '영수일자', '보험종목별 매출액 추이']
+    list_line_insuarance = [df_running_insu, '보험종목', '매출액', '영수일자', '보험종목별 매출액 추이']
     fig_line_insurnace = fig_linechart(list_line_insuarance)
+    st.dataframe(df_running_comapny)
 
     ########################################################################################################################
     ################################################     메인페이지 설정     ###################################################
