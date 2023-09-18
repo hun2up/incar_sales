@@ -34,18 +34,32 @@ if authentication_status:
     ########################################################################################################################
     # ---------------------------------------    Google Sheet 데이터베이스 호출    ----------------------------------------------
     # 출석부 데이터베이스 호출 (교육과정수료현황) & 컬럼 삭제 (번호)
-    # 삭제예정 df_august = load_data(st.secrets["sep_url"]).drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
     df_august = load_data(st.secrets["sep_url"])
     # df_insu = ['보험종목','영수/환급일','매출액']
     df_insu = func_insurance(df_august)
-    # 삭제예정 df_insu.rename(columns={'영수/환급일':'영수일자'}, inplace=True)
     # 매출액 누적
-    df_running = func_running(df_insu)
+    # df_running = func_running(df_insu)
+
+    # 반복문 실행을 위한 구간 선언 
+    insu = ['생명보험','손해보험','손생합계']
+    df_total = pd.DataFrame(columns=['보험종목','영수일자','매출액'])
+    for i in range(2):
+        # 생명보험이나 손해보험만 남기기
+        st.text(f'i is : {i}')
+        df_running = df_insu.drop(df_insu[df_insu.iloc[:,0] != insu[i]].index)
+        # 누적매출액 구하기
+        for running in range(df_insu.shape[0]):
+            try:
+                df_running.iloc[running+1,2] = df_running.iloc[running+1,2] + df_running.iloc[running,2]
+            except:
+                pass
+        st.dataframe(df_total)
+        df_total = pd.concat([df_running, df_total], axis=0)
 
     ########################################################################################################################
     ##################################################     차트 제작     #####################################################
     ########################################################################################################################
-    list_line_insuarance = [df_running, '보험종목', '매출액', '영수일자', '보험종목별 매출액 추이']
+    list_line_insuarance = [df_total, '보험종목', '매출액', '영수일자', '보험종목별 매출액 추이']
     fig_line_insurnace = fig_linechart(list_line_insuarance)
 
     ########################################################################################################################

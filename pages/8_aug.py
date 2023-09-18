@@ -9,7 +9,7 @@ import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-from utils import load_data, df_insurance, func_running, fig_linechart
+from utils import load_data, func_insurance, func_running, fig_linechart
 
 ########################################################################################################################
 ################################################     인증페이지 설정     ###################################################
@@ -34,10 +34,9 @@ if authentication_status:
     ########################################################################################################################
     # ---------------------------------------    Google Sheet 데이터베이스 호출    ----------------------------------------------
     # 출석부 데이터베이스 호출 (교육과정수료현황) & 컬럼 삭제 (번호)
-    df_august = load_data(st.secrets["aug_url"]).drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
+    df_august = load_data(st.secrets["aug_url"])
     # df_insu = ['보험종목','영수/환급일','매출액']
-    df_insu = df_insurance(df_august)
-    df_insu.rename(columns={'영수/환급일':'영수일자'}, inplace=True)
+    df_insu = func_insurance(df_august)
     # 매출액 누적
     df_running = func_running(df_insu)
 
