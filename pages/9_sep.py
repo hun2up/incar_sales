@@ -53,8 +53,8 @@ if authentication_status:
                 df_running.iloc[running+1,2] = df_running.iloc[running+1,2] + df_running.iloc[running,2]
             except:
                 pass
-        st.dataframe(df_total)
         df_total = pd.concat([df_total, df_running], axis=0)
+        st.dataframe(df_total)
 
     ########################################################################################################################
     ##################################################     차트 제작     #####################################################
