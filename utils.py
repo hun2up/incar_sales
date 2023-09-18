@@ -29,7 +29,7 @@ def func_running(df_insu):
     df_total = pd.DataFrame(columns=['보험종목','영수/환급일','매출액'])
     for i in range(2):
         # 생명보험이나 손해보험만 남기기
-        df_running = df_insu.drop(df_insu[df_insu.iloc[:,0] == insu[i]].index)
+        df_running = df_insu.drop(df_insu[df_insu.iloc[:,0] != insu[i]].index)
         # 누적매출액 구하기
         for running in range(df_insu.shape[0]):
             try:
