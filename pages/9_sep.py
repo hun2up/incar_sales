@@ -54,7 +54,7 @@ if authentication_status:
             except:
                 pass
         st.dataframe(df_total)
-        df_total = pd.concat([df_running, df_total], axis=0)
+        df_total = pd.concat([df_total, df_running], axis=0)
 
     ########################################################################################################################
     ##################################################     차트 제작     #####################################################
