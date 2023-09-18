@@ -47,6 +47,7 @@ if authentication_status:
         # 생명보험이나 손해보험만 남기기
         st.text(f'i is : {insu[i]}')
         df_running = df_insu.drop(df_insu[df_insu.iloc[:,0] != insu[i]].index)
+        st.dataframe(df_running)
         # 누적매출액 구하기
         for running in range(df_running.shape[0]):
             try:
@@ -54,7 +55,6 @@ if authentication_status:
             except:
                 pass
         df_total = pd.concat([df_total, df_running], axis=0)
-        st.dataframe(df_total)
 
     ########################################################################################################################
     ##################################################     차트 제작     #####################################################
