@@ -25,13 +25,14 @@ def func_insurance(df_month):
     df_insurance.rename(columns={'영수/환급일':'영수일자'}, inplace=True)
     return df_insurance
 
+
 def func_running(df_insu):
     # 반복문 실행을 위한 구간 선언 
     insu = ['생명보험','손해보험','손생합계']
     df_total = pd.DataFrame(columns=['보험종목','영수일자','매출액'])
-    for i in range(2):
+    for i in range(3):
         # 생명보험이나 손해보험만 남기기
-        df_running = df_insu.drop(df_insu[df_insu.iloc[:,0] != insu[i]].index)
+        df_running = df_insu[df_insu.iloc[:,0] == insu[i]]
         # 누적매출액 구하기
         for running in range(df_insu.shape[0]):
             try:
