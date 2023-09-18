@@ -57,28 +57,28 @@ def func_running(df_category):
 
 '''
 list_linechart[0]: dataframe ()
-list_linechart[1]: 참조 컬럼 (보험종목)
-list_linechart[2]: x축 (매출액)
-list_linechart[3]: y축 (영수일자)
-list_linechart[4]: 차트 제목
+'구분': 참조 컬럼 (보험종목)
+'매출액': x축 (매출액)
+'영수일자': y축 (영수일자)
+title: 차트 제목
 '''
-def fig_linechart(list_linechart):
+def fig_linechart(df_linechart, title):
     fig_line = pl.graph_objs.Figure()
     # Iterate over unique channels and add a trace for each
-    for reference in list_linechart[0][list_linechart[1]].unique():
-        line_data = list_linechart[0][list_linechart[0][list_linechart[1]] == reference]
+    for reference in df_linechart['구분'].unique():
+        line_data = df_linechart[df_linechart['구분'] == reference]
         fig_line.add_trace(pl.graph_objs.Scatter(
-            x=line_data[list_linechart[3]],
-            y=line_data[list_linechart[2]],
+            x=line_data['영수일자'],
+            y=line_data['매출액'],
             mode='lines+markers',
             name=reference,
         ))
     # Update the layout
     fig_line.update_layout(
-        title=list_linechart[4],
-        xaxis_title=list_linechart[3],
-        yaxis_title=list_linechart[2],
-        legend_title=list_linechart[1],
+        title=title,
+        xaxis_title='영수일자',
+        yaxis_title='매출액',
+        legend_title='구분',
         hovermode='x',
         template='plotly_white'  # You can choose different templates if you prefer
     )
