@@ -14,17 +14,24 @@ def load_data(sheets_url):
     csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
     return pd.read_csv(csv_url)
 
-def func_insurance(df_month):    
-    df_month = df_month.drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
-    df_month['영수/환급보험료'] = pd.to_numeric(df_month['영수/환급보험료'].str.replace(",",""))
-    df_insurance = df_month.groupby(['보험종목','영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
-    df_sum = df_month.groupby(['영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
-    df_sum['보험종목'] = '손생합계'
-    df_sum = df_sum[['보험종목','영수/환급일','매출액']]
-    df_insurance = pd.concat([df_insurance, df_sum], axis=0)
-    df_insurance.rename(columns={'영수/환급일':'영수일자'}, inplace=True)
-    return df_insurance
+def func_call(month):
+    # 월별 매출현황 불러오고, 필요없는 칼럼 삭제
+    df_call = load_data(st.secrets[f"{month}_url"]).drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
+    # 영수/환급보험료 데이터를 숙자로 변환
+    df_call['영수/환급보험료'] = pd.to_numeric(df_call['영수/환급보험료'].str.replace(",",""))
+    df_call.rename(columns={'영수/환급일':'영수일자'}, inplace=True)
+    return df_call
 
+def func_category(df_month, category):
+    df_category = df_month.groupby([category,'영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
+    return df_category
+
+def func_insurance(df_category):
+    df_sum = df_category.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
+    df_sum['보험종목'] = '손생합계'
+    df_sum = df_sum[['보험종목','영수일자','매출액']]
+    df_sum = pd.concat([df_category, df_sum], axis=0)
+    return df_sum
 
 def func_running(df_insu):
     # 반복문 실행을 위한 구간 선언 
