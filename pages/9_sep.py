@@ -45,7 +45,7 @@ if authentication_status:
     df_total = pd.DataFrame(columns=['보험종목','영수일자','매출액'])
     for i in range(3):
         # 생명보험이나 손해보험만 남기기
-        st.text(f'i is : {i}')
+        st.text(f'i is : {insu[i]}')
         df_running = df_insu.drop(df_insu[df_insu.iloc[:,0] != insu[i]].index)
         # 누적매출액 구하기
         for running in range(df_insu.shape[0]):
