@@ -14,6 +14,7 @@ def load_data(sheets_url):
     csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
     return pd.read_csv(csv_url)
 
+# 함수정의: 자료호출 및 전처리
 def func_call(month):
     # 월별 매출현황 불러오고, 필요없는 칼럼 삭제
     df_call = load_data(st.secrets[f"{month}_url"]).drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
@@ -22,10 +23,12 @@ def func_call(month):
     df_call.rename(columns={'영수/환급일':'영수일자'}, inplace=True)
     return df_call
 
+# 함수정의: 필요 칼럼 분류
 def func_category(df_month, category):
     df_category = df_month.groupby([category,'영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
     return df_category
 
+# 함수정의: 손생 및 손생합계
 def func_insurance(df_month, df_insurance):
     df_sum = df_month.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
     df_sum['보험종목'] = '손생합계'
@@ -33,15 +36,18 @@ def func_insurance(df_month, df_insurance):
     df_sum = pd.concat([df_insurance, df_sum], axis=0)
     return df_sum
 
-def func_running(df_insu):
+# 함수정의: 누적매출액 계산
+def func_running(df_category):
+    df_category.columns.values[0] = '구분'
+    df_temp = df_category.groupby(['구분'])['구분'].count().reset_index(name="개수")
+    list_running = df_temp['구분'].tolist()
     # 반복문 실행을 위한 구간 선언 
-    insu = ['생명보험','손해보험','손생합계']
-    df_total = pd.DataFrame(columns=['보험종목','영수일자','매출액'])
-    for i in range(3):
+    df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
+    for i in range(list_running.shape[0]):
         # 생명보험이나 손해보험만 남기기
-        df_running = df_insu[df_insu.iloc[:,0] == insu[i]]
+        df_running = df_category[df_category.iloc[:,0] == list_running[i]]
         # 누적매출액 구하기
-        for running in range(df_insu.shape[0]):
+        for running in range(df_category.shape[0]):
             try:
                 df_running.iloc[running+1,2] = df_running.iloc[running+1,2] + df_running.iloc[running,2]
             except:

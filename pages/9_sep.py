@@ -35,15 +35,17 @@ if authentication_status:
     # ---------------------------------------    Google Sheet 데이터베이스 호출    ----------------------------------------------
     # 출석부 데이터베이스 호출 (교육과정수료현황) & 컬럼 삭제 (번호)
     df_sep = func_call("sep")
+    # 보험종목 및 영수일자 별 매출액
     df_insu = func_category(df_sep, '보험종목')
+    # 보험회사 및 영수일자 별 매출액
     df_company = func_category(df_sep, '보험회사')
     # df_insu = ['보험종목','영수/환급일','매출액']
     df_insu = func_insurance(df_sep, df_insu)
     # 매출액 누적
     running_insu = ['생명보험', '손해보험', '손생합계']
     running_company = df_company.columns.tolist()
-    df_running_insu = func_running(df_insu, running_insu)
-    df_running_comapny = func_running(df_company, running_company)
+    df_running_insu = func_running(df_insu)
+    df_running_comapny = func_running(df_company)
 
     ########################################################################################################################
     ##################################################     차트 제작     #####################################################
