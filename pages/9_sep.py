@@ -40,6 +40,7 @@ if authentication_status:
     # 매출액 누적
     # df_running = func_running(df_insu)
 
+    st.dataframe(df_insu)
     # 반복문 실행을 위한 구간 선언 
     insu = ['생명보험','손해보험','손생합계']
     df_total = pd.DataFrame(columns=['보험종목','영수일자','매출액'])
