@@ -14,6 +14,13 @@ def load_data(sheets_url):
     csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
     return pd.read_csv(csv_url)
 
+def func_dates(year, month):
+    start_date = f'{year}-{month}-01'
+    end_date = f'{year}-{month}-{pd.Timestamp(year, month + 1, 1) - pd.DateOffset(days=1).day}'
+    date_range = pd.date_range(start=start_date, end=end_date)
+    df_dates = pd.DataFrame({'dates': date_range})
+    return df_dates
+
 # 함수정의: 자료호출 및 전처리
 def func_call(month):
     # 월별 매출현황 불러오고, 필요없는 칼럼 삭제

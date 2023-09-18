@@ -9,7 +9,7 @@ import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-from utils import func_call, func_category, func_insurance, func_running, fig_linechart
+from utils import func_call, func_category, func_insurance, func_running, fig_linechart, func_dates
 
 ########################################################################################################################
 ################################################     인증페이지 설정     ###################################################
@@ -60,6 +60,7 @@ if authentication_status:
 
     # -----------------------------------------------------  차트 노출  ---------------------------------------------------------
     st.markdown("<hr>", unsafe_allow_html=True)
+    st.dataframe(func_dates(2023,9))
     st.plotly_chart(fig_line_insurnace, use_container_width=True)
     st.plotly_chart(fig_line_company, use_container_width=True)
 
