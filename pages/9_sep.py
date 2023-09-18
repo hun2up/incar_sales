@@ -56,6 +56,8 @@ if authentication_status:
 
     # -----------------------------------------------------  차트 노출  ---------------------------------------------------------
     st.markdown("<hr>", unsafe_allow_html=True)
+    st.dataframe(df_insu)
+    st.dataframe(df_running)
     st.plotly_chart(fig_line_insurnace, use_container_width=True)
 
     ########################################################################################################################
