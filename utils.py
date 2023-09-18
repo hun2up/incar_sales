@@ -14,13 +14,15 @@ def load_data(sheets_url):
     csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
     return pd.read_csv(csv_url)
 
-def df_insurance(df_month):    
+def func_insurance(df_month):    
+    df_month = df_month.drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
     df_month['영수/환급보험료'] = pd.to_numeric(df_month['영수/환급보험료'].str.replace(",",""))
     df_insurance = df_month.groupby(['보험종목','영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
     df_sum = df_month.groupby(['영수/환급일'])['영수/환급보험료'].sum().reset_index(name='매출액')
     df_sum['보험종목'] = '손생합계'
     df_sum = df_sum[['보험종목','영수/환급일','매출액']]
     df_insurance = pd.concat([df_insurance, df_sum], axis=0)
+    df_insurance.rename(columns={'영수/환급일':'영수일자'}, inplace=True)
     return df_insurance
 
 def func_running(df_insu):
