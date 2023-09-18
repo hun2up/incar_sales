@@ -15,9 +15,8 @@ def load_data(sheets_url):
     return pd.read_csv(csv_url)
 
 def func_dates(year, month):
-    start_date = f'{year}-{month}-01'
-    end_date = f'{year}-{month}-{pd.Timestamp(year, month + 1, 1) - pd.DateOffset(days=1).day}'
-    date_range = pd.date_range(start=start_date, end=end_date)
+    last_day = pd.Timestamp(year, month, 1) + pd.offsets.MonthEnd(0)
+    date_range = pd.date_range(start=f'{year}-{month}-01', end=last_day)
     df_dates = pd.DataFrame({'dates': date_range})
     return df_dates
 
