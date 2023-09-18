@@ -26,11 +26,11 @@ def func_category(df_month, category):
     df_category = df_month.groupby([category,'영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
     return df_category
 
-def func_insurance(df_category):
-    df_sum = df_category.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
+def func_insurance(df_month, df_insurance):
+    df_sum = df_month.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
     df_sum['보험종목'] = '손생합계'
     df_sum = df_sum[['보험종목','영수일자','매출액']]
-    df_sum = pd.concat([df_category, df_sum], axis=0)
+    df_sum = pd.concat([df_insurance, df_sum], axis=0)
     return df_sum
 
 def func_running(df_insu):

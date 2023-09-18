@@ -37,7 +37,7 @@ if authentication_status:
     df_sep = func_call("sep")
     df_insu = func_category(df_sep, '보험종목')
     # df_insu = ['보험종목','영수/환급일','매출액']
-    df_insu = func_insurance(df_insu)
+    df_insu = func_insurance(df_sep, df_insu)
     # 매출액 누적
     df_running = func_running(df_insu)
 
