@@ -9,11 +9,28 @@ import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-from utils import func_call, func_category, func_insurance, func_running, fig_linechart, func_dates
+from utils import fn_call, fn_sidebar, fn_category, fn_insurance, fn_running, fig_linechart
 
 ########################################################################################################################
 ################################################     인증페이지 설정     ###################################################
 ########################################################################################################################
+# ---------------------------------------    Google Sheet 데이터베이스 호출    ----------------------------------------------
+# 출석부 데이터베이스 호출 (교육과정수료현황) & 컬럼 삭제 (번호)
+df_sep = fn_call("sep")
+
+# -----------------------------------------------------  사이드바  ---------------------------------------------------------
+# 사이드바 헤더
+st.sidebar.header("원하는 옵션을 선택하세요")
+#사이드바 제작
+insurance = fn_sidebar(df_sep,'보험종목') # 월도 선택 사이드바
+company = fn_sidebar(df_sep,'보험회사') # 보험사 선택 사이드바
+channel = fn_sidebar(df_sep,'소속') # 소속부문 선택 사이드바
+theme = fn_sidebar(df_sep,'상품군') # 입사연차 선택 사이드바
+# 데이터와 사이드바 연결
+df_sep = df_sep.query(
+    "보험종목 == @insurance & 보험회사 == @company & 소속 == @channel & 상품군 == @theme"
+)
+
 authenticator = stauth.Authenticate(
     config['credentials'],
     config['cookie']['name'],
@@ -32,18 +49,15 @@ if authentication_status:
     ########################################################################################################################
     ################################################     자료 전처리     ######################################################
     ########################################################################################################################
-    # ---------------------------------------    Google Sheet 데이터베이스 호출    ----------------------------------------------
-    # 출석부 데이터베이스 호출 (교육과정수료현황) & 컬럼 삭제 (번호)
-    df_sep = func_call("sep")
     # 보험종목 및 영수일자 별 매출액
-    df_insu = func_category(df_sep, '보험종목')
+    df_insu = fn_category(df_sep, '보험종목')
     # 보험회사 및 영수일자 별 매출액
-    df_company = func_category(df_sep, '보험회사')
+    df_company = fn_category(df_sep, '보험회사')
     # df_insu = ['보험종목','영수/환급일','매출액']
-    df_insu = func_insurance(df_sep, df_insu)
+    df_insu = fn_insurance(df_sep, df_insu)
     # 매출액 누적
-    df_running_insu = func_running(df_insu)
-    df_running_comapny = func_running(df_company)
+    df_running_insu = fn_running(df_insu)
+    df_running_comapny = fn_running(df_company)
 
     ########################################################################################################################
     ##################################################     차트 제작     #####################################################

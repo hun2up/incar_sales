@@ -6,7 +6,7 @@ import streamlit as st
 import plotly as pl
 
 ########################################################################################################################
-##############################################     function 정의     ####################################################
+##############################################     fntion 정의     ####################################################
 ########################################################################################################################
 # ---------------------------------------    Google Sheet 데이터베이스 호출    ----------------------------------------------
 @st.cache_data(ttl=600)
@@ -14,14 +14,15 @@ def load_data(sheets_url):
     csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
     return pd.read_csv(csv_url)
 
-def func_dates(year, month):
-    last_day = pd.Timestamp(year, month, 1) + pd.offsets.MonthEnd(0)
-    date_range = pd.date_range(start=f'{year}-{month}-01', end=last_day)
-    df_dates = pd.DataFrame({'영수일자': date_range})
-    return df_dates
+def fn_sidebar(dfv_sidebar, colv_sidebar):
+    return st.sidebar.multiselect(
+        colv_sidebar,
+        options=dfv_sidebar[colv_sidebar].unique(),
+        default=dfv_sidebar[colv_sidebar].unique()
+    )
 
 # 함수정의: 자료호출 및 전처리
-def func_call(month):
+def fn_call(month):
     # 월별 매출현황 불러오고, 필요없는 칼럼 삭제
     df_call = load_data(st.secrets[f"{month}_url"]).drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
     # 영수/환급보험료 데이터를 숙자로 변환
@@ -30,12 +31,12 @@ def func_call(month):
     return df_call
 
 # 함수정의: 필요 칼럼 분류
-def func_category(df_month, category):
+def fn_category(df_month, category):
     df_category = df_month.groupby([category,'영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
     return df_category
 
 # 함수정의: 손생 및 손생합계
-def func_insurance(df_month, df_insurance):
+def fn_insurance(df_month, df_insurance):
     df_sum = df_month.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
     df_sum['보험종목'] = '손생합계'
     df_sum = df_sum[['보험종목','영수일자','매출액']]
@@ -43,7 +44,7 @@ def func_insurance(df_month, df_insurance):
     return df_sum
 
 # 함수정의: 누적매출액 계산
-def func_running(df_category):
+def fn_running(df_category):
     # 첫번째 컬럼을 구분으로 통일 (보험종목, 보험회사 등)
     df_category.columns.values[0] = '구분'
     # 구분 고유값만 남기기 (보험종목, 보험회사 등)
@@ -75,13 +76,7 @@ def func_running(df_category):
         df_total = pd.concat([df_total, df_running], axis=0)
     return df_total
 
-'''
-list_linechart[0]: dataframe ()
-'구분': 참조 컬럼 (보험종목)
-'매출액': x축 (매출액)
-'영수일자': y축 (영수일자)
-title: 차트 제목
-'''
+# 함수정의: 꺾은선그래프
 def fig_linechart(df_linechart, title):
     fig_line = pl.graph_objs.Figure()
     # Iterate over unique channels and add a trace for each
