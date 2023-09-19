@@ -51,7 +51,7 @@ if authentication_status:
     df_temp = df_company.groupby(['구분'])['구분'].count().reset_index(name="개수")
     df_dates = df_company.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
     list_running = df_temp['구분'].tolist()
-    list_dates = df_dates['영수일자'].tolist()
+    st.dataframe(list_running)
     df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
 
     # 반복문 실행을 위한 구간 선언 
@@ -72,6 +72,7 @@ if authentication_status:
             except:
                 pass
         df_total = pd.concat([df_total, df_running], axis=0)
+        st.write(i)
         st.dataframe(df_total)
 
 
