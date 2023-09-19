@@ -43,7 +43,7 @@ if authentication_status:
     df_insu = func_insurance(df_sep, df_insu)
     df_dates = func_dates(2023,9)
     df_company['영수일자'] = pd.to_datetime(df_company['영수일자'])
-    df_merge = df_company.merge(df_dates, on='영수일자')
+    df_merge = df_company.merge(df_dates, on='영수일자', how='outer')
     st.dataframe(df_dates)
     st.dataframe(df_company)
     st.dataframe(df_merge)
