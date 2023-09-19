@@ -60,9 +60,9 @@ if authentication_status:
         df_running = df_company[df_company.iloc[:,0] == list_running[i]]
         df_running = df_running.merge(df_dates, on='영수일자', how='right')
         for insert in range(df_running.shape[0]):
-            if pd.isna(df_running.iloc[running, 0]):
-                df_running.iloc[running,0] = list_running[i]
-                df_running.iloc[running,2] = 0
+            if pd.isna(df_running.iloc[insert, 0]):
+                df_running.iloc[insert,0] = list_running[i]
+                df_running.iloc[insert,2] = 0
             else:
                 pass
         # 누적매출액 구하기
@@ -72,6 +72,7 @@ if authentication_status:
             except:
                 pass
         df_total = pd.concat([df_total, df_running], axis=0)
+        st.dataframe(df_total)
 
 
     ########################################################################################################################
