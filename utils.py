@@ -42,6 +42,7 @@ def func_insurance(df_month, df_insurance):
     df_sum = pd.concat([df_insurance, df_sum], axis=0)
     return df_sum
 
+'''
 # 함수정의: 누적매출액 계산
 def func_running(df_category):
     df_category.columns.values[0] = '구분'
@@ -60,7 +61,7 @@ def func_running(df_category):
                 pass
         df_total = pd.concat([df_total, df_running], axis=0)
     return df_total
-
+'''
 '''
 list_linechart[0]: dataframe ()
 '구분': 참조 컬럼 (보험종목)
