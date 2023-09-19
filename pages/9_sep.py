@@ -59,16 +59,20 @@ if authentication_status:
         # 생명보험이나 손해보험만 남기기
         df_running = df_company[df_company.iloc[:,0] == list_running[i]]
         df_running = df_running.merge(df_dates, on='영수일자', how='right')
-        st.dataframe(df_running)
-        '''
+        for insert in range(df_running.shape[0]):
+            if df_running.iloc[running,0] == None:
+                df_running.iloc[running,0] = list_running[i]
+                df_running.iloc[running,2] = 0
+            else:
+                pass
         # 누적매출액 구하기
-        for running in range(df_category.shape[0]):
+        for running in range(df_running.shape[0]):
             try:
                 df_running.iloc[running+1,2] = df_running.iloc[running+1,2] + df_running.iloc[running,2]
             except:
                 pass
         df_total = pd.concat([df_total, df_running], axis=0)
-        '''
+
 
     ########################################################################################################################
     ##################################################     차트 제작     #####################################################
