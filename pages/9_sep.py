@@ -44,9 +44,11 @@ if authentication_status:
     df_dates = func_dates(2023,9)
     df_company['영수일자'] = pd.to_datetime(df_company['영수일자'])
     df_merge = df_company.merge(df_dates, on='영수일자')
+    st.dataframe(df_dates)
+    st.dataframe(df_company)
+    st.dataframe(df_merge)
     merge_running = func_running(df_merge)
     # 매출액 누적
-
     df_running_insu = func_running(df_insu)
     df_running_comapny = func_running(df_company)
 
