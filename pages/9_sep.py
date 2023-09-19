@@ -9,7 +9,8 @@ import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-from utils import func_call, func_category, func_insurance, func_running, fig_linechart, func_dates
+from utils import func_call, func_category, func_insurance
+# func_running, fig_linechart, func_dates
 
 ########################################################################################################################
 ################################################     인증페이지 설정     ###################################################
