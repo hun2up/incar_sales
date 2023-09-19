@@ -41,13 +41,6 @@ if authentication_status:
     df_company = func_category(df_sep, '보험회사')
     # df_insu = ['보험종목','영수/환급일','매출액']
     df_insu = func_insurance(df_sep, df_insu)
-    df_dates = func_dates(2023,9)
-    df_company['영수일자'] = pd.to_datetime(df_company['영수일자'])
-    df_merge = df_company.merge(df_dates, on='영수일자', how='outer')
-    st.dataframe(df_dates)
-    st.dataframe(df_company)
-    st.dataframe(df_merge)
-    merge_running = func_running(df_merge)
     # 매출액 누적
     df_running_insu = func_running(df_insu)
     df_running_comapny = func_running(df_company)
@@ -67,7 +60,6 @@ if authentication_status:
 
     # -----------------------------------------------------  차트 노출  ---------------------------------------------------------
     st.markdown("<hr>", unsafe_allow_html=True)
-    st.dataframe(merge_running)
     st.plotly_chart(fig_line_insurnace, use_container_width=True)
     st.plotly_chart(fig_line_company, use_container_width=True)
 
