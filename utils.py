@@ -17,7 +17,8 @@ def load_data(sheets_url):
 def func_dates(year, month):
     last_day = pd.Timestamp(year, month, 1) + pd.offsets.MonthEnd(0)
     date_range = pd.date_range(start=f'{year}-{month}-01', end=last_day)
-    df_dates = pd.DataFrame({'dates': date_range})
+    df_dates = pd.DataFrame({'영수일자': date_range})
+
     return df_dates
 
 # 함수정의: 자료호출 및 전처리
@@ -30,8 +31,9 @@ def func_call(month):
     return df_call
 
 # 함수정의: 필요 칼럼 분류
-def func_category(df_month, category):
+def func_category(df_month, category, year, month):
     df_category = df_month.groupby([category,'영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
+    df_category = df_category.merge(func_dates(year,month), on='영수일자', how='outer')
     return df_category
 
 # 함수정의: 손생 및 손생합계

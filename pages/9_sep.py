@@ -36,9 +36,9 @@ if authentication_status:
     # 출석부 데이터베이스 호출 (교육과정수료현황) & 컬럼 삭제 (번호)
     df_sep = func_call("sep")
     # 보험종목 및 영수일자 별 매출액
-    df_insu = func_category(df_sep, '보험종목')
+    df_insu = func_category(df_sep, '보험종목', 2023, 9)
     # 보험회사 및 영수일자 별 매출액
-    df_company = func_category(df_sep, '보험회사')
+    df_company = func_category(df_sep, '보험회사', 2023, 9)
     # df_insu = ['보험종목','영수/환급일','매출액']
     df_insu = func_insurance(df_sep, df_insu)
     # 매출액 누적
@@ -60,7 +60,8 @@ if authentication_status:
 
     # -----------------------------------------------------  차트 노출  ---------------------------------------------------------
     st.markdown("<hr>", unsafe_allow_html=True)
-    st.dataframe(func_dates(2023,9))
+    st.dataframe(df_insu)
+    st.dataframe(df_company)
     st.plotly_chart(fig_line_insurnace, use_container_width=True)
     st.plotly_chart(fig_line_company, use_container_width=True)
 
