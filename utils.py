@@ -42,26 +42,39 @@ def func_insurance(df_month, df_insurance):
     df_sum = pd.concat([df_insurance, df_sum], axis=0)
     return df_sum
 
-'''
 # 함수정의: 누적매출액 계산
 def func_running(df_category):
+    # 첫번째 컬럼을 구분으로 통일 (보험종목, 보험회사 등)
     df_category.columns.values[0] = '구분'
+    # 구분 고유값만 남기기 (보험종목, 보험회사 등)
     df_temp = df_category.groupby(['구분'])['구분'].count().reset_index(name="개수")
+    # 영수일자 고유값만 남기기 (매출액 없어도 일자를 최대로 지정하기 위함)
+    df_dates = df_category.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
+    # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
     list_running = df_temp['구분'].tolist()
-    # 반복문 실행을 위한 구간 선언 
+    # 반복문 실행을 위한 초기 데이터프레임 제작
     df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
+    # 반복문 실행을 위한 구간 선언 
     for i in range(len(list_running)):
         # 생명보험이나 손해보험만 남기기
-        df_running = df_category[df_category.iloc[:,0] == list_running[i]]
+        df_base = df_category[df_category.iloc[:,0] == list_running[i]]
+        df_running = df_base.merge(df_dates, on='영수일자', how='right')
+        # 최대한의 날짜프레임에 보험사별 매출현황 끼워넣기
+        for insert in range(df_running.shape[0]):
+            if pd.isna(df_running.iloc[insert, 0]):
+                df_running.iloc[insert,0] = list_running[i]
+                df_running.iloc[insert,2] = 0
+            else:
+                pass
         # 누적매출액 구하기
-        for running in range(df_category.shape[0]):
+        for running in range(df_running.shape[0]):
             try:
                 df_running.iloc[running+1,2] = df_running.iloc[running+1,2] + df_running.iloc[running,2]
             except:
                 pass
         df_total = pd.concat([df_total, df_running], axis=0)
     return df_total
-'''
+
 '''
 list_linechart[0]: dataframe ()
 '구분': 참조 컬럼 (보험종목)
