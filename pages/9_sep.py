@@ -48,8 +48,10 @@ if authentication_status:
 
     # 함수정의: 누적매출액 계산
     df_company.columns.values[0] = '구분'
-    df_temp = df_company.groupby(['구분','영수일자'])['구분'].count().reset_index(name="개수")
+    df_temp = df_company.groupby(['구분'])['구분'].count().reset_index(name="개수")
+    df_dates = df_company[['영수일자']].copy()
     st.dataframe(df_temp)
+    st.dataframe(df_dates)
     '''
     list_running = df_temp['구분'].tolist()
     # 반복문 실행을 위한 구간 선언 
