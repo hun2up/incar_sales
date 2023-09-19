@@ -42,6 +42,7 @@ if authentication_status:
     # df_insu = ['보험종목','영수/환급일','매출액']
     df_insu = func_insurance(df_sep, df_insu)
     df_dates = func_dates(2023,9)
+    df_company['영수일자'] = pd.to_datetime(df_company['영수일자'])
     df_merge = df_company.merge(df_dates, on='영수일자')
     merge_running = func_running(df_merge)
     # 매출액 누적
