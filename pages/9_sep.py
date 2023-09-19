@@ -49,16 +49,18 @@ if authentication_status:
     # 함수정의: 누적매출액 계산
     df_company.columns.values[0] = '구분'
     df_temp = df_company.groupby(['구분'])['구분'].count().reset_index(name="개수")
-    df_dates = df_company[['영수일자']].copy()
-    st.dataframe(df_temp)
-    st.dataframe(df_dates)
-    '''
+    df_dates = df_company.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
     list_running = df_temp['구분'].tolist()
-    # 반복문 실행을 위한 구간 선언 
+    list_dates = df_dates['영수일자'].tolist()
     df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
+
+    # 반복문 실행을 위한 구간 선언 
     for i in range(len(list_running)):
         # 생명보험이나 손해보험만 남기기
-        df_running = df_category[df_category.iloc[:,0] == list_running[i]]
+        df_running = df_company[df_company.iloc[:,0] == list_running[i]]
+        df_running = df_running.merge(df_dates, on='영수일자', how='right')
+        st.dataframe(df_running)
+        '''
         # 누적매출액 구하기
         for running in range(df_category.shape[0]):
             try:
@@ -66,7 +68,7 @@ if authentication_status:
             except:
                 pass
         df_total = pd.concat([df_total, df_running], axis=0)
-    '''
+        '''
 
     ########################################################################################################################
     ##################################################     차트 제작     #####################################################
