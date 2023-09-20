@@ -55,17 +55,25 @@ if authentication_status:
     df_insu = fn_category(df_sep, '보험종목')
     # 보험회사 및 영수일자 별 매출액
     df_company = fn_category(df_sep, '보험회사')
+    # 상품군 별 매출액
+    df_product = fn_category(df_sep, '상품군')
+    # 소속부문 별 매출액
+    df_channel = fn_category(df_sep, '소속')
     # df_insu = ['보험종목','영수/환급일','매출액']
     df_insu = fn_insurance(df_sep, df_insu)
     # 매출액 누적
     df_running_insu = fn_running(df_insu)
     df_running_comapny = fn_running(df_company)
+    df_running_product = fn_running(df_product)
+    df_running_channel = fn_running(df_channel)
 
     ########################################################################################################################
     ##################################################     차트 제작     #####################################################
     ########################################################################################################################
     fig_line_insurnace = fig_linechart(df_running_insu, '보험종목별 매출액 추이')
     fig_line_company = fig_linechart(df_running_comapny, '보험회사별 매출액 추이')
+    fig_line_product = fig_linechart(df_running_product, '상품군별 매출액 추이')
+    fig_line_channel = fig_linechart(df_running_channel, '소속부문별 매출액 추이')
 
     ########################################################################################################################
     ################################################     메인페이지 설정     ###################################################
@@ -78,6 +86,8 @@ if authentication_status:
     st.markdown("<hr>", unsafe_allow_html=True)
     st.plotly_chart(fig_line_insurnace, use_container_width=True)
     st.plotly_chart(fig_line_company, use_container_width=True)
+    st.plotly_chart(fig_line_product, use_container_width=True)
+    st.plotly_chart(fig_line_channel, use_container_width=True)
 
     ########################################################################################################################
     ###########################################     stremalit 워터마크 숨기기     ##############################################
