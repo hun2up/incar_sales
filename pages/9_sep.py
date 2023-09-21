@@ -99,12 +99,15 @@ if authentication_status:
 
     # -----------------------------------------------------  차트 노출  ---------------------------------------------------------
     st.markdown("<hr>", unsafe_allow_html=True)
+    # 첫번째 행 (생손매출액)
     st.plotly_chart(fig_line_insurnace, use_container_width=True)
-    # 첫번째 행 (신청인원)
+    # 두번째 행 (보험사별, 상품군별 매출액)
     r1_c1, r1_c2 = st.columns(2)
     r1_c1.plotly_chart(fig_line_company, use_container_width=True)
     r1_c2.plotly_chart(fig_line_product, use_container_width=True)
-    st.plotly_chart(fig_line_channel, use_container_width=True)
+    # 세번째 행 (소속부문별, 입사연차별 매출액)
+    r2_c1, r2_c2 = st.columns(2)
+    r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
 
     ###########################################################################################################################
     ###########################################     stremalit 워터마크 숨기기     ##############################################
