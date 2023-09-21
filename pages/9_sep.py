@@ -29,11 +29,11 @@ st.sidebar.header("원하는 옵션을 선택하세요")
 # 사이드바 제작
 insurance = fn_sidebar(df_sep,'보험종목') # 월도 선택 사이드바
 company = fn_sidebar(df_sep,'보험회사') # 보험사 선택 사이드바
-channel = fn_sidebar(df_sep,'소속') # 소속부문 선택 사이드바
 theme = fn_sidebar(df_sep,'상품군') # 입사연차 선택 사이드바
+channel = fn_sidebar(df_sep,'소속') # 소속부문 선택 사이드바
 # 데이터와 사이드바 연결
 df_sep = df_sep.query(
-    "보험종목 == @insurance & 보험회사 == @company & 소속 == @channel & 상품군 == @theme"
+    "보험종목 == @insurance & 보험회사 == @company & 상품군 == @theme & 소속 == @channel"
 )
 
 # -------------------------------------------------  인증페이지 삽입  -------------------------------------------------------
