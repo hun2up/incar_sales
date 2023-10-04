@@ -24,26 +24,26 @@ def fn_sidebar(dfv_sidebar, colv_sidebar):
     )
 
 # 함수정의: 자료호출 및 전처리
-def fn_call(month):
+def fn_call(v_month):
     # 월별 매출현황 불러오고, 필요없는 칼럼 삭제
-    df_call = load_data(st.secrets[f"{month}_url"]).drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
-    # 영수/환급보험료 데이터를 숙자로 변환
+    df_call = load_data(st.secrets[f"{v_month}_url"]).drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
+    # 영수/환급보험료 데이터를 숫자로 변환
     df_call['영수/환급보험료'] = pd.to_numeric(df_call['영수/환급보험료'].str.replace(",",""))
     df_call.rename(columns={'영수/환급일':'영수일자'}, inplace=True)
     return df_call
 
 # 함수정의: 필요 칼럼 분류
-def fn_category(df_month, category):
-    df_category = df_month.groupby([category,'영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
-    return df_category
+def fn_category(dfv_month, category):
+    dfv_category = dfv_month.groupby([category,'영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
+    return dfv_category
 
 # 함수정의: 손생 및 손생합계
-def fn_insurance(df_month, df_insurance):
-    df_sum = df_month.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
-    df_sum['보험종목'] = '손생합계'
-    df_sum = df_sum[['보험종목','영수일자','매출액']]
-    df_sum = pd.concat([df_insurance, df_sum], axis=0)
-    return df_sum
+def fn_insurance(dfv_month, dfv_insurance):
+    dfv_sum = dfv_month.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
+    dfv_sum['보험종목'] = '손생합계'
+    dfv_sum = dfv_sum[['보험종목','영수일자','매출액']]
+    dfv_sum = pd.concat([dfv_insurance, dfv_sum], axis=0)
+    return dfv_sum
 
 # 함수정의: 누적매출액 계산
 def fn_running(df_category):
