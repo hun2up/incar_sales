@@ -69,9 +69,9 @@ if authentication_status:
     df_channel = fn_category(df_sep, '소속')
     # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
     df_insu = fn_insurance(df_sep, df_insu)
-    
-    df_fa = df_sep.groupby(['담당자코드', '담당자'])['영수/환급액'].sum().reset_index(name='매출액')
-    st.dataframe(df_fa)
+
+
+    st.dataframe(df_sep)
 
     # ----------------------------------------  일별 누적 매출액 데이터 산출  ----------------------------------------------------
     # 보험종목별 누적매출액
