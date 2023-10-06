@@ -86,9 +86,24 @@ if authentication_status:
     # 매출액 상위 TOP5 (보험상품)
     df_rank_product = df_sep.groupby(['상품군','보험회사','상품명'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
     df_rank_product['매출액'] = df_rank_product['매출액'].map('{:,.0f}'.format)
-    df_product_cover = df_rank_product[df_rank_product['상품군'].isin(['보장성'])]
-    st.dataframe(df_product_cover)
-
+    # 보장성
+    df_product_cover = df_rank_product[df_rank_product['상품군'].isin(['보장성','기타(보장성)'])]
+    # 종신/CI
+    df_product_whole = df_rank_product[df_rank_product['상품군'].isin(['종신/CI'])]
+    # CEO정기보험
+    df_product_ceo = df_rank_product[df_rank_product['상품군'].isin(['CEO정기보험'])]
+    # 어린이
+    df_product_child = df_rank_product[df_rank_product['상품군'].isin(['어린이'])]
+    # 어린이(태아)
+    df_product_fetus = df_rank_product[df_rank_product['상품군'].isin(['어린이(태아)'])]
+    # 운전자
+    df_product_driver = df_rank_product[df_rank_product['상품군'].isin(['운전자'])]
+    # 단독실손
+    df_product_real = df_rank_product[df_rank_product['상품군'].isin(['단독실손'])]
+    # 연금
+    df_product_pension = df_rank_product[df_rank_product['상품군'].isin(['연금'])]
+    # 변액연금
+    df_product_vul = df_rank_product[df_rank_product['상품군'].isin(['변액연금'])]
 
 
     # ----------------------------------------  일별 누적 매출액 데이터 산출  ----------------------------------------------------
@@ -147,10 +162,50 @@ if authentication_status:
     for i in range(5):
         product_group[i].metric(df_rank_product_group.iat[i, 0], df_rank_product_group.iat[i, 1] + '원')
 
-    st.write("매출액 상위 TOP5 (보험상품)")
+    st.write("보종별 매출액 상위 TOP5 (보장성)")
     product_cover = st.columns(5)
     for i in range(5):
         product_cover[i].metric(df_product_cover.iat[i, 2] + ' (' + df_product_cover.iat[i, 1] + ')', df_product_cover.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (종신/CI)")
+    product_cover = st.columns(5)
+    for i in range(5):
+        product_cover[i].metric(df_product_cover.iat[i, 2] + ' (' + df_product_cover.iat[i, 1] + ')', df_product_cover.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (CEO정기보험)")
+    product_cover = st.columns(5)
+    for i in range(5):
+        product_cover[i].metric(df_product_cover.iat[i, 2] + ' (' + df_product_cover.iat[i, 1] + ')', df_product_cover.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (어린이)")
+    product_child = st.columns(5)
+    for i in range(5):
+        product_child[i].metric(df_product_child.iat[i, 2] + ' (' + df_product_child.iat[i, 1] + ')', df_product_child.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (어린이(태아))")
+    product_fetus = st.columns(5)
+    for i in range(5):
+        product_fetus[i].metric(df_product_fetus.iat[i, 2] + ' (' + df_product_fetus.iat[i, 1] + ')', df_product_fetus.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (운전자)")
+    product_driver = st.columns(5)
+    for i in range(5):
+        product_driver[i].metric(df_product_driver.iat[i, 2] + ' (' + df_product_driver.iat[i, 1] + ')', df_product_driver.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (단독실손)")
+    product_real = st.columns(5)
+    for i in range(5):
+        product_real[i].metric(df_product_real.iat[i, 2] + ' (' + df_product_real.iat[i, 1] + ')', df_product_real.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (연금)")
+    product_pension = st.columns(5)
+    for i in range(5):
+        product_pension[i].metric(df_product_pension.iat[i, 2] + ' (' + df_product_pension.iat[i, 1] + ')', df_product_pension.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (변액연금)")
+    product_vul = st.columns(5)
+    for i in range(5):
+        product_vul[i].metric(df_product_vul.iat[i, 2] + ' (' + df_product_vul.iat[i, 1] + ')', df_product_vul.iat[i, 3] + '원')
     style_metric_cards()
 
 
