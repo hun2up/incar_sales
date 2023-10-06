@@ -8,7 +8,7 @@ import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-from utils import fn_call, fn_sidebar, fn_category, fn_insurance, fn_running, fig_linechart
+from utils import fn_call, fn_sidebar, fn_category, fn_insurance, fn_running, fig_linechart, style_metric_cards
 from utils import month_dict
 
 ###########################################################################################################################
@@ -70,6 +70,46 @@ if authentication_status:
     # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
     df_insu = fn_insurance(df_mar, df_insu)
 
+    # ----------------------------------------------------  랭킹  -----------------------------------------------------------
+    # 매출액 순위 (소속부문별)
+    df_rank_chn = df_mar.groupby(['소속'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
+    df_rank_chn['매출액'] = df_rank_chn['매출액'].map('{:,.0f}'.format)
+    
+    # 매출액 상위 TOP5 (FA)
+    df_rank_fa = df_mar.groupby(['파트너','담당자코드','담당자'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
+    df_rank_fa['매출액'] = df_rank_fa['매출액'].map('{:,.0f}'.format)
+
+    # 매출액 상위 TOP5 (보험회사)
+    df_rank_company = df_mar.groupby(['보험회사'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
+    df_rank_company['매출액'] = df_rank_company['매출액'].map('{:,.0f}'.format)
+    
+    # 매출액 상위 TOP5 (상품군)
+    df_rank_product_group = df_mar.groupby(['상품군'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
+    df_rank_product_group['매출액'] = df_rank_product_group['매출액'].map('{:,.0f}'.format)
+
+    # 매출액 상위 TOP5 (보험상품)
+    df_rank_product = df_mar.groupby(['상품군','보험회사','상품명'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
+    df_rank_product['매출액'] = df_rank_product['매출액'].map('{:,.0f}'.format)
+    # 보장성
+    df_product_cover = df_rank_product[df_rank_product['상품군'].isin(['보장성','기타(보장성)'])]
+    # 종신/CI
+    df_product_whole = df_rank_product[df_rank_product['상품군'].isin(['종신/CI'])]
+    # CEO정기보험
+    df_product_ceo = df_rank_product[df_rank_product['상품군'].isin(['CEO정기보험'])]
+    # 어린이
+    df_product_child = df_rank_product[df_rank_product['상품군'].isin(['어린이'])]
+    # 어린이(태아)
+    df_product_fetus = df_rank_product[df_rank_product['상품군'].isin(['어린이(태아)'])]
+    # 운전자
+    df_product_driver = df_rank_product[df_rank_product['상품군'].isin(['운전자'])]
+    # 단독실손
+    df_product_real = df_rank_product[df_rank_product['상품군'].isin(['단독실손'])]
+    # 연금
+    df_product_pension = df_rank_product[df_rank_product['상품군'].isin(['연금'])]
+    # 변액연금
+    df_product_vul = df_rank_product[df_rank_product['상품군'].isin(['변액연금'])]
+
+
     # ----------------------------------------  일별 누적 매출액 데이터 산출  ----------------------------------------------------
     # 보험종목별 누적매출액
     df_running_insu = fn_running(df_insu)
@@ -108,6 +148,76 @@ if authentication_status:
     # 세번째 행 (소속부문별, 입사연차별 매출액)
     r2_c1, r2_c2 = st.columns(2)
     r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
+
+    # ----------------------------------------------------  랭킹  -----------------------------------------------------------
+    st.markdown('---')
+    st.write("소속부문별 매출액 순위")
+    chn = st.columns(6)
+    for i in range(6):
+        chn[i].metric(df_rank_chn.iat[i, 0], df_rank_chn.iat[i, 1])
+
+    st.write("매출액 상위 TOP5 (FA)")
+    fa = st.columns(5)
+    for i in range(5):
+        fa[i].metric(df_rank_fa.iat[i, 2] + ' (' + df_rank_fa.iat[i, 0] + ')', df_rank_fa.iat[i, 3] + '원')
+
+    st.write("매출액 상위 TOP5 (보험회사)")
+    company = st.columns(5)
+    for i in range(5):
+        company[i].metric(df_rank_company.iat[i, 0], df_rank_company.iat[i, 1] + '원')
+
+    st.write("매출액 상위 TOP5 (상품군)")
+    product_group = st.columns(5)
+    for i in range(5):
+        product_group[i].metric(df_rank_product_group.iat[i, 0], df_rank_product_group.iat[i, 1] + '원')
+
+    st.markdown('---')
+    st.write("보종별 매출액 상위 TOP5 (보장성)")
+    product_cover = st.columns(5)
+    for i in range(5):
+        product_cover[i].metric(df_product_cover.iat[i, 1] + ' (' + df_product_cover.iat[i, 2] + ')', df_product_cover.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (종신/CI)")
+    product_whole = st.columns(5)
+    for i in range(5):
+        product_whole[i].metric(df_product_whole.iat[i, 1] + ' (' + df_product_whole.iat[i, 2] + ')', df_product_whole.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (CEO정기보험)")
+    product_ceo = st.columns(5)
+    for i in range(5):
+        product_ceo[i].metric(df_product_ceo.iat[i, 1] + ' (' + df_product_ceo.iat[i, 2] + ')', df_product_ceo.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (어린이)")
+    product_child = st.columns(5)
+    for i in range(5):
+        product_child[i].metric(df_product_child.iat[i, 1] + ' (' + df_product_child.iat[i, 2] + ')', df_product_child.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (어린이(태아))")
+    product_fetus = st.columns(5)
+    for i in range(5):
+        product_fetus[i].metric(df_product_fetus.iat[i, 1] + ' (' + df_product_fetus.iat[i, 2] + ')', df_product_fetus.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (운전자)")
+    product_driver = st.columns(5)
+    for i in range(5):
+        product_driver[i].metric(df_product_driver.iat[i, 1] + ' (' + df_product_driver.iat[i, 2] + ')', df_product_driver.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (단독실손)")
+    product_real = st.columns(5)
+    for i in range(5):
+        product_real[i].metric(df_product_real.iat[i, 1] + ' (' + df_product_real.iat[i, 2] + ')', df_product_real.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (연금)")
+    product_pension = st.columns(5)
+    for i in range(5):
+        product_pension[i].metric(df_product_pension.iat[i, 1] + ' (' + df_product_pension.iat[i, 2] + ')', df_product_pension.iat[i, 3] + '원')
+
+    st.write("보종별 매출액 상위 TOP5 (변액연금)")
+    product_vul = st.columns(5)
+    for i in range(5):
+        product_vul[i].metric(df_product_vul.iat[i, 1] + ' (' + df_product_vul.iat[i, 2] + ')', df_product_vul.iat[i, 3] + '원')
+    style_metric_cards()
+
 
     ###########################################################################################################################
     ###########################################     stremalit 워터마크 숨기기     ##############################################
