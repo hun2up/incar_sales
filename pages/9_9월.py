@@ -151,6 +151,7 @@ if authentication_status:
     r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
+    st.markdwon('### 전체 현황 요약')
     st.markdown('---')
     st.write("소속부문별 매출액 순위")
     chn = st.columns(6)
@@ -167,53 +168,53 @@ if authentication_status:
     for i in range(5):
         company[i].metric(df_rank_company.iat[i, 0], df_rank_company.iat[i, 1] + '원')
 
+    st.markdown('---')
     st.write("매출액 상위 TOP5 (상품군)")
     product_group = st.columns(5)
     for i in range(5):
         product_group[i].metric(df_rank_product_group.iat[i, 0], df_rank_product_group.iat[i, 1] + '원')
 
-    st.markdown('---')
-    st.write("보종별 매출액 상위 TOP5 (보장성)")
+    st.write("상품군별 매출액 상위 TOP5 (보장성)")
     product_cover = st.columns(5)
     for i in range(5):
         product_cover[i].metric(df_product_cover.iat[i, 1] + ' (' + df_product_cover.iat[i, 2] + ')', df_product_cover.iat[i, 3] + '원')
 
-    st.write("보종별 매출액 상위 TOP5 (종신/CI)")
+    st.write("상품군별 매출액 상위 TOP5 (종신/CI)")
     product_whole = st.columns(5)
     for i in range(5):
         product_whole[i].metric(df_product_whole.iat[i, 1] + ' (' + df_product_whole.iat[i, 2] + ')', df_product_whole.iat[i, 3] + '원')
 
-    st.write("보종별 매출액 상위 TOP5 (CEO정기보험)")
+    st.write("상품군별 매출액 상위 TOP5 (CEO정기보험)")
     product_ceo = st.columns(5)
     for i in range(5):
         product_ceo[i].metric(df_product_ceo.iat[i, 1] + ' (' + df_product_ceo.iat[i, 2] + ')', df_product_ceo.iat[i, 3] + '원')
 
-    st.write("보종별 매출액 상위 TOP5 (어린이)")
+    st.write("상품군별 매출액 상위 TOP5 (어린이)")
     product_child = st.columns(5)
     for i in range(5):
         product_child[i].metric(df_product_child.iat[i, 1] + ' (' + df_product_child.iat[i, 2] + ')', df_product_child.iat[i, 3] + '원')
 
-    st.write("보종별 매출액 상위 TOP5 (어린이(태아))")
+    st.write("상품군별 매출액 상위 TOP5 (어린이(태아))")
     product_fetus = st.columns(5)
     for i in range(5):
         product_fetus[i].metric(df_product_fetus.iat[i, 1] + ' (' + df_product_fetus.iat[i, 2] + ')', df_product_fetus.iat[i, 3] + '원')
 
-    st.write("보종별 매출액 상위 TOP5 (운전자)")
+    st.write("상품군별 매출액 상위 TOP5 (운전자)")
     product_driver = st.columns(5)
     for i in range(5):
         product_driver[i].metric(df_product_driver.iat[i, 1] + ' (' + df_product_driver.iat[i, 2] + ')', df_product_driver.iat[i, 3] + '원')
 
-    st.write("보종별 매출액 상위 TOP5 (단독실손)")
+    st.write("상품군별 매출액 상위 TOP5 (단독실손)")
     product_real = st.columns(5)
     for i in range(5):
         product_real[i].metric(df_product_real.iat[i, 1] + ' (' + df_product_real.iat[i, 2] + ')', df_product_real.iat[i, 3] + '원')
 
-    st.write("보종별 매출액 상위 TOP5 (연금)")
+    st.write("상품군별 매출액 상위 TOP5 (연금)")
     product_pension = st.columns(5)
     for i in range(5):
         product_pension[i].metric(df_product_pension.iat[i, 1] + ' (' + df_product_pension.iat[i, 2] + ')', df_product_pension.iat[i, 3] + '원')
 
-    st.write("보종별 매출액 상위 TOP5 (변액연금)")
+    st.write("상품군별 매출액 상위 TOP5 (변액연금)")
     product_vul = st.columns(5)
     for i in range(5):
         product_vul[i].metric(df_product_vul.iat[i, 1] + ' (' + df_product_vul.iat[i, 2] + ')', df_product_vul.iat[i, 3] + '원')
