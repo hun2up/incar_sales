@@ -30,7 +30,7 @@ def fn_call(v_month):
     # 영수/환급보험료 데이터를 숫자로 변환
     df_call['영수/환급보험료'] = pd.to_numeric(df_call['영수/환급보험료'].str.replace(",",""))
     df_call.rename(columns={'영수/환급일':'영수일자'}, inplace=True)
-    df_call = df_call[~df_call['납입방법'].str.contains['일시납']]
+    df_call = df_call[~df_call['납입방법'].str.contains('일시납')]
     return df_call
 
 # 함수정의: 필요 칼럼 분류
