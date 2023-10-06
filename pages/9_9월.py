@@ -239,7 +239,11 @@ if authentication_status:
     st.write("매출액 상위 FA별 판매상품 TOP5")
     fa1_product = st.columns(5)
     for i in range(5):
-        df_fa1[i].metric(df_fa1.iat[i,3] + ' (' + df_fa1[i,4], df_fa1[i,5] + '원')
+        try:
+            df_fa1[i].metric(df_fa1.iat[i,3] + ' (' + df_fa1[i,4], df_fa1[i,5] + '원')
+        except:
+            break
+            
     style_metric_cards()
 
 
