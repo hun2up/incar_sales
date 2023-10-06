@@ -242,7 +242,7 @@ if authentication_status:
         try:
             df_fa1[i].metric(df_fa1.iat[i,3] + ' (' + df_fa1[i,4], df_fa1[i,5] + '원')
         except:
-            break
+            df_fa1[i].write('')
             
     style_metric_cards()
 
