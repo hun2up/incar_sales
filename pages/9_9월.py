@@ -168,14 +168,14 @@ if authentication_status:
         product_cover[i].metric(df_product_cover.iat[i, 2] + ' (' + df_product_cover.iat[i, 1] + ')', df_product_cover.iat[i, 3] + '원')
 
     st.write("보종별 매출액 상위 TOP5 (종신/CI)")
-    product_cover = st.columns(5)
+    product_whole = st.columns(5)
     for i in range(5):
-        product_cover[i].metric(df_product_cover.iat[i, 2] + ' (' + df_product_cover.iat[i, 1] + ')', df_product_cover.iat[i, 3] + '원')
+        product_whole[i].metric(df_product_whole.iat[i, 2] + ' (' + df_product_whole.iat[i, 1] + ')', df_product_whole.iat[i, 3] + '원')
 
     st.write("보종별 매출액 상위 TOP5 (CEO정기보험)")
-    product_cover = st.columns(5)
+    product_ceo = st.columns(5)
     for i in range(5):
-        product_cover[i].metric(df_product_cover.iat[i, 2] + ' (' + df_product_cover.iat[i, 1] + ')', df_product_cover.iat[i, 3] + '원')
+        product_ceo[i].metric(df_product_ceo.iat[i, 2] + ' (' + df_product_ceo.iat[i, 1] + ')', df_product_ceo.iat[i, 3] + '원')
 
     st.write("보종별 매출액 상위 TOP5 (어린이)")
     product_child = st.columns(5)
