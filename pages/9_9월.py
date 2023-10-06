@@ -230,13 +230,14 @@ if authentication_status:
     for i in range(5):
         product_pension[i].metric(df_product_pension.iat[i, 1] + ' (' + df_product_pension.iat[i, 2] + ')', df_product_pension.iat[i, 3] + '원')
 
-    st.markdown("---")
-    st.write("#### 매출액 상위 FA별 판매상품 TOP5")
     st.write("상품군별 매출액 상위 TOP5 보험상품 (변액연금)")
     product_vul = st.columns(5)
     for i in range(5):
         product_vul[i].metric(df_product_vul.iat[i, 1] + ' (' + df_product_vul.iat[i, 2] + ')', df_product_vul.iat[i, 3] + '원')
 
+    st.markdown("---")
+    st.write("#### 매출액 상위 FA별 판매상품 TOP5")
+    
     st.write(df_fa1.iat[0,2] + ' (' + df_fa1.iat[0,0] + ')')
     fa1 = st.columns(5)
     for i in range(5):
