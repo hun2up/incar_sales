@@ -78,7 +78,13 @@ if authentication_status:
     # 매출액 상위 TOP5 (보험회사)
     df_rank_company = df_sep.groupby(['보험회사'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
     df_rank_company['매출액'] = df_rank_company['매출액'].map('{:,.0f}'.format)
-    st.dataframe(df_rank_company)
+    
+    # 매출액 상위 TOP5 (상품군)
+    df_rank_product_group = df_sep.groupby(['상품군'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
+    df_rank_product_group['매출액'] = df_rank_product_group['매출액'].map('{:,.0f}'.format)
+    st.dataframe(df_rank_product_group)
+
+
 
     # ----------------------------------------  일별 누적 매출액 데이터 산출  ----------------------------------------------------
     # 보험종목별 누적매출액
@@ -131,6 +137,12 @@ if authentication_status:
     company = st.columns(5)
     for i in range(5):
         company[i].metric(df_rank_company.iat[i, 0], df_rank_company.iat[i, 1] + '원')
+
+    st.markdown('---')
+    st.write("매출액 상위 TOP5 (상품군)")
+    product_group = st.columns(5)
+    for i in range(5):
+        product_group[i].metric(df_rank_product_group.iat[i, 0], df_rank_product_group.iat[i, 1] + '원')
 
     style_metric_cards()
 
