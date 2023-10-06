@@ -151,7 +151,7 @@ if authentication_status:
     r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
-    st.markdwon('### 전체 현황 요약')
+    st.markdown('### 전체 현황 요약')
     st.markdown('---')
     st.write("소속부문별 매출액 순위")
     chn = st.columns(6)
