@@ -130,7 +130,7 @@ if authentication_status:
     st.write("매출액 상위 TOP5 (보험회사)")
     company = st.columns(5)
     for i in range(5):
-        company[i].metric(df_rank_company.iat[i, 2] + ' (' + df_rank_company.iat[i, 0] + ')', df_rank_company.iat[i, 3] + '원')
+        company[i].metric(df_rank_company.iat[i, 0], df_rank_company.iat[i, 1] + '원')
 
     style_metric_cards()
 
