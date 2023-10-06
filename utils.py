@@ -133,7 +133,7 @@ def fig_vbarchart_double(list_vbarchart):
     return return_fig_vbar
 
 def style_metric_cards(
-    background_color: str = "#ADD8E6",
+    # background_color: str = "#ADD8E6",
     border_size_px: int = 1,
     border_color: str = "#CCC",
     border_radius_px: int = 5,
@@ -150,7 +150,6 @@ def style_metric_cards(
         f"""
         <style>
             div[data-testid="metric-container"] {{
-                background-color: {background_color};
                 border: {border_size_px}px solid {border_color};
                 padding: 5% 5% 5% 10%;
                 border-radius: {border_radius_px}px;

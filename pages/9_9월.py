@@ -216,7 +216,7 @@ if authentication_status:
     product_vul = st.columns(5)
     for i in range(5):
         product_vul[i].metric(df_product_vul.iat[i, 1] + ' (' + df_product_vul.iat[i, 2] + ')', df_product_vul.iat[i, 3] + '원')
-    # style_metric_cards()
+    style_metric_cards()
 
 
     ###########################################################################################################################
