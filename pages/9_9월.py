@@ -79,7 +79,7 @@ if authentication_status:
     df_rank_fa = df_sep.groupby(['파트너','담당자코드','담당자'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
     df_rank_fa['매출액'] = df_rank_fa['매출액'].map('{:,.0f}'.format)
 
-    df_rank_product_fa = df_sep.groupby(['소속','담당자코드','담당자','보험회사','상품명'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
+    df_rank_product_fa = df_sep.groupby(['파트너','담당자코드','담당자','보험회사','상품명'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
     df_rank_product_fa['매출액'] = df_rank_product_fa['매출액'].map('{:,.0f}'.format)
 
     # 매출액 상위 TOP5 (보험회사)
@@ -230,12 +230,14 @@ if authentication_status:
     for i in range(5):
         product_pension[i].metric(df_product_pension.iat[i, 1] + ' (' + df_product_pension.iat[i, 2] + ')', df_product_pension.iat[i, 3] + '원')
 
+    st.markdown("---")
+    st.write("#### 매출액 상위 FA별 판매상품 TOP5")
     st.write("상품군별 매출액 상위 TOP5 보험상품 (변액연금)")
     product_vul = st.columns(5)
     for i in range(5):
         product_vul[i].metric(df_product_vul.iat[i, 1] + ' (' + df_product_vul.iat[i, 2] + ')', df_product_vul.iat[i, 3] + '원')
 
-    st.write("매출액 상위 FA별 판매상품 TOP5")
+    st.write(df_fa1.iat[0,0] + df_fa1.iat[0,2])
     fa1 = st.columns(5)
     for i in range(5):
         try:
@@ -243,6 +245,7 @@ if authentication_status:
         except:
             break
     
+    st.write(df_fa2.iat[0,0] + df_fa2.iat[0,2])
     fa2 = st.columns(5)
     for i in range(5):
         try:
@@ -250,6 +253,7 @@ if authentication_status:
         except:
             break
             
+    st.write(df_fa3.iat[0,0] + df_fa3.iat[0,2])
     fa3 = st.columns(5)
     for i in range(5):
         try:
@@ -257,6 +261,7 @@ if authentication_status:
         except:
             break
 
+    st.write(df_fa4.iat[0,0] + df_fa4.iat[0,2])
     fa4 = st.columns(5)
     for i in range(5):
         try:
@@ -264,6 +269,7 @@ if authentication_status:
         except:
             break
 
+    st.write(df_fa5.iat[0,0] + df_fa5.iat[0,2])
     fa5 = st.columns(5)
     for i in range(5):
         try:
