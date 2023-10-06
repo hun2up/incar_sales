@@ -237,7 +237,7 @@ if authentication_status:
     for i in range(5):
         product_vul[i].metric(df_product_vul.iat[i, 1] + ' (' + df_product_vul.iat[i, 2] + ')', df_product_vul.iat[i, 3] + '원')
 
-    st.write(df_fa1.iat[0,0] + df_fa1.iat[0,2])
+    st.write(df_fa1.iat[0,2] + ' (' + df_fa1.iat[0,0] + ')')
     fa1 = st.columns(5)
     for i in range(5):
         try:
@@ -245,7 +245,7 @@ if authentication_status:
         except:
             break
     
-    st.write(df_fa2.iat[0,0] + df_fa2.iat[0,2])
+    st.write(df_fa2.iat[0,2] + ' (' + df_fa2.iat[0,0] + ')')
     fa2 = st.columns(5)
     for i in range(5):
         try:
@@ -253,7 +253,7 @@ if authentication_status:
         except:
             break
             
-    st.write(df_fa3.iat[0,0] + df_fa3.iat[0,2])
+    st.write(df_fa3.iat[0,2] + ' (' + df_fa3.iat[0,0] + ')')
     fa3 = st.columns(5)
     for i in range(5):
         try:
@@ -261,7 +261,7 @@ if authentication_status:
         except:
             break
 
-    st.write(df_fa4.iat[0,0] + df_fa4.iat[0,2])
+    st.write(df_fa4.iat[0,2] + ' (' + df_fa4.iat[0,0] + ')')
     fa4 = st.columns(5)
     for i in range(5):
         try:
@@ -269,7 +269,7 @@ if authentication_status:
         except:
             break
 
-    st.write(df_fa5.iat[0,0] + df_fa5.iat[0,2])
+    st.write(df_fa5.iat[0,2] + ' (' + df_fa5.iat[0,0] + ')')
     fa5 = st.columns(5)
     for i in range(5):
         try:
