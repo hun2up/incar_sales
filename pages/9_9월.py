@@ -22,7 +22,6 @@ st.set_page_config(page_title="실적관리 대시보드", layout='wide')
 month = "sep"
 this_month = month_dict[month]
 df_sep = fn_call(month)
-st.dataframe(df_sep)
 
 # -----------------------------------------------------  사이드바  ---------------------------------------------------------
 # 사이드바 헤더
@@ -242,7 +241,7 @@ if authentication_status:
         try:
             df_fa1[i].metric(df_fa1.iat[i,3] + ' (' + df_fa1[i,4], df_fa1[i,5] + '원')
         except:
-            st.write('')
+            pass
             
     style_metric_cards()
 
