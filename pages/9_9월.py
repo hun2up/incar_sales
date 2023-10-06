@@ -242,6 +242,34 @@ if authentication_status:
             fa1[i].metric(df_fa1.iat[i,3] + ' (' + df_fa1[i,4], df_fa1[i,5] + '원')
         except:
             fa1[i].write('')
+    
+    fa2 = st.columns(5)
+    for i in range(5):
+        try:
+            fa2[i].metric(df_fa2.iat[i,3] + ' (' + df_fa2[i,4], df_fa2[i,5] + '원')
+        except:
+            fa2[i].write('')
+            
+    fa3 = st.columns(5)
+    for i in range(5):
+        try:
+            fa3[i].metric(df_fa3.iat[i,3] + ' (' + df_fa3[i,4], df_fa3[i,5] + '원')
+        except:
+            fa3[i].write('')
+
+    fa4 = st.columns(5)
+    for i in range(5):
+        try:
+            fa4[i].metric(df_fa4.iat[i,3] + ' (' + df_fa4[i,4], df_fa4[i,5] + '원')
+        except:
+            fa4[i].write('')
+
+    fa5 = st.columns(5)
+    for i in range(5):
+        try:
+            fa5[i].metric(df_fa5.iat[i,3] + ' (' + df_fa5[i,4], df_fa5[i,5] + '원')
+        except:
+            fa5[i].write('')
             
     style_metric_cards()
 
