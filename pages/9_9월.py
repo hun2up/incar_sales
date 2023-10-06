@@ -86,7 +86,7 @@ if authentication_status:
     # 매출액 상위 TOP5 (보험상품)
     df_rank_product = df_sep.groupby(['상품군','보험회사','상품명'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
     df_rank_product['매출액'] = df_rank_product['매출액'].map('{:,.0f}'.format)
-    df_product_cover = df_rank_product[df_rank_product['상품군'].isin('보장성')]
+    df_product_cover = df_rank_product[df_rank_product['상품군'].isin(str('보장성'))]
     st.dataframe(df_product_cover)
 
 
