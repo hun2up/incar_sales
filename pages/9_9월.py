@@ -121,6 +121,8 @@ if authentication_status:
     df_fa3 = df_rank_product_fa[df_rank_product_fa['담당자'].isin([df_rank_product_fa.iat[2, 2]])]
     df_fa4 = df_rank_product_fa[df_rank_product_fa['담당자'].isin([df_rank_product_fa.iat[3, 2]])]
     df_fa5 = df_rank_product_fa[df_rank_product_fa['담당자'].isin([df_rank_product_fa.iat[4, 2]])]
+    st.dataframe(df_rank_product_fa)
+    st.dataframe(df_fa1)
 
 
     # ----------------------------------------  일별 누적 매출액 데이터 산출  ----------------------------------------------------
