@@ -84,7 +84,7 @@ if authentication_status:
     df_rank_product_group['매출액'] = df_rank_product_group['매출액'].map('{:,.0f}'.format)
 
     # 매출액 상위 TOP5 (보험상품)
-    df_rank_product = df_sep.groupby(['상품명'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
+    df_rank_product = df_sep.groupby(['보험회사','상품명'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
     df_rank_product['매출액'] = df_rank_product['매출액'].map('{:,.0f}'.format)
     st.dataframe(df_rank_product)
 
@@ -149,7 +149,7 @@ if authentication_status:
     st.write("매출액 상위 TOP5 (보험상품)")
     product = st.columns(5)
     for i in range(5):
-        product[i].metric(df_rank_product.iat[i, 0], df_rank_product.iat[i, 1] + '원')
+        product[i].metric(df_rank_product.iat[i, 1] + ' (' + df_rank_product.iat[i, 0] + ')', df_rank_product.iat[i, 2] + '원')
     style_metric_cards()
 
 
