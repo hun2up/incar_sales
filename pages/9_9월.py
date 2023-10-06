@@ -70,8 +70,9 @@ if authentication_status:
     # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
     df_insu = fn_insurance(df_sep, df_insu)
 
-    df_fa = df_sep.groupby(['파트너','담당자코드','담당자'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
-    st.dataframe(df_fa)
+    df_rank_fa = df_sep.groupby(['파트너','담당자코드','담당자'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
+    df_rank_fa['매출액'] = df_rank_fa['매출액'].map('{:,.0f}'.format)
+    st.dataframe(df_rank_fa)
 
     # ----------------------------------------  일별 누적 매출액 데이터 산출  ----------------------------------------------------
     # 보험종목별 누적매출액
@@ -117,7 +118,9 @@ if authentication_status:
     st.write("매출액 상위 TOP5 (FA)")
     fa = st.columns(5)
     for i in range(5):
-        fa[i].metric(df_fa.iat[i, 0] + ' ' + df_fa.iat[i, 2], df_fa.iat[i, 3])
+        fa[i].metric(df_rank_fa.iat[i, 0] + ' ' + df_rank_fa.iat[i, 2], df_rank_fa.iat[i, 3])
+
+    df_rank_company = df_sep.groupby(['파트너','담당자코드','담당자'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
 
     style_metric_cards()
 
