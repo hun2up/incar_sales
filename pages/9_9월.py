@@ -238,52 +238,38 @@ if authentication_status:
     st.write("매출액 상위 FA별 판매상품 TOP5")
     fa1 = st.columns(5)
     for i in range(5):
-        fa1[i].metric(df_fa1.iat[i,3] + ' (' + df_fa1.iat[i,4], df_fa1.iat[i,5] + '원')
-
-
-
-    st.write(df_fa1.iat[0,0])
-    st.write(df_fa1.iat[0,1])
-    st.write(df_fa1.iat[0,2])
-    st.write(df_fa1.iat[0,3])
-    st.write(df_fa1.iat[0,4])
-    st.write(df_fa1.iat[0,5])
-
-    fa1_c1, fa1_c2, fa1_c3, fa1_c4, fa1_c5 = st.columns(5)
-
-    fa1_c1.metric(df_fa1.iat[0,3] + ' (' + df_fa1[0,4], df_fa1[0,5] + '원')
-    fa1_c2.metric(df_fa1.iat[1,3] + ' (' + df_fa1[1,4], df_fa1[1,5] + '원')
-    fa1_c3.metric(df_fa1.iat[2,3] + ' (' + df_fa1[2,4], df_fa1[2,5] + '원')
-    fa1_c4.metric(df_fa1.iat[3,3] + ' (' + df_fa1[3,4], df_fa1[3,5] + '원')
-    fa1_c5.metric(df_fa1.iat[4,3] + ' (' + df_fa1[4,4], df_fa1[4,5] + '원')
+        try:
+            fa1[i].metric(df_fa1.iat[i,3] + ' (' + df_fa1.iat[i,4], df_fa1.iat[i,5] + '원')
+        except:
+            break
     
     fa2 = st.columns(5)
     for i in range(5):
         try:
-            fa2[i].metric(df_fa2.iat[i,3] + ' (' + df_fa2[i,4], df_fa2[i,5] + '원')
+            fa2[i].metric(df_fa2.iat[i,3] + ' (' + df_fa2.iat[i,4], df_fa2.iat[i,5] + '원')
         except:
-            fa2[i].write('')
+            break
             
     fa3 = st.columns(5)
     for i in range(5):
         try:
-            fa3[i].metric(df_fa3.iat[i,3] + ' (' + df_fa3[i,4], df_fa3[i,5] + '원')
+            fa3[i].metric(df_fa3.iat[i,3] + ' (' + df_fa3.iat[i,4], df_fa3.iat[i,5] + '원')
         except:
-            fa3[i].write('')
+            break
 
     fa4 = st.columns(5)
     for i in range(5):
         try:
-            fa4[i].metric(df_fa4.iat[i,3] + ' (' + df_fa4[i,4], df_fa4[i,5] + '원')
+            fa4[i].metric(df_fa4.iat[i,3] + ' (' + df_fa4.iat[i,4], df_fa4.iat[i,5] + '원')
         except:
-            fa4[i].write('')
+            break
 
     fa5 = st.columns(5)
     for i in range(5):
         try:
-            fa5[i].metric(df_fa5.iat[i,3] + ' (' + df_fa5[i,4], df_fa5[i,5] + '원')
+            fa5[i].metric(df_fa5.iat[i,3] + ' (' + df_fa5.iat[i,4], df_fa5.iat[i,5] + '원')
         except:
-            fa5[i].write('')
+            break
             
     style_metric_cards()
 
