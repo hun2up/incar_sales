@@ -8,7 +8,7 @@ import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-from utils import fn_call, fn_sidebar, fn_category, fn_insurance, fn_running, fig_linechart
+from utils import fn_call, fn_sidebar, fn_category, fn_insurance, fn_running, fig_linechart, style_metric_cards
 from utils import month_dict
 
 ###########################################################################################################################
@@ -113,8 +113,13 @@ if authentication_status:
     r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
+    st.markdown('---')
+    st.write("매출액 상위 TOP5 (FA)")
+    fa = st.columns(5)
+    for i in range(5):
+        fa[i].metric(df_fa.iat[i, 0] + ' ' + df_fa.iat[i, 2], df_fa.iat[i, 3])
 
-
+    style_metric_cards()
 
 
     ###########################################################################################################################
