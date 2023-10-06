@@ -22,6 +22,7 @@ st.set_page_config(page_title="실적관리 대시보드", layout='wide')
 month = "sep"
 this_month = month_dict[month]
 df_sep = fn_call(month)
+st.dataframe(df_sep)
 
 # -----------------------------------------------------  사이드바  ---------------------------------------------------------
 # 사이드바 헤더
