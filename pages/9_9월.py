@@ -236,6 +236,13 @@ if authentication_status:
         product_vul[i].metric(df_product_vul.iat[i, 1] + ' (' + df_product_vul.iat[i, 2] + ')', df_product_vul.iat[i, 3] + '원')
 
     st.write("매출액 상위 FA별 판매상품 TOP5")
+    st.write(df_fa1.iat[0,0])
+    st.write(df_fa1.iat[0,1])
+    st.write(df_fa1.iat[0,2])
+    st.write(df_fa1.iat[0,3])
+    st.write(df_fa1.iat[0,4])
+    st.write(df_fa1.iat[0,5])
+
     fa1_c1, fa1_c2, fa1_c3, fa1_c4, fa1_c5 = st.columns(5)
     fa1_c1.metric(df_fa1.iat[0,3] + ' (' + df_fa1[0,4], df_fa1[0,5] + '원')
     fa1_c2.metric(df_fa1.iat[1,3] + ' (' + df_fa1[1,4], df_fa1[1,5] + '원')
