@@ -148,9 +148,9 @@ if authentication_status:
         product_group[i].metric(df_rank_product_group.iat[i, 0], df_rank_product_group.iat[i, 1] + '원')
 
     st.write("매출액 상위 TOP5 (보험상품)")
-    product = st.columns(5)
+    product_cover = st.columns(5)
     for i in range(5):
-        product[i].metric(df_rank_product.iat[i, 2] + ' (' + df_rank_product.iat[i, 1] + ')', df_rank_product.iat[i, 3] + '원')
+        product_cover[i].metric(df_product_cover.iat[i, 2] + ' (' + df_product_cover.iat[i, 1] + ')', df_product_cover.iat[i, 3] + '원')
     style_metric_cards()
 
 
