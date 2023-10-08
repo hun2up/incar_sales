@@ -165,13 +165,11 @@ if authentication_status:
     st.markdown("#### 전체 현황 요약")
 
     st.write("소속부문별 매출액 순위")
-    toggle_state = st.checkbox("보이기")
+    toggle_state = st.toggle("보이기")
     chn = st.columns(6)
     if toggle_state:
         for i in range(6):
             chn[i].metric(df_rank_chn.iat[i, 0], df_rank_chn.iat[i, 1])
-    else:
-        st.write("숨기기")
 
     st.write("매출액 상위 TOP5 (FA)")
     fa = st.columns(5)
