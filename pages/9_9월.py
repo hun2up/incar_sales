@@ -139,6 +139,7 @@ if authentication_status:
     st.markdown("#### 전체 현황 요약")
 
     # 소속부문 매출액 순위는 금액 단위가 커서 '원' 생략
+    st.markdown('---')
     st.markdown("##### 소속부문 매출액 순위")
     chn = st.columns(6)
     for i in range(6):
@@ -147,14 +148,36 @@ if authentication_status:
     tgl_chn_fa = st.toggle("각 부문별 매출액 상위 TOP5 FA")
     tgl_chn_com = st.toggle("각 부문별 매출액 상위 TOP5 보험회사")
     tgl_chn_prd = st.toggle("각 부문별 매출액 상위 TOP5 보험상품")
-
-    st.markdown("##### 매출액 상위 TOP5 (FA)")
+    
+    st.markdown('---')
     fa = st.columns(5)
-    fn_ranking(dfr_fa, 'multiple', fa)
+    rfa = st.columns(5)
+    fa[0].markdown("##### 매출액 상위 TOP5 (FA)")
+    fn_ranking(dfr_fa, 'multiple', rfa)
+    if fa[4].toggle("매출액 상위 FA 주요 판맴상품"):
+        st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
+        fa1 = st.columns(5)
+        fn_ranking(dfr_fa1, 'multiple', fa1)
+        st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
+        fa2 = st.columns(5)
+        fn_ranking(dfr_fa2, 'multiple', fa2)
+        st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
+        fa3 = st.columns(5)
+        fn_ranking(dfr_fa3, 'multiple', fa3)
+        st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
+        fa4 = st.columns(5)
+        fn_ranking(dfr_fa4, 'multiple', fa4)
+        st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
+        fa5 = st.columns(5)
+        fn_ranking(dfr_fa5, 'multiple', fa5)
+        
+
+    st.markdown('---')
     st.markdown("##### 매출액 상위 TOP5 (보험회사)")
     com = st.columns(5)
     fn_ranking(dfr_com, 'single', com)
 
+    st.markdown('---')
     cat = st.columns(5)
     rcat = st.columns(5)
     cat[0].markdown("##### 매출액 상위 TOP5 (상품군)")
@@ -188,56 +211,12 @@ if authentication_status:
         cat_vul = st.columns(5)
         fn_ranking(dfr_cat_vul, 'multiple', cat_vul)
 
+    st.markdown('---')
     st.markdown("##### 매출액 상위 TOP5 (보험상품)")
     prod = st.columns(5)
     fn_ranking(dfr_prod, 'multiple', prod)
 
     '''
-    st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
-    product_cover = st.columns(5)
-    for i in range(5):
-        product_cover[i].metric(dfr_prod_cover.iat[i, 1] + ' (' + dfr_prod_cover.iat[i, 2] + ')', dfr_prod_cover.iat[i, 3] + '원')
-
-    st.write("상품군별 매출액 상위 TOP5 보험상품 (종신/CI)")
-    product_whole = st.columns(5)
-    for i in range(5):
-        product_whole[i].metric(dfr_prod_whole.iat[i, 1] + ' (' + dfr_prod_whole.iat[i, 2] + ')', dfr_prod_whole.iat[i, 3] + '원')
-
-    st.write("상품군별 매출액 상위 TOP5 보험상품 (CEO정기보험)")
-    product_ceo = st.columns(5)
-    for i in range(5):
-        product_ceo[i].metric(dfr_prod_ceo.iat[i, 1] + ' (' + dfr_prod_ceo.iat[i, 2] + ')', dfr_prod_ceo.iat[i, 3] + '원')
-
-    st.write("상품군별 매출액 상위 TOP5 보험상품 (어린이)")
-    product_child = st.columns(5)
-    for i in range(5):
-        product_child[i].metric(dfr_prod_child.iat[i, 1] + ' (' + dfr_prod_child.iat[i, 2] + ')', dfr_prod_child.iat[i, 3] + '원')
-
-    st.write("상품군별 매출액 상위 TOP5 보험상품 (어린이(태아))")
-    product_fetus = st.columns(5)
-    for i in range(5):
-        product_fetus[i].metric(dfr_prod_fetus.iat[i, 1] + ' (' + dfr_prod_fetus.iat[i, 2] + ')', dfr_prod_fetus.iat[i, 3] + '원')
-
-    st.write("상품군별 매출액 상위 TOP5 보험상품 (운전자)")
-    product_driver = st.columns(5)
-    for i in range(5):
-        product_driver[i].metric(dfr_prod_driver.iat[i, 1] + ' (' + dfr_prod_driver.iat[i, 2] + ')', dfr_prod_driver.iat[i, 3] + '원')
-
-    st.write("상품군별 매출액 상위 TOP5 보험상품 (단독실손)")
-    product_real = st.columns(5)
-    for i in range(5):
-        product_real[i].metric(dfr_prod_real.iat[i, 1] + ' (' + dfr_prod_real.iat[i, 2] + ')', dfr_prod_real.iat[i, 3] + '원')
-
-    st.write("상품군별 매출액 상위 TOP5 보험상품 (연금)")
-    product_pension = st.columns(5)
-    for i in range(5):
-        product_pension[i].metric(dfr_prod_pension.iat[i, 1] + ' (' + dfr_prod_pension.iat[i, 2] + ')', dfr_prod_pension.iat[i, 3] + '원')
-
-    st.write("상품군별 매출액 상위 TOP5 보험상품 (변액연금)")
-    product_vul = st.columns(5)
-    for i in range(5):
-        product_vul[i].metric(dfr_prod_vul.iat[i, 1] + ' (' + dfr_prod_vul.iat[i, 2] + ')', dfr_prod_vul.iat[i, 3] + '원')
-
     st.markdown("---")
     st.write("#### 매출액 상위 FA별 판매상품 TOP5")
 
