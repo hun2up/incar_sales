@@ -172,6 +172,17 @@ def fn_ranking_channel(dfr, df, title):
         lstv_ranking[1].append(df[df['소속'].isin([dfr.iat[i,0]])].drop(columns=['소속']))
     return lstv_ranking
 
+# -------------------------------------------    소속 부문별 하위 랭킹 제작    --------------------------------------------------
+def fn_ranking_normal(dfr, df, title, value, drop):
+    lstv_ranking = [[],[]]
+    # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
+    for i in range(5):
+        # 기초 리스트에 들어갈 각 랭킹 제목 제작
+        lstv_ranking[0].append(f"{dfr.iat[i,0]} 매출액 상위 {title}")
+        # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
+        lstv_ranking[1].append(df[df[value].isin([dfr.iat[i,0]])].drop(columns=drop))
+    return lstv_ranking
+
 # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
 def fig_linechart(df_linechart, title):
     fig_line = pl.graph_objs.Figure()
@@ -277,13 +288,16 @@ def fn_peformance(df_month, this_month):
 
     # --------------------------------------------------  FA별 랭킹  -----------------------------------------------------------
     # 매출액 상위 FA별 상위 TOP5 보험상품
-    dfr_fa_prod = fn_visualization(df_month, ['상품명','보험회사','담당자코드','담당자'], 'rank')
+    dfr_fa_prod = fn_visualization(df_month, ['담당자코드','담당자','상품명','보험회사'], 'rank')
+    lst_fa_prod = fn_ranking_normal(dfr_fa, dfr_fa_prod, '담당자', ['담당자','담당자코드'])
+    '''
     lst_fa = [[],[]]
     for fa in range(5):
         # 1~5위 스타일카드 제목 제작
         lst_fa[0].append(dfr_fa.iat[fa,1] + ' (' + dfr_fa.iat[fa,0] + ')')
         # 1위~5위 스타일카드 항목 제작
-        lst_fa[1].append(dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[fa,3]])].drop(columns=['담당자코드','담당자']))
+        lst_fa[1].append(dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[fa,0]])].drop(columns=['담당자','담당자코드']))
+    '''
 
     # -----------------------------------------------  보험회사별 랭킹  -----------------------------------------------------------
     # 보험회사별 매출액 상위 부문
@@ -364,7 +378,7 @@ def fn_peformance(df_month, this_month):
     fn_ranking(dfr_fa, 'multiple')
     if fa[3].toggle("매출액 상위 FA 주요 판매상품 (완)"):
         st.markdown("##### 매출액 상위 FA 주요 판매상품")
-        fn_toggle(lst_fa, 'multiple')
+        fn_toggle(lst_fa_prod, 'multiple')
 
     st.markdown('---')
     com = st.columns([2,1,1,1])
