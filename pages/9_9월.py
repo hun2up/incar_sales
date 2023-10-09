@@ -186,8 +186,8 @@ if authentication_status:
     fn_ranking(dfr_com, 'single', com)
 
     st.markdown('---')
-    cat = st.columns(5)
-    rcat = st.columns([2,1,1,1])
+    cat = st.columns([2,1,1,1])
+    rcat = st.columns(5)
     cat[0].markdown("#### 매출액 상위 TOP5 (상품군)")
     fn_ranking(dfr_cat, 'single', rcat)
     if cat[3].toggle("상품군별 매출액 상위 보험상품"):
