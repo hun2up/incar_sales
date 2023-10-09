@@ -288,9 +288,8 @@ def fn_peformance(df_month, this_month):
 
     # --------------------------------------------------  FA별 랭킹  -----------------------------------------------------------
     # 매출액 상위 FA별 상위 TOP5 보험상품
-    dfr_fa_prod = fn_visualization(df_month, ['담당자코드','담당자','상품명','보험회사'], 'rank')
-    drop = ['담당자','담당자코드']
-    lst_fa_prod = fn_ranking_normal(dfr_fa, dfr_fa_prod, '담당자', drop)
+    dfr_fa_prod = fn_visualization(df_month, ['담당자','담당자코드','상품명','보험회사'], 'rank')
+    lst_fa_prod = fn_ranking_normal(dfr_fa, dfr_fa_prod, '담당자', ['담당자','담당자코드'])
     '''
     lst_fa = [[],[]]
     for fa in range(5):
