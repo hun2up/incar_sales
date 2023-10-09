@@ -168,6 +168,7 @@ def fn_ranking_channel(dfr, df, title):
         lstv_ranking[0].append(f"{dfr.iat[i,0]} 매출액 상위 {title}")
         # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
         lstv_ranking[1].append(df[df['소속'].isin([df.iat[i,0]])].drop(columns=['소속']))
+    return lstv_ranking
 
 # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
 def fig_linechart(df_linechart, title):
@@ -344,6 +345,10 @@ def fn_peformance(df_month, this_month):
     st.header(f"{this_month} 매출현황 추이 (그래프)")
 
     # -----------------------------------------------------  차트 노출  ---------------------------------------------------------
+    st.dataframe(lst_chn[0])
+    st.dataframe(lst_chn[1])
+    st.dataframe(lst_chn[2])
+    
     # 첫번째 행 (생손매출액)
     st.plotly_chart(fig_line_insurnace, use_container_width=True)
     # 두번째 행 (보험사별, 상품군별 매출액)
