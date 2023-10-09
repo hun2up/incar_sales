@@ -151,46 +151,47 @@ if authentication_status:
     tgl_chn_com = st.toggle("각 부문별 매출액 상위 TOP5 보험회사")
     tgl_chn_prd = st.toggle("각 부문별 매출액 상위 TOP5 보험상품")
 
-    st.write("매출액 상위 TOP5 (FA)")
+    st.markdown("##### 매출액 상위 TOP5 (FA)")
     fa = st.columns(5)
     fn_ranking(dfr_fa, 'multiple', fa)
-    st.write("매출액 상위 TOP5 (보험회사 )")
+    st.markdown("##### 매출액 상위 TOP5 (보험회사 )")
     com = st.columns(5)
     fn_ranking(dfr_com, 'single', com)
 
     cat = st.columns(5)
     rcat = st.columns(5)
-    cat[0].write("매출액 상위 TOP5 (상품군)")
+    cat[0].markdown("##### 매출액 상위 TOP5 (상품군)")
     fn_ranking(dfr_cat, 'single', rcat)
     if cat[4].toggle("상품군별 매출액 순위"):
         st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
-        cat_prod = st.columns(5)
-        fn_ranking(dfr_cat_cover, 'multiple', cat_prod)
-
-
-    st.write("매출액 상위 TOP5 (보험상품)")
-    prod = st.columns(5)
-    fn_ranking(dfr_prod, 'multiple', prod)
-
-    st.write("매출액 상위 TOP5 (FA)")
-    fa = st.columns(5)
-    for i in range(5):
-        fa[i].metric(dfr_fa.iat[i, 2] + ' (' + dfr_fa.iat[i, 0] + ')', dfr_fa.iat[i, 3] + '원')
-
-    st.write("매출액 상위 TOP5 (보험회사)")
-    company = st.columns(5)
-    for i in range(5):
-        company[i].metric(dfr_com.iat[i, 0], dfr_com.iat[i, 1] + '원')
-
-    st.write("매출액 상위 TOP5 (상품군)")
-    product_group = st.columns(5)
-    for i in range(5):
-        product_group[i].metric(dfr_cat.iat[i, 0], dfr_cat.iat[i, 1] + '원')
+        cat_cover = st.columns(5)
+        fn_ranking(dfr_cat_cover, 'multiple', cat_cover)
+        st.write("상품군별 매출액 상위 TOP5 보험상품 (종신/CI)")
+        cat_whole = st.columns(5)
+        fn_ranking(dfr_cat_whole, 'multiple', cat_whole)
+        st.write("상품군별 매출액 상위 TOP5 보험상품 (CEO정기보험)")
+        cat_ceo = st.columns(5)
+        fn_ranking(dfr_cat_ceo, 'multiple', cat_ceo)
+        st.write("상품군별 매출액 상위 TOP5 보험상품 (어린이)")
+        cat_child = st.columns(5)
+        fn_ranking(dfr_cat_child, 'multiple', cat_child)
+        st.write("상품군별 매출액 상위 TOP5 보험상품 (어린이(태아))")
+        cat_fetus = st.columns(5)
+        fn_ranking(dfr_cat_fetus, 'multiple', cat_fetus)
+        st.write("상품군별 매출액 상위 TOP5 보험상품 (운전자)")
+        cat_driver = st.columns(5)
+        fn_ranking(dfr_cat_driver, 'multiple', cat_driver)
+        st.write("상품군별 매출액 상위 TOP5 보험상품 (단독실손)")
+        cat_real = st.columns(5)
+        fn_ranking(dfr_cat_real, 'multiple', cat_real)
+        st.write("상품군별 매출액 상위 TOP5 보험상품 (연금)")
+        cat_pension = st.columns(5)
+        fn_ranking(dfr_cat_pension, 'multiple', cat_pension)
+        st.write("상품군별 매출액 상위 TOP5 보험상품 (변액연금)")
+        cat_vul = st.columns(5)
+        fn_ranking(dfr_cat_vul, 'multiple', cat_vul)
 
     '''
-    st.markdown("---")
-    st.markdown("#### 전체 현황 요약")
-
     st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
     product_cover = st.columns(5)
     for i in range(5):
