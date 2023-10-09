@@ -86,8 +86,8 @@ if authentication_status:
     dfr_prod = fn_visualization(df_sep, ['보험회사','상품명'], 'rank') # 보험상품 매출액 순위
 
     # 상품군별 상위 TOP5 보험상품
-    dfr_cat_prod = fn_visualization(df_sep, ['상품군','보험회사','상품명'], 'rank')
-    dfr_cat_cover = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['보장성','기타(보장성)'])] # 보장성
+    dfr_cat_prod = fn_visualization(df_sep, ['상품명','보험회사','상품군'], 'rank')
+    dfr_cat_cover = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['보장성','기타(보장성)'])].drop(columns='상품군') # 보장성
     dfr_cat_whole = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['종신/CI'])] # 종신/CI
     dfr_cat_ceo = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['CEO정기보험'])] # CEO정기보험
     dfr_cat_child = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['어린이'])] # 어린이
@@ -135,6 +135,7 @@ if authentication_status:
     r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
+    st.dataframe(dfr_fa)
     st.dataframe(dfr_cat_cover)
   
     
