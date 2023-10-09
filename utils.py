@@ -70,7 +70,7 @@ def fn_category(dfv_month, category, form):
                     pass
             dfv_total = pd.concat([dfv_total, dfv_running], axis=0)
         return dfv_total
-    if form == 'rank':
+    elif form == 'rank':
         # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
         dfv_category = dfv_month.groupby(category)['영수/환급보험료'].sum().reset_index(name='매출액')
         dfv_category['매출액'] = dfv_category['매출액'].map('{:,.0f}'.format)
