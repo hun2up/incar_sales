@@ -48,6 +48,8 @@ authenticator = stauth.Authenticate(
 
 # 로그인창 노출
 name, authentication_status, username = authenticator.login('Login', 'main')
+# 사이드바에 로그아웃 버튼 추가
+authenticator.logout('Logout', 'sidebar')
 
 # 인증상태 검증
 if authentication_status == None:
@@ -55,4 +57,4 @@ if authentication_status == None:
 if authentication_status == False:
     st.error('아이디와 패스워드를 확인해주세요')
 if authentication_status:
-    fn_peformance(df_month)
+    fn_peformance(df_month, this_month)
