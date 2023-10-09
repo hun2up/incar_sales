@@ -142,9 +142,9 @@ if authentication_status:
     # 소속부문 매출액 순위는 금액 단위가 커서 '원' 생략
     chn = st.columns([2,1,1,1])
     chn[0].markdown("#### 부문 매출액 순위")
-    chn = st.columns(6)
+    rchn = st.columns(6)
     for i in range(6):
-        chn[i].metric(dfr_chn.iat[i, 0], dfr_chn.iat[i, 1])
+        rchn[i].metric(dfr_chn.iat[i, 0], dfr_chn.iat[i, 1])
     if chn[1].toggle("부문별 매출액 상위 FA"):
         st.markdown("##### 부문별 매출액 상위 FA")
     if chn[2].toggle("부문별 매출액 상위 보험회사"):
