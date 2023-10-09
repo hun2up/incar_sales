@@ -258,7 +258,14 @@ def fn_peformance(df_month, this_month):
     for chn_fa in range(6):
         lst_chn_fa[0].append(f"{dfr_chn.iat[chn_fa,0]} 매출액 상위 FA")
         lst_chn_fa[1].append(dfr_chn_fa[dfr_chn_fa['소속'].isin([dfr_chn_fa.iat[chn_fa,0]])].drop(columns=['소속']))
+    
     # 소속부문별 매출액 상위 보험회사
+    dfr_chn_com = fn_visualization(df_month, ['소속','보험회사'], 'rank')
+    lst_chn_com = [[],[]]
+    for chn_com in range(5):
+        lst_chn_com[0].append(f"{dfr_chn.iat[chn_com,0]} 매출액 상위 보험회사")
+        lst_chn_com[1].append(dfr_chn_com[dfr_chn_com['소속'].isin([dfr_chn_com.iat[chn_com,0]])].drop(columns=['소속']))
+
     # 소속부문별 매출액 상위 보험상품
 
     # --------------------------------------------------  FA별 랭킹  -----------------------------------------------------------
@@ -337,6 +344,7 @@ def fn_peformance(df_month, this_month):
         fn_ranking_toggle(lst_chn_fa, 'multiple')
     if chn[2].toggle("부문별 매출액 상위 보험회사"):
         st.markdown("##### 부문별 매출액 상위 보험회사")
+        fn_ranking_toggle(lst_chn_com, 'single')
     if chn[3].toggle("부문별 매출액 상위 보험상품"):
         st.markdown("##### 부문별 매출액 상위 보험상품")
     
