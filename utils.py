@@ -72,7 +72,10 @@ def fn_visualization(dfv_month, category, form):
     # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
     dfv_category = dfv_month.groupby(category)['영수/환급보험료'].sum().reset_index(name='매출액')
     if form == 'chart':
+        
         st.dataframe(dfv_category)
+        st.write("테스트1")
+        
         fn_running(dfv_category)
         '''
         dfv_category.columns.values[0] = '구분'
@@ -238,8 +241,12 @@ def fn_peformance(df_month, this_month):
     dfc_product = fn_visualization(df_month, ['상품군','영수일자'], 'chart') # 상품군별 매출액
     dfc_channel = fn_visualization(df_month, ['소속','영수일자'], 'chart') # 소속부문별 매출액
     df_insu = fn_insurance(df_month, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
+    
     st.dataframe(dfc_insu)
+    st.write("테스트2")
+
     st.dataframe(df_insu)
+    st.write("테스트3")
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
     dfr_chn = fn_visualization(df_month, ['소속'], 'rank') # 소속부문 매출액 순위
