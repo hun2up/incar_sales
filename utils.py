@@ -264,18 +264,24 @@ def fn_peformance(df_month, this_month):
 
     # -------------------------------------------------  부문별 랭킹  -----------------------------------------------------------
     lst_chn_data = []
+    lst_chn = [[],[],[]]
+    lst_chn[0] = ['FA','보험회사','보험상품']
+    lst_chn[1] = ['multiple','single','multiple']
 
     # 소속부문별 매출액 상위 FA
     lst_chn_data.append(fn_visualization(df_month, ['소속','담당자','파트너'], 'rank'))
-    lst_chn_fa = fn_ranking_channel(dfr_chn, lst_chn_data[0], "FA")
+    lst_chn[2].append(fn_ranking_channel(dfr_chn, lst_chn_data[0], "FA"))
+    # lst_chn_fa = fn_ranking_channel(dfr_chn, lst_chn_data[0], "FA")
     
     # 소속부문별 매출액 상위 보험회사
     lst_chn_data.append(fn_visualization(df_month, ['소속','보험회사'], 'rank'))
-    lst_chn_com = fn_ranking_channel(dfr_chn, lst_chn_data[1], "보험회사")
+    lst_chn[2].append(fn_ranking_channel(dfr_chn, lst_chn_data[1], "보험회사"))
+    # lst_chn_com = fn_ranking_channel(dfr_chn, lst_chn_data[1], "보험회사")
 
     # 소속부문별 매출액 상위 보험상품
     lst_chn_data.append(fn_visualization(df_month, ['소속','상품명','보험회사'], 'rank'))
-    lst_chn_prod = fn_ranking_channel(dfr_chn, lst_chn_data[2], "보험상품")
+    lst_chn[2].append( fn_ranking_channel(dfr_chn, lst_chn_data[2], "보험상품"))
+    # lst_chn_prod = fn_ranking_channel(dfr_chn, lst_chn_data[2], "보험상품")
 
     # --------------------------------------------------  FA별 랭킹  -----------------------------------------------------------
     # 매출액 상위 FA별 상위 TOP5 보험상품
@@ -349,15 +355,19 @@ def fn_peformance(df_month, this_month):
     rchn = st.columns(6)
     for i in range(6):
         rchn[i].metric(dfr_chn.iat[i, 0], dfr_chn.iat[i, 1])
+    # 하위 토글
     if chn[1].toggle("부문별 매출액 상위 FA (완)"):
         st.markdown("##### 부문별 매출액 상위 FA")
-        fn_toggle(lst_chn_fa, 'multiple')
+        fn_toggle(lst_chn[2][0], lst_chn[1][0])
+        # fn_toggle(lst_chn_fa, 'multiple')
     if chn[2].toggle("부문별 매출액 상위 보험회사 (완)"):
         st.markdown("##### 부문별 매출액 상위 보험회사")
-        fn_toggle(lst_chn_com, 'single')
+        fn_toggle(lst_chn[2][1], lst_chn[1][1])
+        # fn_toggle(lst_chn_com, 'single')
     if chn[3].toggle("부문별 매출액 상위 보험상품 (완)"):
         st.markdown("##### 부문별 매출액 상위 보험상품")
-        fn_toggle(lst_chn_prod, 'multiple')
+        fn_toggle(lst_chn[2][2], lst_chn[1][2])
+        # fn_toggle(lst_chn_prod, 'multiple')
     
     st.markdown('---')
     fa = st.columns([2,1,1,1])
