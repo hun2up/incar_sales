@@ -141,7 +141,7 @@ if authentication_status:
     # 보험종목별 누적매출액
     df_running_insu = fn_running(df_insu)
     # 보험회사별 누적매출액
-    df_running_comapny = fn_running(df_company)
+    df_running_company = fn_running(df_company)
     # 상품군별 누적매출액
     df_running_product = fn_running(df_product)
     # 소속부문별 누적매출액
@@ -151,10 +151,18 @@ if authentication_status:
     ##################################################     차트 제작     #####################################################
     #########################################################################################################################
     # --------------------------------------------  추이 그래프(꺾은선) 제작  -------------------------------------------------
+    
+    fig_line_insurnace = fig_linechart(df_insu, '보험종목별 매출액 추이')
+    fig_line_company = fig_linechart(df_company, '보험회사별 매출액 추이')
+    fig_line_product = fig_linechart(df_product, '상품군별 매출액 추이')
+    fig_line_channel = fig_linechart(df_channel, '소속부문별 매출액 추이')
+
+    '''
     fig_line_insurnace = fig_linechart(df_running_insu, '보험종목별 매출액 추이')
-    fig_line_company = fig_linechart(df_running_comapny, '보험회사별 매출액 추이')
+    fig_line_company = fig_linechart(df_running_company, '보험회사별 매출액 추이')
     fig_line_product = fig_linechart(df_running_product, '상품군별 매출액 추이')
     fig_line_channel = fig_linechart(df_running_channel, '소속부문별 매출액 추이')
+    '''
 
     ##########################################################################################################################
     ################################################     메인페이지 설정     ##################################################
