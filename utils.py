@@ -153,11 +153,16 @@ def fn_ranking(dfv_visualization, form):
             value[i].metric(dfv_visualization.iat[i,0] + ' (' + dfv_visualization.iat[i,1] + ')', dfv_visualization.iat[i, 2] + '원')
     style_metric_cards()
 
-def fn_ranking_toggle(df, form, range):
-    for i in range(len(df[0])):
-        st.write(len(df[0]))
-        st.write(df[0][i])
-        try: fn_ranking(df[1][i], form) 
+'''
+       st.write(dfr_fa.iat[4,1] + ' (' + dfr_fa.iat[4,0] + ')') # 매출액 5위
+        try: fn_ranking(dfr_fa5, 'multiple')
+        except: pass
+'''
+
+def fn_ranking_toggle(lst, form):
+    for i in range(len(lst[0])):
+        st.write(lst[0][i])
+        try: fn_ranking(lst[1][i], form) 
         except: pass
         i += 1
 
