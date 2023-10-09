@@ -83,8 +83,14 @@ if authentication_status:
     dfc_insu = fn_insurance(df_sep, dfc_insu)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
-    
+    dfr_chn = fn_visualization(df_sep, ['소속'], 'rank')
+    dfr_fa = fn_visualization(df_sep, ['파트너','담당자코드','담당자'], 'rank')
+    dfr_prod = fn_visualization(df_sep, ['파트너','담당자코드','담당자','보험회사','상품명'], 'rank')
+    dfr_com = fn_visualization(df_sep, ['보험회사'], 'rank')
+    dfr_cat = fn_visualization(df_sep, ['상품군'], 'rank')
+    dfr_prod = fn_visualization(df_sep, ['보험회사'], 'rank')
 
+    '''
     # 매출액 순위 (소속부문별)
     df_rank_chn = df_sep.groupby(['소속'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
     df_rank_chn['매출액'] = df_rank_chn['매출액'].map('{:,.0f}'.format)
@@ -107,6 +113,7 @@ if authentication_status:
     # 매출액 상위 TOP5 (보험상품)
     df_rank_product = df_sep.groupby(['상품군','보험회사','상품명'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
     df_rank_product['매출액'] = df_rank_product['매출액'].map('{:,.0f}'.format)
+    
 
     # 상품군별 상위 TOP5 보험상품
     # 보장성
@@ -134,12 +141,12 @@ if authentication_status:
     df_fa3 = df_rank_product_fa[df_rank_product_fa['담당자'].isin([df_rank_product_fa.iat[2, 2]])]
     df_fa4 = df_rank_product_fa[df_rank_product_fa['담당자'].isin([df_rank_product_fa.iat[3, 2]])]
     df_fa5 = df_rank_product_fa[df_rank_product_fa['담당자'].isin([df_rank_product_fa.iat[4, 2]])]
+    '''
 
     #########################################################################################################################
     ##################################################     차트 제작     #####################################################
     #########################################################################################################################
     # --------------------------------------------  추이 그래프(꺾은선) 제작  -------------------------------------------------
-    
     fig_line_insurnace = fig_linechart(dfc_insu, '보험종목별 매출액 추이')
     fig_line_company = fig_linechart(dfc_company, '보험회사별 매출액 추이')
     fig_line_product = fig_linechart(dfc_product, '상품군별 매출액 추이')
@@ -172,7 +179,7 @@ if authentication_status:
     st.write("소속부문별 매출액 순위")
     chn = st.columns(6)
     for i in range(6):
-        chn[i].metric(df_rank_chn.iat[i, 0], df_rank_chn.iat[i, 1])
+        chn[i].metric(dfr_chn.iat[i, 0], dfr_chn.iat[i, 1])
 
     tgl_chn_fa = st.toggle("각 부문별 매출액 상위 TOP5 FA")
     tgl_chn_com = st.toggle("각 부문별 매출액 상위 TOP5 보험회사")
@@ -181,18 +188,19 @@ if authentication_status:
     st.write("매출액 상위 TOP5 (FA)")
     fa = st.columns(5)
     for i in range(5):
-        fa[i].metric(df_rank_fa.iat[i, 2] + ' (' + df_rank_fa.iat[i, 0] + ')', df_rank_fa.iat[i, 3] + '원')
+        fa[i].metric(dfr_fa.iat[i, 2] + ' (' + dfr_fa.iat[i, 0] + ')', dfr_fa.iat[i, 3] + '원')
 
     st.write("매출액 상위 TOP5 (보험회사)")
     company = st.columns(5)
     for i in range(5):
-        company[i].metric(df_rank_company.iat[i, 0], df_rank_company.iat[i, 1] + '원')
+        company[i].metric(dfr_com.iat[i, 0], dfr_com.iat[i, 1] + '원')
 
     st.write("매출액 상위 TOP5 (상품군)")
     product_group = st.columns(5)
     for i in range(5):
-        product_group[i].metric(df_rank_product_group.iat[i, 0], df_rank_product_group.iat[i, 1] + '원')
+        product_group[i].metric(dfr_cat.iat[i, 0], dfr_cat.iat[i, 1] + '원')
 
+    '''
     st.markdown("---")
     st.markdown("#### 전체 현황 요약")
 
@@ -283,5 +291,6 @@ if authentication_status:
             fa5[i].metric(df_fa5.iat[i,3] + ' (' + df_fa5.iat[i,4], df_fa5.iat[i,5] + '원')
         except:
             break
+    '''
             
     style_metric_cards()
