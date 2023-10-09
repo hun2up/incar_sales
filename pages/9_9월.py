@@ -157,22 +157,26 @@ if authentication_status:
     fa[0].markdown("##### 매출액 상위 TOP5 (FA)")
     fn_ranking(dfr_fa, 'multiple', rfa)
     if fa[4].toggle("매출액 상위 FA 주요 판매상품"):
-        st.write(dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0])
+        st.write(dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0] + ')')
         fa1 = st.columns(5)
         try: fn_ranking(dfr_fa1, 'multiple', fa1)
         except: pass
-        st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
+        st.write(dfr_fa.iat[1,1] + ' (' + dfr_fa.iat[1,0] + ')')
         fa2 = st.columns(5)
-        fn_ranking(dfr_fa2, 'multiple', fa2)
-        st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
+        try: fn_ranking(dfr_fa2, 'multiple', fa2)
+        except: pass
+        st.write(dfr_fa.iat[2,1] + ' (' + dfr_fa.iat[2,0] + ')')
         fa3 = st.columns(5)
-        fn_ranking(dfr_fa3, 'multiple', fa3)
-        st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
+        try: fn_ranking(dfr_fa3, 'multiple', fa3)
+        except: pass
+        st.write(dfr_fa.iat[3,1] + ' (' + dfr_fa.iat[3,0] + ')')
         fa4 = st.columns(5)
-        fn_ranking(dfr_fa4, 'multiple', fa4)
-        st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
+        try: fn_ranking(dfr_fa4, 'multiple', fa4)
+        except: pass
+        st.write(dfr_fa.iat[4,1] + ' (' + dfr_fa.iat[4,0] + ')')
         fa5 = st.columns(5)
-        fn_ranking(dfr_fa5, 'multiple', fa5)
+        try: fn_ranking(dfr_fa5, 'multiple', fa5)
+        except: pass
         
 
     st.markdown('---')
