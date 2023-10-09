@@ -135,7 +135,7 @@ if authentication_status:
     r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
-    st.dataframe(dfr_fa)
+    st.dataframe(dfr_cat_cover)
   
     
     st.markdown('---')
