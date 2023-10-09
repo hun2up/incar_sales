@@ -157,7 +157,7 @@ if authentication_status:
     fa[0].markdown("##### 매출액 상위 TOP5 (FA)")
     fn_ranking(dfr_fa, 'multiple', rfa)
     if fa[4].toggle("매출액 상위 FA 주요 판매상품"):
-        st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
+        st.write(dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0])
         fa1 = st.columns(5)
         try: fn_ranking(dfr_fa1, 'multiple', fa1)
         except: pass
