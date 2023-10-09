@@ -72,12 +72,6 @@ def fn_visualization(dfv_month, category, form):
     # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
     dfv_category = dfv_month.groupby(category)['영수/환급보험료'].sum().reset_index(name='매출액')
     if form == 'chart':
-        
-        st.dataframe(dfv_category)
-        st.write("테스트1")
-        
-        fn_running(dfv_category)
-        '''
         dfv_category.columns.values[0] = '구분'
         # 구분 고유값만 남기기 (보험종목, 보험회사 등)
         dfv_temp = dfv_category.groupby(['구분'])['구분'].count().reset_index(name="개수")
@@ -107,7 +101,6 @@ def fn_visualization(dfv_month, category, form):
                     pass
             dfv_total = pd.concat([dfv_total, dfv_running], axis=0)
         return dfv_total
-        '''
     # 랭킹 제작용
     elif form == 'rank':
         # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
@@ -120,9 +113,36 @@ def fn_insurance(dfv_month, dfv_insurance):
     dfv_sum = dfv_month.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
     dfv_sum['구분'] = '손생합계'
     dfv_sum = dfv_sum[['구분','영수일자','매출액']]
-    fn_running(dfv_sum)
-    dfv_sum = pd.concat([dfv_insurance, dfv_sum], axis=0)
-    return dfv_sum
+    dfv_sum.columns.values[0] = '구분'
+    # 구분 고유값만 남기기 (보험종목, 보험회사 등)
+    dfv_temp = dfv_sum.groupby(['구분'])['구분'].count().reset_index(name="개수")
+    # 영수일자 고유값만 남기기 (매출액 없어도 일자를 최대로 지정하기 위함)
+    dfv_dates = dfv_sum.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
+    # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
+    list_running = dfv_temp['구분'].tolist()
+    # 반복문 실행을 위한 초기 데이터프레임 제작
+    dfv_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
+    # 반복문 실행을 위한 구간 선언 
+    for i in range(len(list_running)):
+        # 생명보험이나 손해보험만 남기기
+        dfv_base = dfv_sum[dfv_sum.iloc[:,0] == list_running[i]]
+        dfv_running = dfv_base.merge(dfv_dates, on='영수일자', how='right')
+        # 최대한의 날짜프레임에 보험사별 매출현황 끼워넣기
+        for insert in range(dfv_running.shape[0]):
+            if pd.isna(dfv_running.iloc[insert, 0]):
+                dfv_running.iloc[insert,0] = list_running[i]
+                dfv_running.iloc[insert,2] = 0
+            else:
+                pass
+        # 누적매출액 구하기
+        for running in range(dfv_running.shape[0]):
+            try:
+                dfv_running.iloc[running+1,2] = dfv_running.iloc[running+1,2] + dfv_running.iloc[running,2]
+            except:
+                pass
+        dfv_total = pd.concat([dfv_total, dfv_running], axis=0)
+    dfv_total = pd.concat([dfv_insurance, dfv_total], axis=0)
+    return dfv_total
 
 # ---------------------------------------    랭킹 디스플레이를 위한 스타일 카드    ----------------------------------------------
 def style_metric_cards(
