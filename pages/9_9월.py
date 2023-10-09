@@ -157,7 +157,7 @@ if authentication_status:
     st.dataframe(dfr_com)
     st.dataframe(dfr_cat)
 
-    fn_ranking(dfr_chn, "소속부문별 매출액 순위", 'chn', 6, 'single')
+    fn_ranking(dfr_chn, "소속부문별 매출액 순위", 6, 'single')
 
     
     

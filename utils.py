@@ -87,15 +87,15 @@ def fn_insurance(dfv_month, dfv_insurance):
     return dfv_sum
 
 # ----------------------------------------------    누적 매출액 계산    ----------------------------------------------------
-def fn_ranking(dfv_visualization, title, values, counts, form):
+def fn_ranking(dfv_visualization, title, counts, form):
     st. write(title)
     values = st.columns(counts)
     if form == 'single':
         for i in range(counts):
-            values[i].metric(dfv_visualization.iat[i, 0], dfv_visualization[i, 1] + '원')
+            values[i].metric(dfv_visualization.iat[i,0], dfv_visualization[i,1] + '원')
     elif form == 'multiple':
         for i in range(counts):
-            values[i].metric(dfv_visualization.iat[i, 0] + ' (' + dfv_visualization.iat[i,1] + ')', dfv_visualization[i, 2] + '원')
+            values[i].metric(dfv_visualization.iat[i,0] + ' (' + dfv_visualization.iat[i,1] + ')', dfv_visualization[i, 2] + '원')
 
 # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
 def fig_linechart(df_linechart, title):
