@@ -187,10 +187,10 @@ if authentication_status:
 
     st.markdown('---')
     cat = st.columns(5)
-    rcat = st.columns(5)
+    rcat = st.columns([2,1,1,1])
     cat[0].markdown("#### 매출액 상위 TOP5 (상품군)")
     fn_ranking(dfr_cat, 'single', rcat)
-    if cat[4].toggle("상품군별 매출액 상위 보험상품"):
+    if cat[3].toggle("상품군별 매출액 상위 보험상품"):
         st.markdown("##### 상품군별 매출액 상위 보험상품")
         st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
         cat_cover = st.columns(5)
