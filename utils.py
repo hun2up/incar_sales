@@ -267,7 +267,7 @@ def fn_peformance(df_month, this_month):
         lst_chn_com[1].append(dfr_chn_com[dfr_chn_com['소속'].isin([dfr_chn_com.iat[chn_com,0]])].drop(columns=['소속']))
 
     # 소속부문별 매출액 상위 보험상품
-    dfr_chn_prod = fn_visualization(df_month, ['소속','보험상품','보험회사'], 'rank')
+    dfr_chn_prod = fn_visualization(df_month, ['소속','상품명','보험회사'], 'rank')
     lst_chn_prod = [[],[]]
     for chn_prod in range(5):
         lst_chn_prod[0].append(f"{dfr_chn.iat[chn_prod,0]} 매출액 상위 보험상품")
