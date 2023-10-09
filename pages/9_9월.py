@@ -103,7 +103,7 @@ if authentication_status:
     dfr_fa2 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[1, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 2위
     dfr_fa3 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[2, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 3위
     dfr_fa4 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[3, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 4위
-    dfr_fa5 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[4, 3]])].drop(columns=['담당자코드','담당자']) # 매축액 5위
+    dfr_fa5 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[4, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 5위
 
     #########################################################################################################################
     ##################################################     차트 제작     #####################################################
@@ -135,7 +135,7 @@ if authentication_status:
     r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------   
-    st.dataframe(dfr_fa1)
+    st.dataframe(dfr_fa_prod)
     
     st.markdown('---')
     st.markdown("#### 전체 현황 요약")
