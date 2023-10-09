@@ -263,17 +263,19 @@ def fn_peformance(df_month, this_month):
 
     # 매출액 상위 FA별 상위 TOP5 보험상품
     dfr_fa_prod = fn_visualization(df_month, ['상품명','보험회사','담당자코드','담당자'], 'rank')
-    lst_fa = []
-    lst_fa[0][0] = dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0] + ')' # 매출액 1위 
-    lst_fa[0][1] = dfr_fa.iat[1,1] + ' (' + dfr_fa.iat[1,0] + ')' # 매출액 2위
-    lst_fa[0][2] = dfr_fa.iat[2,1] + ' (' + dfr_fa.iat[2,0] + ')' # 매출액 3위
-    lst_fa[0][3] = dfr_fa.iat[3,1] + ' (' + dfr_fa.iat[3,0] + ')' # 매출액 4위
-    lst_fa[0][4] = dfr_fa.iat[4,1] + ' (' + dfr_fa.iat[4,0] + ')' # 매출액 5위
-    lst_fa[1][0] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[0, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 1위
-    lst_fa[1][1] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[1, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 2위
-    lst_fa[1][2] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[2, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 3위
-    lst_fa[1][3] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[3, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 4위
-    lst_fa[1][4] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[4, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 5위
+    lst_fa_title = []
+    lst_fa_value = []
+    lst_fa = [lst_fa_title, lst_fa_value]
+    lst_fa_title[0] = dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0] + ')' # 매출액 1위 
+    lst_fa_title[1] = dfr_fa.iat[1,1] + ' (' + dfr_fa.iat[1,0] + ')' # 매출액 2위
+    lst_fa_title[2] = dfr_fa.iat[2,1] + ' (' + dfr_fa.iat[2,0] + ')' # 매출액 3위
+    lst_fa_title[3] = dfr_fa.iat[3,1] + ' (' + dfr_fa.iat[3,0] + ')' # 매출액 4위
+    lst_fa_title[4] = dfr_fa.iat[4,1] + ' (' + dfr_fa.iat[4,0] + ')' # 매출액 5위
+    lst_fa_value[0] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[0, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 1위
+    lst_fa_value[1] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[1, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 2위
+    lst_fa_value[2] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[2, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 3위
+    lst_fa_value[3] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[3, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 4위
+    lst_fa_value[4] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[4, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 5위
     '''
     dfr_fa1 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[0, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 1위
     dfr_fa2 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[1, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 2위
