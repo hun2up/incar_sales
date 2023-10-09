@@ -79,7 +79,7 @@ if authentication_status:
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
     dfr_chn = fn_visualization(df_sep, ['소속'], 'rank') # 소속부문 매출액 순위
-    dfr_fa = fn_visualization(df_sep, ['파트너','담당자코드','담당자'], 'rank') # FA 매출액 순위
+    dfr_fa = fn_visualization(df_sep, ['담당자코드','담당자','파트너'], 'rank') # FA 매출액 순위
     dfr_fa = dfr_fa.drop(columns='담당자코드')
     dfr_com = fn_visualization(df_sep, ['보험회사'], 'rank') # 보험회사 매출액 순이
     dfr_cat = fn_visualization(df_sep, ['상품군'], 'rank') # 상품군 매출액 순위
