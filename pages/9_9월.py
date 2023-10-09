@@ -158,7 +158,7 @@ if authentication_status:
     st.dataframe(dfr_cat)
 
     fn_ranking(dfr_chn, "소속부문별 매출액 순위", 6, 'single')
-
+    style_metric_cards()
     
     
     st.markdown('---')
