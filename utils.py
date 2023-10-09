@@ -306,30 +306,23 @@ def fn_peformance(df_month, this_month):
     
     st.markdown('---')
     fa = st.columns([2,1,1,1])
-    # rfa = st.columns(5)
-    fa[0].markdown("#### 매출액 상위 TOP5 (FA)")
+    fa[0].markdown("#### 매출액 상위 FA")
     fn_ranking(dfr_fa, 'multiple')
-    # fn_ranking(dfr_fa, 'multiple', rfa)
     if fa[3].toggle("매출액 상위 FA 주요 판매상품 (완)"):
         st.markdown("##### 매출액 상위 FA 주요 판매상품")
-        st.write(dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0] + ')')
-        # fa1 = st.columns(5)
+        st.write(dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0] + ')') # 매출액 1위
         try: fn_ranking(dfr_fa1, 'multiple')
         except: pass
-        st.write(dfr_fa.iat[1,1] + ' (' + dfr_fa.iat[1,0] + ')')
-        # fa2 = st.columns(5)
-        try: fn_ranking(dfr_fa2, 'multiple')
+        st.write(dfr_fa.iat[1,1] + ' (' + dfr_fa.iat[1,0] + ')') # 매출액 2위
+        try: fn_ranking(dfr_fa2, 'multiple') 
         except: pass
-        st.write(dfr_fa.iat[2,1] + ' (' + dfr_fa.iat[2,0] + ')')
-        # fa3 = st.columns(5)
+        st.write(dfr_fa.iat[2,1] + ' (' + dfr_fa.iat[2,0] + ')') # 매출액 3위
         try: fn_ranking(dfr_fa3, 'multiple')
         except: pass
-        st.write(dfr_fa.iat[3,1] + ' (' + dfr_fa.iat[3,0] + ')')
-        # fa4 = st.columns(5)
+        st.write(dfr_fa.iat[3,1] + ' (' + dfr_fa.iat[3,0] + ')') # 매출액 4위
         try: fn_ranking(dfr_fa4, 'multiple')
         except: pass
-        st.write(dfr_fa.iat[4,1] + ' (' + dfr_fa.iat[4,0] + ')')
-        # fa5 = st.columns(5)
+        st.write(dfr_fa.iat[4,1] + ' (' + dfr_fa.iat[4,0] + ')') # 매출액 5위
         try: fn_ranking(dfr_fa5, 'multiple')
         except: pass
         
@@ -337,8 +330,7 @@ def fn_peformance(df_month, this_month):
     st.markdown('---')
     com = st.columns([2,1,1,1])
     com[0].markdown("#### 매출액 상위 TOP5 (보험회사)")
-    rcom = st.columns(5)
-    fn_ranking(dfr_com, 'single', rcom)
+    fn_ranking(dfr_com, 'single')
     if com[1].toggle("보험회사별 매출액 상위 부문"):
         st.markdown("##### 보험회사별 매출액 상위 부문")
     if com[2].toggle("보험회사별 매출액 상위 FA"):
@@ -348,9 +340,8 @@ def fn_peformance(df_month, this_month):
 
     st.markdown('---')
     cat = st.columns([2,1,1,1])
-    rcat = st.columns(5)
     cat[0].markdown("#### 매출액 상위 TOP5 (상품군)")
-    fn_ranking(dfr_cat, 'single', rcat)
+    fn_ranking(dfr_cat, 'single')
     if cat[1].toggle("상품군별 매출액 상위 부문"):
         st.markdown("##### 상품군별 매출액 상위 부문")
     if cat[2].toggle("상품군별 매출액 상위 FA"):
@@ -358,38 +349,37 @@ def fn_peformance(df_month, this_month):
     if cat[3].toggle("상품군별 매출액 상위 보험상품 (완)"):
         st.markdown("##### 상품군별 매출액 상위 보험상품")
         st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
-        cat_cover = st.columns(5)
-        fn_ranking(dfr_cat_cover, 'multiple', cat_cover)
+        try: fn_ranking(dfr_cat_cover, 'multiple')
+        except: pass
         st.write("상품군별 매출액 상위 TOP5 보험상품 (종신/CI)")
-        cat_whole = st.columns(5)
-        fn_ranking(dfr_cat_whole, 'multiple', cat_whole)
+        try: fn_ranking(dfr_cat_whole, 'multiple')
+        except: pass
         st.write("상품군별 매출액 상위 TOP5 보험상품 (CEO정기보험)")
-        cat_ceo = st.columns(5)
-        fn_ranking(dfr_cat_ceo, 'multiple', cat_ceo)
+        try: fn_ranking(dfr_cat_ceo, 'multiple')
+        except: pass
         st.write("상품군별 매출액 상위 TOP5 보험상품 (어린이)")
-        cat_child = st.columns(5)
-        fn_ranking(dfr_cat_child, 'multiple', cat_child)
+        try: fn_ranking(dfr_cat_child, 'multiple')
+        except: pass
         st.write("상품군별 매출액 상위 TOP5 보험상품 (어린이(태아))")
-        cat_fetus = st.columns(5)
-        fn_ranking(dfr_cat_fetus, 'multiple', cat_fetus)
+        try: fn_ranking(dfr_cat_fetus, 'multiple')
+        except: pass
         st.write("상품군별 매출액 상위 TOP5 보험상품 (운전자)")
-        cat_driver = st.columns(5)
-        fn_ranking(dfr_cat_driver, 'multiple', cat_driver)
+        try: fn_ranking(dfr_cat_driver, 'multiple')
+        except: pass
         st.write("상품군별 매출액 상위 TOP5 보험상품 (단독실손)")
-        cat_real = st.columns(5)
-        fn_ranking(dfr_cat_real, 'multiple', cat_real)
+        try: fn_ranking(dfr_cat_real, 'multiple')
+        except: pass
         st.write("상품군별 매출액 상위 TOP5 보험상품 (연금)")
-        cat_pension = st.columns(5)
-        fn_ranking(dfr_cat_pension, 'multiple', cat_pension)
+        try: fn_ranking(dfr_cat_pension, 'multiple')
+        except: pass
         st.write("상품군별 매출액 상위 TOP5 보험상품 (변액연금)")
-        cat_vul = st.columns(5)
-        fn_ranking(dfr_cat_vul, 'multiple', cat_vul)
+        try: fn_ranking(dfr_cat_vul, 'multiple')
+        except: pass
 
     st.markdown('---')
     prod = st.columns([2,1,1,1])
     prod[0].markdown("#### 매출액 상위 TOP5 (보험상품)")
-    rprod = st.columns(5)
-    fn_ranking(dfr_prod, 'multiple', rprod)
+    fn_ranking(dfr_prod, 'multiple')
     if prod[2].toggle("보험상품별 매출액 상위 부문"):
         st.markdwon("##### 보험상품별 매출액 상위 부문")
     if prod[3].toggle("보험상품별 매출액 상위 FA"):
