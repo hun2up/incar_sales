@@ -173,12 +173,12 @@ def fn_ranking_channel(dfr, df, title):
     return lstv_ranking
 
 # -------------------------------------------    소속 부문별 하위 랭킹 제작    --------------------------------------------------
-def fn_ranking_normal(dfr, df, title, value, drop):
+def fn_ranking_normal(dfr, df, value, drop):
     lstv_ranking = [[],[]]
     # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
     for i in range(5):
         # 기초 리스트에 들어갈 각 랭킹 제목 제작
-        lstv_ranking[0].append(f"{dfr.iat[i,0]} 매출액 상위 {title}")
+        lstv_ranking[0].append(dfr.iat[i,1] + ' (' + dfr.iat[i,0] + ')')
         # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
         lstv_ranking[1].append(df[df[value].isin([dfr.iat[i,0]])].drop(columns=drop))
     return lstv_ranking
