@@ -4,12 +4,6 @@
 import pandas as pd
 import plotly as pl
 import streamlit as st
-import streamlit_authenticator as stauth
-hashed_passwords = stauth.Hasher(['XXX']).generate()
-import yaml
-from yaml.loader import SafeLoader
-with open('config.yaml') as file:
-    config = yaml.load(file, Loader=SafeLoader)
 
 ########################################################################################################################
 ##############################################     fntion 정의     ####################################################
