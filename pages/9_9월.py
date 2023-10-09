@@ -76,15 +76,15 @@ if authentication_status:
     list3 = ['상품군','영수일자']
     list4 = ['소속','영수일자']
     # 보험종목별 매출액
-    df_insu = fn_category(df_sep, list1, ['chart'])
+    df_insu = fn_category(df_sep, list1, 'chart')
     # 보험회사별 매출액
-    df_company = fn_category(df_sep, list2, ['chart'])
+    df_company = fn_category(df_sep, list2, 'chart')
     # 상품군별 매출액
-    df_product = fn_category(df_sep, list3, ['chart'])
+    df_product = fn_category(df_sep, list3, 'chart')
     # 소속부문별 매출액
-    df_channel = fn_category(df_sep, list4, ['chart'])
+    df_channel = fn_category(df_sep, list4, 'chart')
     # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
-    df_insu = fn_insurance(df_sep, df_insu, ['chart'])
+    df_insu = fn_insurance(df_sep, df_insu)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
     # 매출액 순위 (소속부문별)
