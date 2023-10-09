@@ -157,7 +157,7 @@ if authentication_status:
     rfa = st.columns(5)
     fa[0].markdown("#### 매출액 상위 TOP5 (FA)")
     fn_ranking(dfr_fa, 'multiple', rfa)
-    if fa[3].toggle("매출액 상위 FA 주요 판매상품"):
+    if fa[3].toggle("매출액 상위 FA 주요 판매상품 (완)"):
         st.markdown("##### 매출액 상위 FA 주요 판매상품")
         st.write(dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0] + ')')
         fa1 = st.columns(5)
@@ -182,16 +182,27 @@ if authentication_status:
         
 
     st.markdown('---')
-    st.markdown("#### 매출액 상위 TOP5 (보험회사)")
-    com = st.columns(5)
-    fn_ranking(dfr_com, 'single', com)
+    com = st.columns([2,1,1,1])
+    com[0].markdown("#### 매출액 상위 TOP5 (보험회사)")
+    rcom = st.columns(5)
+    fn_ranking(dfr_com, 'single', rcom)
+    if com[1].toggle("보험회사별 매출액 상위 부문"):
+        st.markdown("##### 보험회사별 매출액 상위 부문")
+    if com[2].toggle("보험회사멸 매출액 상위 FA"):
+        st.markdown("##### 보험회사멸 매출액 상위 FA")
+    if com[3].toggle("보험회사별 매출액 상위 보험상품"):
+        st.markdown("##### 보험회사별 매출액 상위 보험상품")
 
     st.markdown('---')
     cat = st.columns([2,1,1,1])
     rcat = st.columns(5)
     cat[0].markdown("#### 매출액 상위 TOP5 (상품군)")
     fn_ranking(dfr_cat, 'single', rcat)
-    if cat[3].toggle("상품군별 매출액 상위 보험상품"):
+    if cat[1].toggle("상품군별 매출액 상위 부문"):
+        st.markdown("##### 상품군별 매출액 상위 부문")
+    if cat[2].toggle("상품군별 매출액 상위 FA"):
+        st.markdown("##### 상품군별 매출액 상위 FA")
+    if cat[3].toggle("상품군별 매출액 상위 보험상품 (완)"):
         st.markdown("##### 상품군별 매출액 상위 보험상품")
         st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
         cat_cover = st.columns(5)
@@ -222,6 +233,11 @@ if authentication_status:
         fn_ranking(dfr_cat_vul, 'multiple', cat_vul)
 
     st.markdown('---')
-    st.markdown("#### 매출액 상위 TOP5 (보험상품)")
-    prod = st.columns(5)
-    fn_ranking(dfr_prod, 'multiple', prod)
+    prod = st.columns([2,1,1,1])
+    prod[0].markdown("#### 매출액 상위 TOP5 (보험상품)")
+    rprod = st.columns(5)
+    fn_ranking(dfr_prod, 'multiple', rprod)
+    if prod[2].toggle("보험상품별 매출액 상위 부문"):
+        st.markdwon("##### 보험상품별 매출액 상위 부문")
+    if prod[3].toggle("보험상품별 매출액 상위 FA"):
+        st.markdown("##### 보험상품별 매출액 상위 FA")
