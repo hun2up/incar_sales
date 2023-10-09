@@ -89,11 +89,12 @@ def fn_insurance(dfv_month, dfv_insurance):
 # ----------------------------------------------    누적 매출액 계산    ----------------------------------------------------
 def fn_ranking(dfv_visualization, title, values, counts, form):
     st. write(title)
-    values = st.columns(counts)
     if form == 'single':
+        values = st.columns(counts)
         for i in range(counts):
             values[i].metric(dfv_visualization.iat[i, 0] + ' (' + dfv_visualization.iat[i,1] + ')', dfv_visualization[i, 2] + '원')
     elif form == 'multiple':
+        values = st.columns(counts)
         for i in range(counts):
             values[i].metric(dfv_visualization.iat[i, 0], dfv_visualization[i, 1] + '원')
 
