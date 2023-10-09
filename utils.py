@@ -237,6 +237,8 @@ def fn_peformance(df_month, this_month):
     dfc_product = fn_visualization(df_month, ['상품군','영수일자'], 'chart') # 상품군별 매출액
     dfc_channel = fn_visualization(df_month, ['소속','영수일자'], 'chart') # 소속부문별 매출액
     df_insu = fn_insurance(df_month, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
+    st.dataframe(dfc_insu)
+    st.dataframe(df_insu)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
     dfr_chn = fn_visualization(df_month, ['소속'], 'rank') # 소속부문 매출액 순위
