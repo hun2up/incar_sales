@@ -115,15 +115,15 @@ def style_metric_cards(
         unsafe_allow_html=True,
     )
 
-# ----------------------------------------------    누적 매출액 계산    ----------------------------------------------------
-def fn_ranking(dfv_visualization, title, counts, form):
+# -----------------------------------------------    랭킹 카드 제작    --------------------------------------------------------
+def fn_ranking(dfv_visualization, form, title):
     st. write(title)
-    values = st.columns(counts)
+    values = st.columns(5)
     if form == 'single':
-        for i in range(counts):
+        for i in range(5):
             values[i].metric(dfv_visualization.iat[i,0], dfv_visualization.iat[i,1] + '원')
     elif form == 'multiple':
-        for i in range(counts):
+        for i in range(5):
             values[i].metric(dfv_visualization.iat[i,0] + ' (' + dfv_visualization.iat[i,1] + ')', dfv_visualization.iat[i, 2] + '원')
     style_metric_cards()
 

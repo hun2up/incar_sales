@@ -151,20 +151,17 @@ if authentication_status:
     r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
-      
-    st.dataframe(dfr_chn)
-    st.dataframe(dfr_fa)
-    st.dataframe(dfr_com)
-    st.dataframe(dfr_cat)
+    st.dataframe(dfr_prod)
 
-    fn_ranking(dfr_chn, "소속부문별 매출액 순위", 6, 'single')
+    fn_ranking(dfr_chn, 'single', 6, "각 소속부문 매출액 순위")
     # style_metric_cards()
     
     
     st.markdown('---')
     st.markdown("#### 전체 현황 요약")
 
-    st.write("소속부문별 매출액 순위")
+    # 소속부문 매출액 순위는 금액 단위가 커서 '원' 생략
+    st.markdown("##### 소속부문 매출액 순위")
     chn = st.columns(6)
     for i in range(6):
         chn[i].metric(dfr_chn.iat[i, 0], dfr_chn.iat[i, 1])
@@ -172,6 +169,11 @@ if authentication_status:
     tgl_chn_fa = st.toggle("각 부문별 매출액 상위 TOP5 FA")
     tgl_chn_com = st.toggle("각 부문별 매출액 상위 TOP5 보험회사")
     tgl_chn_prd = st.toggle("각 부문별 매출액 상위 TOP5 보험상품")
+
+    fn_ranking(dfr_fa, 'mutliple', "FA 매출액 상위 TOP5")
+    fn_ranking(dfr_com, 'single', "보험회사 매출액 상위 TOP5")
+    fn_ranking(dfr_cat, 'single', "상품군 매출액 상위 TOP5")
+    # fn_ranking(dfr_prod, 'multiple')
 
     st.write("매출액 상위 TOP5 (FA)")
     fa = st.columns(5)
