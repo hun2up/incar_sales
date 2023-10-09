@@ -263,7 +263,7 @@ def fn_peformance(df_month, this_month):
 
     # 매출액 상위 FA별 상위 TOP5 보험상품
     dfr_fa_prod = fn_visualization(df_month, ['상품명','보험회사','담당자코드','담당자'], 'rank')
-    lst_fa = []
+    lst_fa = [[],[]]
     lst_fa[0].append(dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0] + ')') # 매출액 1위 
     lst_fa[0].append(dfr_fa.iat[1,1] + ' (' + dfr_fa.iat[1,0] + ')') # 매출액 2위
     lst_fa[0].append(dfr_fa.iat[2,1] + ' (' + dfr_fa.iat[2,0] + ')') # 매출액 3위
