@@ -120,11 +120,10 @@ if authentication_status:
     # 사이드바에 로그아웃 버튼 추가
     authenticator.logout('Logout', 'sidebar')
     # 메인페이지 타이틀
-    st.header(f"{this_month} 매출현황")
+    st.header(f"{this_month} 매출현황 추이 (그래프)")
 
     # -----------------------------------------------------  차트 노출  ---------------------------------------------------------
-    st.markdown("<hr>", unsafe_allow_html=True)
-    # 첫번째 행 (생손매출액)
+        # 첫번째 행 (생손매출액)
     st.plotly_chart(fig_line_insurnace, use_container_width=True)
     # 두번째 행 (보험사별, 상품군별 매출액)
     r1_c1, r1_c2 = st.columns(2)
@@ -138,7 +137,7 @@ if authentication_status:
     st.dataframe(dfr_fa1)
     
     st.markdown('---')
-    st.markdown("### 전체 현황 요약")
+    st.markdown("## 전체 현황 요약")
 
     # 소속부문 매출액 순위는 금액 단위가 커서 '원' 생략
     st.markdown('---')
@@ -152,11 +151,11 @@ if authentication_status:
     tgl_chn_prd = st.toggle("각 부문별 매출액 상위 TOP5 보험상품")
     
     st.markdown('---')
-    fa = st.columns(5)
+    fa = st.columns([2,1,1,1])
     rfa = st.columns(5)
     fa[0].markdown("#### 매출액 상위 TOP5 (FA)")
     fn_ranking(dfr_fa, 'multiple', rfa)
-    if fa[4].toggle("매출액 상위 FA 주요 판매상품"):
+    if fa[3].toggle("매출액 상위 FA 주요 판매상품"):
         st.markdown("##### 매출액 상위 FA 주요 판매상품")
         st.write(dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0] + ')')
         fa1 = st.columns(5)
@@ -221,7 +220,7 @@ if authentication_status:
         fn_ranking(dfr_cat_vul, 'multiple', cat_vul)
 
     st.markdown('---')
-    st.markdown("##### 매출액 상위 TOP5 (보험상품)")
+    st.markdown("#### 매출액 상위 TOP5 (보험상품)")
     prod = st.columns(5)
     fn_ranking(dfr_prod, 'multiple', prod)
 
