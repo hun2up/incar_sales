@@ -153,6 +153,14 @@ def fn_ranking(dfv_visualization, form):
             value[i].metric(dfv_visualization.iat[i,0] + ' (' + dfv_visualization.iat[i,1] + ')', dfv_visualization.iat[i, 2] + '원')
     style_metric_cards()
 
+def fn_ranking_toggle(df, form, range):
+    for i in range(len(df[0])):
+        st.write(df[0][i])
+        try: fn_ranking(df[1][i], form) 
+        except: pass
+        i += 1
+
+
 # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
 def fig_linechart(df_linechart, title):
     fig_line = pl.graph_objs.Figure()
@@ -254,11 +262,24 @@ def fn_peformance(df_month, this_month):
 
     # 매출액 상위 FA별 상위 TOP5 보험상품
     dfr_fa_prod = fn_visualization(df_month, ['상품명','보험회사','담당자코드','담당자'], 'rank')
+    lst_fa = []
+    lst_fa[0][0] = dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0] + ')' # 매출액 1위 
+    lst_fa[0][1] = dfr_fa.iat[1,1] + ' (' + dfr_fa.iat[1,0] + ')' # 매출액 2위
+    lst_fa[0][2] = dfr_fa.iat[2,1] + ' (' + dfr_fa.iat[2,0] + ')' # 매출액 3위
+    lst_fa[0][3] = dfr_fa.iat[3,1] + ' (' + dfr_fa.iat[3,0] + ')' # 매출액 4위
+    lst_fa[0][4] = dfr_fa.iat[4,1] + ' (' + dfr_fa.iat[4,0] + ')' # 매출액 5위
+    lst_fa[1][0] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[0, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 1위
+    lst_fa[1][1] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[1, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 2위
+    lst_fa[1][2] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[2, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 3위
+    lst_fa[1][3] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[3, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 4위
+    lst_fa[1][4] = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[4, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 5위
+    '''
     dfr_fa1 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[0, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 1위
     dfr_fa2 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[1, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 2위
     dfr_fa3 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[2, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 3위
     dfr_fa4 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[3, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 4위
     dfr_fa5 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[4, 3]])].drop(columns=['담당자코드','담당자']) # 매출액 5위
+    '''
 
     #########################################################################################################################
     ##################################################     차트 제작     #####################################################
@@ -310,6 +331,8 @@ def fn_peformance(df_month, this_month):
     fn_ranking(dfr_fa, 'multiple')
     if fa[3].toggle("매출액 상위 FA 주요 판매상품 (완)"):
         st.markdown("##### 매출액 상위 FA 주요 판매상품")
+        fn_ranking_toggle(lst_fa, 'multiple')
+        '''
         st.write(dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0] + ')') # 매출액 1위
         try: fn_ranking(dfr_fa1, 'multiple')
         except: pass
@@ -325,6 +348,7 @@ def fn_peformance(df_month, this_month):
         st.write(dfr_fa.iat[4,1] + ' (' + dfr_fa.iat[4,0] + ')') # 매출액 5위
         try: fn_ranking(dfr_fa5, 'multiple')
         except: pass
+        '''
         
 
     st.markdown('---')
