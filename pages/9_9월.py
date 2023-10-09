@@ -123,7 +123,7 @@ if authentication_status:
     st.header(f"{this_month} 매출현황 추이 (그래프)")
 
     # -----------------------------------------------------  차트 노출  ---------------------------------------------------------
-        # 첫번째 행 (생손매출액)
+    # 첫번째 행 (생손매출액)
     st.plotly_chart(fig_line_insurnace, use_container_width=True)
     # 두번째 행 (보험사별, 상품군별 매출액)
     r1_c1, r1_c2 = st.columns(2)
@@ -140,7 +140,6 @@ if authentication_status:
     st.markdown("## 전체 현황 요약")
 
     # 소속부문 매출액 순위는 금액 단위가 커서 '원' 생략
-    st.markdown('---')
     st.markdown("#### 소속부문 매출액 순위")
     chn = st.columns(6)
     for i in range(6):
