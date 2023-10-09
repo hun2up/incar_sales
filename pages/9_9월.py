@@ -83,7 +83,7 @@ if authentication_status:
     dfr_fa = dfr_fa.drop(columns='담당자코드')
     dfr_com = fn_visualization(df_sep, ['보험회사'], 'rank') # 보험회사 매출액 순이
     dfr_cat = fn_visualization(df_sep, ['상품군'], 'rank') # 상품군 매출액 순위
-    dfr_prod = fn_visualization(df_sep, ['보험상품'], 'rank') # 보험상품 매출액 순위
+    dfr_prod = fn_visualization(df_sep, ['상품명'], 'rank') # 보험상품 매출액 순위
 
     '''
     # 뭔지 아직 모름
