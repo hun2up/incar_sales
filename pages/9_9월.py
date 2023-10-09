@@ -8,7 +8,7 @@ import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-from utils import fn_call, fn_sidebar, fn_category, fn_insurance, fn_running, fig_linechart, style_metric_cards
+from utils import fn_call, fn_sidebar, fn_visualization, fn_insurance, fig_linechart, style_metric_cards
 from utils import month_dict
 
 ###########################################################################################################################
@@ -71,18 +71,14 @@ if authentication_status:
     ################################################     자료 전처리     ######################################################
     ##########################################################################################################################
     # -------------------------------------------  매출액 기준 기본 전처리  ----------------------------------------------------
-    list1 = ['보험종목','영수일자']
-    list2 = ['보험회사','영수일자']
-    list3 = ['상품군','영수일자']
-    list4 = ['소속','영수일자']
     # 보험종목별 매출액
-    df_insu = fn_category(df_sep, ['보험종목','영수일자'], 'chart')
+    df_insu = fn_visualization(df_sep, ['보험종목','영수일자'], 'chart')
     # 보험회사별 매출액
-    df_company = fn_category(df_sep, ['보험회사','영수일자'], 'chart')
+    df_company = fn_visualization(df_sep, ['보험회사','영수일자'], 'chart')
     # 상품군별 매출액
-    df_product = fn_category(df_sep, ['상품군','영수일자'], 'chart')
+    df_product = fn_visualization(df_sep, ['상품군','영수일자'], 'chart')
     # 소속부문별 매출액
-    df_channel = fn_category(df_sep, ['소속','영수일자'], 'chart')
+    df_channel = fn_visualization(df_sep, ['소속','영수일자'], 'chart')
     # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
     df_insu = fn_insurance(df_sep, df_insu)
 
@@ -137,16 +133,6 @@ if authentication_status:
     df_fa4 = df_rank_product_fa[df_rank_product_fa['담당자'].isin([df_rank_product_fa.iat[3, 2]])]
     df_fa5 = df_rank_product_fa[df_rank_product_fa['담당자'].isin([df_rank_product_fa.iat[4, 2]])]
 
-    # ----------------------------------------  일별 누적 매출액 데이터 산출  ----------------------------------------------------
-    # 보험종목별 누적매출액
-    df_running_insu = fn_running(df_insu)
-    # 보험회사별 누적매출액
-    df_running_company = fn_running(df_company)
-    # 상품군별 누적매출액
-    df_running_product = fn_running(df_product)
-    # 소속부문별 누적매출액
-    df_running_channel = fn_running(df_channel)
-
     #########################################################################################################################
     ##################################################     차트 제작     #####################################################
     #########################################################################################################################
@@ -156,13 +142,6 @@ if authentication_status:
     fig_line_company = fig_linechart(df_company, '보험회사별 매출액 추이')
     fig_line_product = fig_linechart(df_product, '상품군별 매출액 추이')
     fig_line_channel = fig_linechart(df_channel, '소속부문별 매출액 추이')
-
-    '''
-    fig_line_insurnace = fig_linechart(df_running_insu, '보험종목별 매출액 추이')
-    fig_line_company = fig_linechart(df_running_company, '보험회사별 매출액 추이')
-    fig_line_product = fig_linechart(df_running_product, '상품군별 매출액 추이')
-    fig_line_channel = fig_linechart(df_running_channel, '소속부문별 매출액 추이')
-    '''
 
     ##########################################################################################################################
     ################################################     메인페이지 설정     ##################################################

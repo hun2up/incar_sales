@@ -37,7 +37,8 @@ def fn_call(v_month):
     return dfv_call
 
 # ---------------------------------------    그래프 제작을 위한 필요 컬럼 분류    ----------------------------------------------
-def fn_category(dfv_month, category, form):
+def fn_visualization(dfv_month, category, form):
+    # 차트 제작용 (누적 매출액 산출)
     if form == 'chart':
         # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
         dfv_category = dfv_month.groupby(category)['영수/환급보험료'].sum().reset_index(name='매출액')
@@ -70,6 +71,7 @@ def fn_category(dfv_month, category, form):
                     pass
             dfv_total = pd.concat([dfv_total, dfv_running], axis=0)
         return dfv_total
+    # 랭킹 제작용
     elif form == 'rank':
         # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
         dfv_category = dfv_month.groupby(category)['영수/환급보험료'].sum().reset_index(name='매출액')
