@@ -72,7 +72,8 @@ def fn_visualization(dfv_month, category, form):
     # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
     dfv_category = dfv_month.groupby(category)['영수/환급보험료'].sum().reset_index(name='매출액')
     if form == 'chart':
-        fn_running(dfv_category=dfv_category)
+        st.dataframe(dfv_category)
+        fn_running(dfv_category)
         '''
         dfv_category.columns.values[0] = '구분'
         # 구분 고유값만 남기기 (보험종목, 보험회사 등)
