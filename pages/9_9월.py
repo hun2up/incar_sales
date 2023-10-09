@@ -153,7 +153,7 @@ if authentication_status:
 
     st.write("매출액 상위 TOP5 (FA)")
     fa = st.columns(5)
-    fn_ranking(dfr_fa, 'mutliple', fa)
+    fn_ranking(dfr_fa, 'multiple', fa)
     st.write("매출액 상위 TOP5 (보험회사 )")
     com = st.columns(5)
     fn_ranking(dfr_com, 'single', com)
