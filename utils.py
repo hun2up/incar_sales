@@ -327,9 +327,6 @@ def fn_peformance(df_month, this_month):
     st.header(f"{this_month} 매출현황 추이 (그래프)")
 
     # -----------------------------------------------------  차트 노출  ---------------------------------------------------------
-    st.dataframe(lst_chn[0])
-    st.dataframe(lst_chn[1])
-    st.dataframe(lst_chn[2])
     
     # 첫번째 행 (생손매출액)
     st.plotly_chart(fig_line_insurnace, use_container_width=True)
