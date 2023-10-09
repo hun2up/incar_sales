@@ -167,7 +167,7 @@ def fn_ranking_channel(dfr, df, title):
         # 기초 리스트에 들어갈 각 랭킹 제목 제작
         lstv_ranking[0].append(f"{dfr.iat[i,0]} 매출액 상위 {title}")
         # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
-        lstv_ranking[1].append(df[df['소속'].isin([df.iat[i,0]])].drop(columns=['소속']))
+        lstv_ranking[1].append(df[df['소속'].isin([dfr.iat[i,0]])].drop(columns=['소속']))
     return lstv_ranking
 
 # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
