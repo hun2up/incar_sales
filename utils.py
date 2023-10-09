@@ -153,6 +153,7 @@ def fn_ranking(dfv_visualization, form):
             value[i].metric(dfv_visualization.iat[i,0] + ' (' + dfv_visualization.iat[i,1] + ')', dfv_visualization.iat[i, 2] + '원')
     style_metric_cards()
 
+# -------------------------------------------------    토글 제작    --------------------------------------------------------
 def fn_toggle(lst, form):
     for i in range(len(lst[0])):
         st.write(lst[0][i])
@@ -160,6 +161,7 @@ def fn_toggle(lst, form):
         except: pass
         i += 1
 
+# -------------------------------------------    소속 부문별 하위 랭킹 제작    --------------------------------------------------
 def fn_ranking_channel(dfr, df, title):
     lstv_ranking = [[],[]]
     # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
@@ -262,7 +264,7 @@ def fn_peformance(df_month, this_month):
 
     # -------------------------------------------------  부문별 랭킹  -----------------------------------------------------------
     lst_chn_data = []
-    
+
     # 소속부문별 매출액 상위 FA
     lst_chn_data.append(fn_visualization(df_month, ['소속','담당자','파트너'], 'rank'))
     lst_chn_fa = fn_ranking_channel(dfr_chn, lst_chn_data[0], "FA")
