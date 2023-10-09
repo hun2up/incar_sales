@@ -295,7 +295,7 @@ def fn_peformance(df_month, this_month):
     # lst_chn[2].append( fn_ranking_channel(dfr_chn, lst_chn_data[2], "보험상품"))
     # lst_chn_prod = fn_ranking_channel(dfr_chn, lst_chn_data[2], "보험상품")
 
-    lst_toggle_chn = fn_ranking_channel(dfr_chn, lst_chn_data, lst_chn)
+    fn_ranking_channel(dfr_chn, lst_chn_data, lst_chn)
 
     # --------------------------------------------------  FA별 랭킹  -----------------------------------------------------------
     # 매출액 상위 FA별 상위 TOP5 보험상품
@@ -370,10 +370,10 @@ def fn_peformance(df_month, this_month):
     for i in range(6):
         rchn[i].metric(dfr_chn.iat[i, 0], dfr_chn.iat[i, 1])
     # 하위 토글
-    for t in range(len(lst_toggle_chn[0])):
-        if chn[t].toggle(f"부문별 매출액 상위 {lst_toggle_chn[0][t]}"):
-            st.markdown(f"##### 부문별 매출액 상위 {lst_toggle_chn[0][t]}")
-            fn_toggle(lst_toggle_chn[3][1][t], lst_toggle_chn[2][t])
+    for t in range(len(lst_chn[0])):
+        if chn[t].toggle(f"부문별 매출액 상위 {lst_chn[0][t]}"):
+            st.markdown(f"##### 부문별 매출액 상위 {lst_chn[0][t]}")
+            fn_toggle(lst_chn[3][1][t], lst_chn[2][t])
     '''
     if chn[1].toggle("부문별 매출액 상위 FA (완)"):
         st.markdown("##### 부문별 매출액 상위 FA")
