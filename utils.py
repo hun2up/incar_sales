@@ -11,25 +11,11 @@ from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ########################################################################################################################
 ##############################################     fntion 정의     ####################################################
 ########################################################################################################################
 # ---------------------------------------    Google Sheet 데이터베이스 호출    ----------------------------------------------
 month_dict = {'jan':'1월','feb':'2월','mar':'3월','apr':'4월','may':'5월','jun':'6월','jul':'7월','aug':'8월','sep':'9월','oct':'10월','nov':'11월','dec':'12월'}
-
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
     csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
@@ -58,9 +44,9 @@ def fn_call(v_month):
 # ---------------------------------------    그래프 제작을 위한 필요 컬럼 분류    ----------------------------------------------
 def fn_visualization(dfv_month, category, form):
     # 차트 제작용 (누적 매출액 산출)
+    # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
+    dfv_category = dfv_month.groupby(category)['영수/환급보험료'].sum().reset_index(name='매출액')
     if form == 'chart':
-        # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
-        dfv_category = dfv_month.groupby(category)['영수/환급보험료'].sum().reset_index(name='매출액')
         dfv_category.columns.values[0] = '구분'
         # 구분 고유값만 남기기 (보험종목, 보험회사 등)
         dfv_temp = dfv_category.groupby(['구분'])['구분'].count().reset_index(name="개수")
@@ -93,7 +79,7 @@ def fn_visualization(dfv_month, category, form):
     # 랭킹 제작용
     elif form == 'rank':
         # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
-        dfv_category = dfv_month.groupby(category)['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
+        dfv_category = dfv_category.sort_values(by='매출액', ascending=False)
         dfv_category['매출액'] = dfv_category['매출액'].map('{:,.0f}'.format)
         return dfv_category
 
@@ -199,18 +185,7 @@ def fig_vbarchart_double(list_vbarchart):
     return_fig_vbar.update_layout(showlegend=True)
     return return_fig_vbar
 
-
-
-
-
-
-
-
-
-
-
-
-
+# -------------------------------------------------    화면 구현    -------------------------------------------------------
 def fn_peformance(df_month, this_month):
     ###########################################################################################################################
     ###########################################     stremalit 워터마크 숨기기     ##############################################
