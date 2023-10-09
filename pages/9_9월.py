@@ -83,7 +83,7 @@ if authentication_status:
     dfr_fa = dfr_fa.drop(columns='담당자코드')
     dfr_com = fn_visualization(df_sep, ['보험회사'], 'rank') # 보험회사 매출액 순이
     dfr_cat = fn_visualization(df_sep, ['상품군'], 'rank') # 상품군 매출액 순위
-    dfr_prod = fn_visualization(df_sep, ['보험회사','상품명'], 'rank') # 보험상품 매출액 순위
+    dfr_prod = fn_visualization(df_sep, ['상품명','보험회사'], 'rank') # 보험상품 매출액 순위
 
     # 상품군별 상위 TOP5 보험상품
     dfr_cat_prod = fn_visualization(df_sep, ['상품명','보험회사','상품군'], 'rank')
@@ -134,11 +134,7 @@ if authentication_status:
     r2_c1, r2_c2 = st.columns(2)
     r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
 
-    # ----------------------------------------------------  랭킹  -----------------------------------------------------------
-    st.dataframe(dfr_fa)
-    st.dataframe(dfr_cat_cover)
-  
-    
+    # ----------------------------------------------------  랭킹  -----------------------------------------------------------   
     st.markdown('---')
     st.markdown("#### 전체 현황 요약")
 
@@ -193,8 +189,8 @@ if authentication_status:
         fn_ranking(dfr_cat_vul, 'multiple', cat_vul)
 
     st.markdown("##### 매출액 상위 TOP5 (보험상품)")
-    dfc_product = st.columns(5)
-    fn_ranking(dfr_prod, 'single', prod)
+    prod = st.columns(5)
+    fn_ranking(dfr_prod, 'multiple', prod)
 
     '''
     st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
