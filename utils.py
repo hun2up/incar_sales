@@ -74,7 +74,7 @@ def fn_visualization(dfv_month, category, form):
     # 랭킹 제작용
     elif form == 'rank':
         # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
-        dfv_category = dfv_month.groupby(category)['영수/환급보험료'].sum().reset_index(name='매출액')
+        dfv_category = dfv_month.groupby(category)['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
         dfv_category['매출액'] = dfv_category['매출액'].map('{:,.0f}'.format)
         return dfv_category
 
