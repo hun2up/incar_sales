@@ -143,7 +143,8 @@ def style_metric_cards(
     )
 
 # -----------------------------------------------    랭킹 카드 제작    --------------------------------------------------------
-def fn_ranking(dfv_visualization, form, value):
+def fn_ranking(dfv_visualization, form):
+    value = st.columns(5)
     if form == 'single':
         for i in range(5):
             value[i].metric(dfv_visualization.iat[i,0], dfv_visualization.iat[i,1] + '원')
@@ -305,30 +306,31 @@ def fn_peformance(df_month, this_month):
     
     st.markdown('---')
     fa = st.columns([2,1,1,1])
-    rfa = st.columns(5)
+    # rfa = st.columns(5)
     fa[0].markdown("#### 매출액 상위 TOP5 (FA)")
-    fn_ranking(dfr_fa, 'multiple', rfa)
+    fn_ranking(dfr_fa, 'multiple')
+    # fn_ranking(dfr_fa, 'multiple', rfa)
     if fa[3].toggle("매출액 상위 FA 주요 판매상품 (완)"):
         st.markdown("##### 매출액 상위 FA 주요 판매상품")
         st.write(dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0] + ')')
-        fa1 = st.columns(5)
-        try: fn_ranking(dfr_fa1, 'multiple', fa1)
+        # fa1 = st.columns(5)
+        try: fn_ranking(dfr_fa1, 'multiple')
         except: pass
         st.write(dfr_fa.iat[1,1] + ' (' + dfr_fa.iat[1,0] + ')')
-        fa2 = st.columns(5)
-        try: fn_ranking(dfr_fa2, 'multiple', fa2)
+        # fa2 = st.columns(5)
+        try: fn_ranking(dfr_fa2, 'multiple')
         except: pass
         st.write(dfr_fa.iat[2,1] + ' (' + dfr_fa.iat[2,0] + ')')
-        fa3 = st.columns(5)
-        try: fn_ranking(dfr_fa3, 'multiple', fa3)
+        # fa3 = st.columns(5)
+        try: fn_ranking(dfr_fa3, 'multiple')
         except: pass
         st.write(dfr_fa.iat[3,1] + ' (' + dfr_fa.iat[3,0] + ')')
-        fa4 = st.columns(5)
-        try: fn_ranking(dfr_fa4, 'multiple', fa4)
+        # fa4 = st.columns(5)
+        try: fn_ranking(dfr_fa4, 'multiple')
         except: pass
         st.write(dfr_fa.iat[4,1] + ' (' + dfr_fa.iat[4,0] + ')')
-        fa5 = st.columns(5)
-        try: fn_ranking(dfr_fa5, 'multiple', fa5)
+        # fa5 = st.columns(5)
+        try: fn_ranking(dfr_fa5, 'multiple')
         except: pass
         
 
