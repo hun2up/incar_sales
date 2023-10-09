@@ -12,6 +12,18 @@ from utils import fn_call, fn_sidebar, fn_category, fn_insurance, fn_running, fi
 from utils import month_dict
 
 ###########################################################################################################################
+###########################################     stremalit 워터마크 숨기기     ##############################################
+###########################################################################################################################
+hide_st_style = """
+                <style>
+                #MainMenu {visibility: hidden;}
+                footer {visibility: hidden;}
+                header {visibility: hidden;}
+                </style>
+                """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
+###########################################################################################################################
 ################################################     인증페이지 설정     ###################################################
 ###########################################################################################################################
 # ---------------------------------------------    페이지 레이아웃 설정    --------------------------------------------------
@@ -165,11 +177,13 @@ if authentication_status:
     st.markdown("#### 전체 현황 요약")
 
     st.write("소속부문별 매출액 순위")
-    toggle_state = st.toggle("보이기")
     chn = st.columns(6)
-    if toggle_state:
-        for i in range(6):
-            chn[i].metric(df_rank_chn.iat[i, 0], df_rank_chn.iat[i, 1])
+    for i in range(6):
+        chn[i].metric(df_rank_chn.iat[i, 0], df_rank_chn.iat[i, 1])
+
+    tgl_chn_fa = st.toggle("각 부문별 매출액 상위 TOP5 FA")
+    tgl_chn_com = st.toggle("각 부문별 매출액 상위 TOP5 보험회사")
+    tgl_chn_prd = st.toggle("각 부문별 매출액 상위 TOP5 보험상품")
 
     st.write("매출액 상위 TOP5 (FA)")
     fa = st.columns(5)
@@ -278,16 +292,3 @@ if authentication_status:
             break
             
     style_metric_cards()
-
-
-    ###########################################################################################################################
-    ###########################################     stremalit 워터마크 숨기기     ##############################################
-    ###########################################################################################################################
-    hide_st_style = """
-                    <style>
-                    #MainMenu {visibility: hidden;}
-                    footer {visibility: hidden;}
-                    header {visibility: hidden;}
-                    </style>
-                    """
-    st.markdown(hide_st_style, unsafe_allow_html=True)
