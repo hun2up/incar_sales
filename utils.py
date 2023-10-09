@@ -116,15 +116,13 @@ def style_metric_cards(
     )
 
 # -----------------------------------------------    랭킹 카드 제작    --------------------------------------------------------
-def fn_ranking(dfv_visualization, form, title):
-    st. write(title)
-    values = st.columns(5)
+def fn_ranking(dfv_visualization, form, value):
     if form == 'single':
         for i in range(5):
-            values[i].metric(dfv_visualization.iat[i,0], dfv_visualization.iat[i,1] + '원')
+            value[i].metric(dfv_visualization.iat[i,0], dfv_visualization.iat[i,1] + '원')
     elif form == 'multiple':
         for i in range(5):
-            values[i].metric(dfv_visualization.iat[i,0] + ' (' + dfv_visualization.iat[i,1] + ')', dfv_visualization.iat[i, 2] + '원')
+            value[i].metric(dfv_visualization.iat[i,0] + ' (' + dfv_visualization.iat[i,1] + ')', dfv_visualization.iat[i, 2] + '원')
     style_metric_cards()
 
 # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------

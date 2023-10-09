@@ -85,41 +85,25 @@ if authentication_status:
     dfr_cat = fn_visualization(df_sep, ['상품군'], 'rank') # 상품군 매출액 순위
     dfr_prod = fn_visualization(df_sep, ['보험회사','상품명'], 'rank') # 보험상품 매출액 순위
 
-    '''
-    # 뭔지 아직 모름
-    dfr_prod = fn_visualization(df_sep, ['파트너','담당자코드','담당자','보험회사','상품명'], 'rank')
-
-    df_rank_product_fa = df_sep.groupby(['파트너','담당자코드','담당자','보험회사','상품명'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
-    df_rank_product_fa['매출액'] = df_rank_product_fa['매출액'].map('{:,.0f}'.format)
-    
-
     # 상품군별 상위 TOP5 보험상품
-    # 보장성
-    df_product_cover = df_rank_product[df_rank_product['상품군'].isin(['보장성','기타(보장성)'])]
-    # 종신/CI
-    df_product_whole = df_rank_product[df_rank_product['상품군'].isin(['종신/CI'])]
-    # CEO정기보험
-    df_product_ceo = df_rank_product[df_rank_product['상품군'].isin(['CEO정기보험'])]
-    # 어린이
-    df_product_child = df_rank_product[df_rank_product['상품군'].isin(['어린이'])]
-    # 어린이(태아)
-    df_product_fetus = df_rank_product[df_rank_product['상품군'].isin(['어린이(태아)'])]
-    # 운전자
-    df_product_driver = df_rank_product[df_rank_product['상품군'].isin(['운전자'])]
-    # 단독실손
-    df_product_real = df_rank_product[df_rank_product['상품군'].isin(['단독실손'])]
-    # 연금
-    df_product_pension = df_rank_product[df_rank_product['상품군'].isin(['연금'])]
-    # 변액연금
-    df_product_vul = df_rank_product[df_rank_product['상품군'].isin(['변액연금'])]
+    dfr_cat_prod = fn_visualization(df_sep, ['상품군','상품명'], 'rank')
+    dfr_cat_cover = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['보장성','기타(보장성)'])] # 보장성
+    dfr_cat_whole = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['종신/CI'])] # 종신/CI
+    dfr_cat_ceo = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['CEO정기보험'])] # CEO정기보험
+    dfr_cat_child = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['어린이'])] # 어린이
+    dfr_cat_fetus = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['어린이(태아)'])] # 어린이(태아)
+    dfr_cat_driver = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['운전자'])] # 운전자
+    dfr_cat_real = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['단독실손'])] # 단독실손
+    dfr_cat_pension = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['연금'])] # 연금
+    dfr_cat_vul = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['변액연금'])] # 변액연금
 
     # 매출액 상위 FA별 상위 TOP5 보험상품
-    df_fa1 = df_rank_product_fa[df_rank_product_fa['담당자'].isin([df_rank_product_fa.iat[0, 2]])]
-    df_fa2 = df_rank_product_fa[df_rank_product_fa['담당자'].isin([df_rank_product_fa.iat[1, 2]])]
-    df_fa3 = df_rank_product_fa[df_rank_product_fa['담당자'].isin([df_rank_product_fa.iat[2, 2]])]
-    df_fa4 = df_rank_product_fa[df_rank_product_fa['담당자'].isin([df_rank_product_fa.iat[3, 2]])]
-    df_fa5 = df_rank_product_fa[df_rank_product_fa['담당자'].isin([df_rank_product_fa.iat[4, 2]])]
-    '''
+    dfr_fa_prod = fn_visualization(df_sep, ['파트너','담당자코드','담당자','보험회사','상품명'], 'rank')
+    dfr_fa1 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[0, 2]])] # 매출액 1위
+    dfr_fa2 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[1, 2]])] # 매출액 2위
+    dfr_fa3 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[2, 2]])] # 매출액 3위
+    dfr_fa4 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[3, 2]])] # 매출액 4위
+    dfr_fa5 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[4, 2]])] # 매축액 5위
 
     #########################################################################################################################
     ##################################################     차트 제작     #####################################################
@@ -167,7 +151,9 @@ if authentication_status:
     tgl_chn_com = st.toggle("각 부문별 매출액 상위 TOP5 보험회사")
     tgl_chn_prd = st.toggle("각 부문별 매출액 상위 TOP5 보험상품")
 
-    fn_ranking(dfr_fa, 'mutliple', "FA 매출액 상위 TOP5")
+    st.write("FA 매출액 상위 TOP5")
+    vfa = st.columns(5)
+    fn_ranking(dfr_fa, 'mutliple', vfa)
     fn_ranking(dfr_com, 'single', "보험회사 매출액 상위 TOP5")
     fn_ranking(dfr_cat, 'single', "상품군 매출액 상위 TOP5")
     fn_ranking(dfr_prod, 'multiple', "보험상품 매출액 상위 TOP5")
@@ -194,47 +180,47 @@ if authentication_status:
     st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
     product_cover = st.columns(5)
     for i in range(5):
-        product_cover[i].metric(df_product_cover.iat[i, 1] + ' (' + df_product_cover.iat[i, 2] + ')', df_product_cover.iat[i, 3] + '원')
+        product_cover[i].metric(dfr_prod_cover.iat[i, 1] + ' (' + dfr_prod_cover.iat[i, 2] + ')', dfr_prod_cover.iat[i, 3] + '원')
 
     st.write("상품군별 매출액 상위 TOP5 보험상품 (종신/CI)")
     product_whole = st.columns(5)
     for i in range(5):
-        product_whole[i].metric(df_product_whole.iat[i, 1] + ' (' + df_product_whole.iat[i, 2] + ')', df_product_whole.iat[i, 3] + '원')
+        product_whole[i].metric(dfr_prod_whole.iat[i, 1] + ' (' + dfr_prod_whole.iat[i, 2] + ')', dfr_prod_whole.iat[i, 3] + '원')
 
     st.write("상품군별 매출액 상위 TOP5 보험상품 (CEO정기보험)")
     product_ceo = st.columns(5)
     for i in range(5):
-        product_ceo[i].metric(df_product_ceo.iat[i, 1] + ' (' + df_product_ceo.iat[i, 2] + ')', df_product_ceo.iat[i, 3] + '원')
+        product_ceo[i].metric(dfr_prod_ceo.iat[i, 1] + ' (' + dfr_prod_ceo.iat[i, 2] + ')', dfr_prod_ceo.iat[i, 3] + '원')
 
     st.write("상품군별 매출액 상위 TOP5 보험상품 (어린이)")
     product_child = st.columns(5)
     for i in range(5):
-        product_child[i].metric(df_product_child.iat[i, 1] + ' (' + df_product_child.iat[i, 2] + ')', df_product_child.iat[i, 3] + '원')
+        product_child[i].metric(dfr_prod_child.iat[i, 1] + ' (' + dfr_prod_child.iat[i, 2] + ')', dfr_prod_child.iat[i, 3] + '원')
 
     st.write("상품군별 매출액 상위 TOP5 보험상품 (어린이(태아))")
     product_fetus = st.columns(5)
     for i in range(5):
-        product_fetus[i].metric(df_product_fetus.iat[i, 1] + ' (' + df_product_fetus.iat[i, 2] + ')', df_product_fetus.iat[i, 3] + '원')
+        product_fetus[i].metric(dfr_prod_fetus.iat[i, 1] + ' (' + dfr_prod_fetus.iat[i, 2] + ')', dfr_prod_fetus.iat[i, 3] + '원')
 
     st.write("상품군별 매출액 상위 TOP5 보험상품 (운전자)")
     product_driver = st.columns(5)
     for i in range(5):
-        product_driver[i].metric(df_product_driver.iat[i, 1] + ' (' + df_product_driver.iat[i, 2] + ')', df_product_driver.iat[i, 3] + '원')
+        product_driver[i].metric(dfr_prod_driver.iat[i, 1] + ' (' + dfr_prod_driver.iat[i, 2] + ')', dfr_prod_driver.iat[i, 3] + '원')
 
     st.write("상품군별 매출액 상위 TOP5 보험상품 (단독실손)")
     product_real = st.columns(5)
     for i in range(5):
-        product_real[i].metric(df_product_real.iat[i, 1] + ' (' + df_product_real.iat[i, 2] + ')', df_product_real.iat[i, 3] + '원')
+        product_real[i].metric(dfr_prod_real.iat[i, 1] + ' (' + dfr_prod_real.iat[i, 2] + ')', dfr_prod_real.iat[i, 3] + '원')
 
     st.write("상품군별 매출액 상위 TOP5 보험상품 (연금)")
     product_pension = st.columns(5)
     for i in range(5):
-        product_pension[i].metric(df_product_pension.iat[i, 1] + ' (' + df_product_pension.iat[i, 2] + ')', df_product_pension.iat[i, 3] + '원')
+        product_pension[i].metric(dfr_prod_pension.iat[i, 1] + ' (' + dfr_prod_pension.iat[i, 2] + ')', dfr_prod_pension.iat[i, 3] + '원')
 
     st.write("상품군별 매출액 상위 TOP5 보험상품 (변액연금)")
     product_vul = st.columns(5)
     for i in range(5):
-        product_vul[i].metric(df_product_vul.iat[i, 1] + ' (' + df_product_vul.iat[i, 2] + ')', df_product_vul.iat[i, 3] + '원')
+        product_vul[i].metric(dfr_prod_vul.iat[i, 1] + ' (' + dfr_prod_vul.iat[i, 2] + ')', dfr_prod_vul.iat[i, 3] + '원')
 
     st.markdown("---")
     st.write("#### 매출액 상위 FA별 판매상품 TOP5")
