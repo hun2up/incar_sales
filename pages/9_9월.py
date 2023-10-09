@@ -8,7 +8,7 @@ import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-from utils import fn_call, fn_sidebar, fn_visualization, fn_ranking, fn_insurance, fig_linechart, style_metric_cards
+from utils import fn_call, fn_sidebar, fn_visualization, fn_ranking, fn_insurance, fig_linechart
 from utils import month_dict
 
 ###########################################################################################################################
@@ -158,7 +158,7 @@ if authentication_status:
     st.dataframe(dfr_cat)
 
     fn_ranking(dfr_chn, "소속부문별 매출액 순위", 6, 'single')
-    style_metric_cards()
+    # style_metric_cards()
     
     
     st.markdown('---')
@@ -281,4 +281,4 @@ if authentication_status:
             break
     '''
             
-    style_metric_cards()
+    # style_metric_cards()

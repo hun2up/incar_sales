@@ -86,6 +86,35 @@ def fn_insurance(dfv_month, dfv_insurance):
     dfv_sum = pd.concat([dfv_insurance, dfv_sum], axis=0)
     return dfv_sum
 
+# ---------------------------------------    랭킹 디스플레이를 위한 스타일 카드    ----------------------------------------------
+def style_metric_cards(
+    border_size_px: int = 1,
+    border_color: str = "#CCC",
+    border_radius_px: int = 5,
+    border_left_color: str = "rgb(55,126,184)",
+    box_shadow: bool = True,
+):
+
+    box_shadow_str = (
+        "box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;"
+        if box_shadow
+        else "box-shadow: none !important;"
+    )
+    st.markdown(
+        f"""
+        <style>
+            div[data-testid="metric-container"] {{
+                border: {border_size_px}px solid {border_color};
+                padding: 5% 5% 5% 10%;
+                border-radius: {border_radius_px}px;
+                border-left: 0.5rem solid {border_left_color} !important;
+                {box_shadow_str}
+            }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
 # ----------------------------------------------    누적 매출액 계산    ----------------------------------------------------
 def fn_ranking(dfv_visualization, title, counts, form):
     st. write(title)
@@ -96,6 +125,7 @@ def fn_ranking(dfv_visualization, title, counts, form):
     elif form == 'multiple':
         for i in range(counts):
             values[i].metric(dfv_visualization.iat[i,0] + ' (' + dfv_visualization.iat[i,1] + ')', dfv_visualization.iat[i, 2] + '원')
+    style_metric_cards()
 
 # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
 def fig_linechart(df_linechart, title):
@@ -151,35 +181,3 @@ def fig_vbarchart_double(list_vbarchart):
     return_fig_vbar.update_traces(textposition=list_vbarchart[4])
     return_fig_vbar.update_layout(showlegend=True)
     return return_fig_vbar
-
-# ---------------------------------------    랭킹 디스플레이를 위한 스타일 카드    ----------------------------------------------
-def style_metric_cards(
-    border_size_px: int = 1,
-    border_color: str = "#CCC",
-    border_radius_px: int = 5,
-    border_left_color: str = "rgb(55,126,184)",
-    box_shadow: bool = True,
-):
-
-    box_shadow_str = (
-        "box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;"
-        if box_shadow
-        else "box-shadow: none !important;"
-    )
-    st.markdown(
-        f"""
-        <style>
-            div[data-testid="metric-container"] {{
-                border: {border_size_px}px solid {border_color};
-                padding: 5% 5% 5% 10%;
-                border-radius: {border_radius_px}px;
-                border-left: 0.5rem solid {border_left_color} !important;
-                {box_shadow_str}
-            }}
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-
-    
