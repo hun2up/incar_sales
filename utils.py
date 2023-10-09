@@ -270,8 +270,10 @@ def fn_peformance(df_month, this_month):
     dfr_fa_prod = fn_visualization(df_month, ['상품명','보험회사','담당자코드','담당자'], 'rank')
     lst_fa = [[],[]]
     for fa in range(5):
-        lst_fa[0].append(dfr_fa.iat[i,1] + ' (' + dfr_fa.iat[i,0] + ')')
-        lst_fa[1].append(dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[i, 3]])].drop(columns=['담당자코드','담당자']))
+        # 1~5위 스타일카드 제목 제작
+        lst_fa[0].append(dfr_fa.iat[fa,1] + ' (' + dfr_fa.iat[fa,0] + ')')
+        # 1위~5위 스타일카드 항목 제작
+        lst_fa[1].append(dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[fa, 3]])].drop(columns=['담당자코드','담당자']))
     
     '''
     lst_fa[0].append(dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0] + ')') # 매출액 1위 
