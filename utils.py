@@ -263,19 +263,17 @@ def fn_peformance(df_month, this_month):
     dfr_prod = fn_visualization(df_month, ['상품명','보험회사'], 'rank') # 보험상품 매출액 순위
 
     # -------------------------------------------------  부문별 랭킹  -----------------------------------------------------------
-    lst_chn_data = []
-
     # 소속부문별 매출액 상위 FA
-    lst_chn_data.append(fn_visualization(df_month, ['소속','담당자','파트너'], 'rank'))
-    lst_chn_fa = fn_ranking_channel(dfr_chn, lst_chn_data[0], "FA")
+    dfr_chn_fa = fn_visualization(df_month, ['소속','담당자','파트너'], 'rank')
+    lst_chn_fa = fn_ranking_channel(dfr_chn, dfr_chn_fa, "FA")
     
     # 소속부문별 매출액 상위 보험회사
-    lst_chn_data.append(fn_visualization(df_month, ['소속','보험회사'], 'rank'))
-    lst_chn_com = fn_ranking_channel(dfr_chn, lst_chn_data[1], "보험회사")
+    dfr_chn_com = fn_visualization(df_month, ['소속','보험회사'], 'rank')
+    lst_chn_com = fn_ranking_channel(dfr_chn, dfr_chn_com, "보험회사")
 
     # 소속부문별 매출액 상위 보험상품
-    lst_chn_data.append(fn_visualization(df_month, ['소속','상품명','보험회사'], 'rank'))
-    lst_chn_prod = fn_ranking_channel(dfr_chn, lst_chn_data[2], "보험상품")
+    dfr_chn_prod = fn_visualization(df_month, ['소속','상품명','보험회사'], 'rank')
+    lst_chn_prod = fn_ranking_channel(dfr_chn, dfr_chn_prod, "보험상품")
 
     # --------------------------------------------------  FA별 랭킹  -----------------------------------------------------------
     # 매출액 상위 FA별 상위 TOP5 보험상품
