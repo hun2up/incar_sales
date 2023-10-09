@@ -83,7 +83,7 @@ if authentication_status:
     dfr_fa = dfr_fa.drop(columns='담당자코드')
     dfr_com = fn_visualization(df_sep, ['보험회사'], 'rank') # 보험회사 매출액 순이
     dfr_cat = fn_visualization(df_sep, ['상품군'], 'rank') # 상품군 매출액 순위
-    dfr_prod = fn_visualization(df_sep, ['상품명'], 'rank') # 보험상품 매출액 순위
+    dfr_prod = fn_visualization(df_sep, ['보험회사','상품명'], 'rank') # 보험상품 매출액 순위
 
     '''
     # 뭔지 아직 모름
@@ -152,10 +152,7 @@ if authentication_status:
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
     st.dataframe(dfr_prod)
-
-    fn_ranking(dfr_chn, 'single', 6, "각 소속부문 매출액 순위")
-    # style_metric_cards()
-    
+  
     
     st.markdown('---')
     st.markdown("#### 전체 현황 요약")
@@ -173,7 +170,7 @@ if authentication_status:
     fn_ranking(dfr_fa, 'mutliple', "FA 매출액 상위 TOP5")
     fn_ranking(dfr_com, 'single', "보험회사 매출액 상위 TOP5")
     fn_ranking(dfr_cat, 'single', "상품군 매출액 상위 TOP5")
-    # fn_ranking(dfr_prod, 'multiple')
+    fn_ranking(dfr_prod, 'multiple', "보험상품 매출액 상위 TOP5")
 
     st.write("매출액 상위 TOP5 (FA)")
     fa = st.columns(5)
