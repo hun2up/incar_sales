@@ -138,6 +138,7 @@ if authentication_status:
     
     st.markdown('---')
     st.markdown("## 전체 현황 요약")
+    st.write("랭킹 옵션에 (완) 표시된 옵션은 구현완료")
 
     # 소속부문 매출액 순위는 금액 단위가 커서 '원' 생략
     chn = st.columns([2,1,1,1])
@@ -188,7 +189,7 @@ if authentication_status:
     fn_ranking(dfr_com, 'single', rcom)
     if com[1].toggle("보험회사별 매출액 상위 부문"):
         st.markdown("##### 보험회사별 매출액 상위 부문")
-    if com[2].toggle("보험회사멸 매출액 상위 FA"):
+    if com[2].toggle("보험회사별 매출액 상위 FA"):
         st.markdown("##### 보험회사멸 매출액 상위 FA")
     if com[3].toggle("보험회사별 매출액 상위 보험상품"):
         st.markdown("##### 보험회사별 매출액 상위 보험상품")
