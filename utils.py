@@ -320,7 +320,7 @@ def fn_peformance(df_month, this_month):
         rchn[i].metric(dfr_chn.iat[i, 0], dfr_chn.iat[i, 1])
     if chn[1].toggle("부문별 매출액 상위 FA"):
         st.markdown("##### 부문별 매출액 상위 FA")
-        fn_ranking_toggle(lst_chn_fa, 'single')
+        fn_ranking_toggle(lst_chn_fa, 'multiple')
     if chn[2].toggle("부문별 매출액 상위 보험회사"):
         st.markdown("##### 부문별 매출액 상위 보험회사")
     if chn[3].toggle("부문별 매출액 상위 보험상품"):
