@@ -138,11 +138,11 @@ if authentication_status:
     st.dataframe(dfr_fa1)
     
     st.markdown('---')
-    st.markdown("#### 전체 현황 요약")
+    st.markdown("### 전체 현황 요약")
 
     # 소속부문 매출액 순위는 금액 단위가 커서 '원' 생략
     st.markdown('---')
-    st.markdown("##### 소속부문 매출액 순위")
+    st.markdown("#### 소속부문 매출액 순위")
     chn = st.columns(6)
     for i in range(6):
         chn[i].metric(dfr_chn.iat[i, 0], dfr_chn.iat[i, 1])
@@ -154,10 +154,10 @@ if authentication_status:
     st.markdown('---')
     fa = st.columns(5)
     rfa = st.columns(5)
-    fa[0].markdown("##### 매출액 상위 TOP5 (FA)")
+    fa[0].markdown("#### 매출액 상위 TOP5 (FA)")
     fn_ranking(dfr_fa, 'multiple', rfa)
     if fa[4].toggle("매출액 상위 FA 주요 판매상품"):
-        st.markdown("###### 매출액 상위 FA 주요 판매상품")
+        st.markdown("##### 매출액 상위 FA 주요 판매상품")
         st.write(dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0] + ')')
         fa1 = st.columns(5)
         try: fn_ranking(dfr_fa1, 'multiple', fa1)
@@ -181,16 +181,17 @@ if authentication_status:
         
 
     st.markdown('---')
-    st.markdown("##### 매출액 상위 TOP5 (보험회사)")
+    st.markdown("#### 매출액 상위 TOP5 (보험회사)")
     com = st.columns(5)
     fn_ranking(dfr_com, 'single', com)
 
     st.markdown('---')
     cat = st.columns(5)
     rcat = st.columns(5)
-    cat[0].markdown("##### 매출액 상위 TOP5 (상품군)")
+    cat[0].markdown("#### 매출액 상위 TOP5 (상품군)")
     fn_ranking(dfr_cat, 'single', rcat)
-    if cat[4].toggle("상품군별 매출액 순위"):
+    if cat[4].toggle("상품군별 매출액 상위 보험상품"):
+        st.markdown("##### 상품군별 매출액 상위 보험상품")
         st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
         cat_cover = st.columns(5)
         fn_ranking(dfr_cat_cover, 'multiple', cat_cover)
