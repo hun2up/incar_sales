@@ -87,37 +87,20 @@ def fn_insurance(dfv_month, dfv_insurance):
     return dfv_sum
 
 # ----------------------------------------------    누적 매출액 계산    ----------------------------------------------------
-def fn_running(dfv_category):
-    # 첫번째 컬럼을 구분으로 통일 (보험종목, 보험회사 등)
-    dfv_category.columns.values[0] = '구분'
-    # 구분 고유값만 남기기 (보험종목, 보험회사 등)
-    dfv_temp = dfv_category.groupby(['구분'])['구분'].count().reset_index(name="개수")
-    # 영수일자 고유값만 남기기 (매출액 없어도 일자를 최대로 지정하기 위함)
-    dfv_dates = dfv_category.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
-    # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
-    list_running = dfv_temp['구분'].tolist()
-    # 반복문 실행을 위한 초기 데이터프레임 제작
-    dfv_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
-    # 반복문 실행을 위한 구간 선언 
-    for i in range(len(list_running)):
-        # 생명보험이나 손해보험만 남기기
-        dfv_base = dfv_category[dfv_category.iloc[:,0] == list_running[i]]
-        dfv_running = dfv_base.merge(dfv_dates, on='영수일자', how='right')
-        # 최대한의 날짜프레임에 보험사별 매출현황 끼워넣기
-        for insert in range(dfv_running.shape[0]):
-            if pd.isna(dfv_running.iloc[insert, 0]):
-                dfv_running.iloc[insert,0] = list_running[i]
-                dfv_running.iloc[insert,2] = 0
-            else:
-                pass
-        # 누적매출액 구하기
-        for running in range(dfv_running.shape[0]):
-            try:
-                dfv_running.iloc[running+1,2] = dfv_running.iloc[running+1,2] + dfv_running.iloc[running,2]
-            except:
-                pass
-        dfv_total = pd.concat([dfv_total, dfv_running], axis=0)
+'''
+    st.write("매출액 상위 TOP5 (FA)")
+    fa = st.columns(5)
+    for i in range(5):
+        fa[i].metric(dfr_fa.iat[i, 2] + ' (' + dfr_fa.iat[i, 0] + ')', dfr_fa.iat[i, 3] + '원')
+
+def fn_running(dfv_visualization, values, counts):
+    st. write("")
+    values = st.columns(counts)
+    for i in range(counts):
+        values[i].metric(dfv_visualization.iat[])
+
     return dfv_total
+'''
 
 # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
 def fig_linechart(df_linechart, title):

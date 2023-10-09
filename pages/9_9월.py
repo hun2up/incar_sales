@@ -71,48 +71,25 @@ if authentication_status:
     ################################################     자료 전처리     ######################################################
     ##########################################################################################################################
     # -------------------------------------------  매출액 기준 기본 전처리  ----------------------------------------------------
-    # 보험종목별 매출액
-    dfc_insu = fn_visualization(df_sep, ['보험종목','영수일자'], 'chart')
-    # 보험회사별 매출액
-    dfc_company = fn_visualization(df_sep, ['보험회사','영수일자'], 'chart')
-    # 상품군별 매출액
-    dfc_product = fn_visualization(df_sep, ['상품군','영수일자'], 'chart')
-    # 소속부문별 매출액
-    dfc_channel = fn_visualization(df_sep, ['소속','영수일자'], 'chart')
-    # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
-    dfc_insu = fn_insurance(df_sep, dfc_insu)
+    dfc_insu = fn_visualization(df_sep, ['보험종목','영수일자'], 'chart') # 보험종목별 매출액
+    dfc_company = fn_visualization(df_sep, ['보험회사','영수일자'], 'chart') # 보험회사별 매출액
+    dfc_product = fn_visualization(df_sep, ['상품군','영수일자'], 'chart') # 상품군별 매출액
+    dfc_channel = fn_visualization(df_sep, ['소속','영수일자'], 'chart') # 소속부문별 매출액
+    dfc_insu = fn_insurance(df_sep, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
-    dfr_chn = fn_visualization(df_sep, ['소속'], 'rank')
-    dfr_fa = fn_visualization(df_sep, ['파트너','담당자코드','담당자'], 'rank')
-    dfr_prod = fn_visualization(df_sep, ['파트너','담당자코드','담당자','보험회사','상품명'], 'rank')
-    dfr_com = fn_visualization(df_sep, ['보험회사'], 'rank')
-    dfr_cat = fn_visualization(df_sep, ['상품군'], 'rank')
-    dfr_prod = fn_visualization(df_sep, ['보험회사'], 'rank')
+    dfr_chn = fn_visualization(df_sep, ['소속'], 'rank') # 소속부문 매출액 순위
+    dfr_fa = fn_visualization(df_sep, ['파트너','담당자코드','담당자'], 'rank') # FA 매출액 순위
+    dfr_com = fn_visualization(df_sep, ['보험회사'], 'rank') # 보험회사 매출액 순이
+    dfr_cat = fn_visualization(df_sep, ['상품군'], 'rank') # 상품군 매출액 순위
+    dfr_prod = fn_visualization(df_sep, ['보험회사'], 'rank') # 보험상품 매출액 순위
 
     '''
-    # 매출액 순위 (소속부문별)
-    df_rank_chn = df_sep.groupby(['소속'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
-    df_rank_chn['매출액'] = df_rank_chn['매출액'].map('{:,.0f}'.format)
-    
-    # 매출액 상위 TOP5 (FA)
-    df_rank_fa = df_sep.groupby(['파트너','담당자코드','담당자'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
-    df_rank_fa['매출액'] = df_rank_fa['매출액'].map('{:,.0f}'.format)
+    # 뭔지 아직 모름
+    dfr_prod = fn_visualization(df_sep, ['파트너','담당자코드','담당자','보험회사','상품명'], 'rank')
 
     df_rank_product_fa = df_sep.groupby(['파트너','담당자코드','담당자','보험회사','상품명'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
     df_rank_product_fa['매출액'] = df_rank_product_fa['매출액'].map('{:,.0f}'.format)
-
-    # 매출액 상위 TOP5 (보험회사)
-    df_rank_company = df_sep.groupby(['보험회사'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
-    df_rank_company['매출액'] = df_rank_company['매출액'].map('{:,.0f}'.format)
-    
-    # 매출액 상위 TOP5 (상품군)
-    df_rank_product_group = df_sep.groupby(['상품군'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
-    df_rank_product_group['매출액'] = df_rank_product_group['매출액'].map('{:,.0f}'.format)
-
-    # 매출액 상위 TOP5 (보험상품)
-    df_rank_product = df_sep.groupby(['상품군','보험회사','상품명'])['영수/환급보험료'].sum().reset_index(name='매출액').sort_values(by='매출액', ascending=False)
-    df_rank_product['매출액'] = df_rank_product['매출액'].map('{:,.0f}'.format)
     
 
     # 상품군별 상위 TOP5 보험상품
@@ -173,6 +150,13 @@ if authentication_status:
     r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
+    st.dataframe(dfr_chn)
+    st.dataframe(dfr_fa)
+    st.dataframe(dfr_com)
+    st.dataframe(dfr_cat)
+
+    
+    
     st.markdown('---')
     st.markdown("#### 전체 현황 요약")
 
