@@ -159,9 +159,12 @@ if authentication_status:
     fn_ranking(dfr_com, 'single', com)
 
     cat = st.columns(5)
-    cat[0].write("매출액 상위 TOP5 (상품군)")
     rcat = st.columns(5)
+    cat_prod = st.column_config(5)
+    cat[0].write("매출액 상위 TOP5 (상품군)")
     fn_ranking(dfr_cat, 'single', rcat)
+    cat[4].toggle("상품군별 매출액 순위")
+
 
     st.write("매출액 상위 TOP5 (보험상품)")
     prod = st.columns(5)
