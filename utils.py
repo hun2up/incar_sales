@@ -80,7 +80,7 @@ def fn_visualization(dfv_month, category, form):
 
 # ------------------------------------------------    손생 합계    -------------------------------------------------------
 def fn_insurance(dfv_month, dfv_insurance):
-    dfv_sum = dfv_month.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
+    dfv_sum = dfv_month.groupby(['영수일자'])['매출액'].sum().reset_index(name='매출액')
     dfv_sum['보험종목'] = '손생합계'
     dfv_sum = dfv_sum[['보험종목','영수일자','매출액']]
     dfv_sum = pd.concat([dfv_insurance, dfv_sum], axis=0)
