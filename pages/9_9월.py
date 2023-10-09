@@ -88,6 +88,7 @@ if authentication_status:
     # 상품군별 상위 TOP5 보험상품
     dfr_cat_prod = fn_visualization(df_sep, ['상품군','보험회사','상품명'], 'rank')
     dfr_cat_cover = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['보장성','기타(보장성)'])] # 보장성
+    dfr_cat_cover['매출액'] = dfr_cat_cover['매출액'].map('{:,.0f}'.format)
     dfr_cat_whole = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['종신/CI'])] # 종신/CI
     dfr_cat_ceo = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['CEO정기보험'])] # CEO정기보험
     dfr_cat_child = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['어린이'])] # 어린이
