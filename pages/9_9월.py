@@ -75,7 +75,7 @@ if authentication_status:
     dfc_company = fn_visualization(df_sep, ['보험회사','영수일자'], 'chart') # 보험회사별 매출액
     dfc_product = fn_visualization(df_sep, ['상품군','영수일자'], 'chart') # 상품군별 매출액
     dfc_channel = fn_visualization(df_sep, ['소속','영수일자'], 'chart') # 소속부문별 매출액
-    dfc_insu = fn_insurance(df_sep, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
+    df_insu = fn_insurance(df_sep, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
     dfr_chn = fn_visualization(df_sep, ['소속'], 'rank') # 소속부문 매출액 순위
@@ -109,7 +109,7 @@ if authentication_status:
     ##################################################     차트 제작     #####################################################
     #########################################################################################################################
     # --------------------------------------------  추이 그래프(꺾은선) 제작  -------------------------------------------------
-    fig_line_insurnace = fig_linechart(dfc_insu, '보험종목별 매출액 추이')
+    fig_line_insurnace = fig_linechart(df_insu, '보험종목별 매출액 추이')
     fig_line_company = fig_linechart(dfc_company, '보험회사별 매출액 추이')
     fig_line_product = fig_linechart(dfc_product, '상품군별 매출액 추이')
     fig_line_channel = fig_linechart(dfc_channel, '소속부문별 매출액 추이')
