@@ -256,6 +256,18 @@ def fn_peformance(df_month, this_month):
 
     # 상품군별 상위 TOP5 보험상품
     dfr_cat_prod = fn_visualization(df_month, ['상품명','보험회사','상품군'], 'rank')
+    lst_cat = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
+    lst_cat_prod = [[],[]]
+    for cat_prod in range(len(lst_cat)):
+        lst_cat_prod[0].append(f"상품군별 매출액 상위 보험상품 ({lst_cat[i]})")
+        lst_cat_prod[1].append(dfr_cat_prod[dfr_cat_prod['상품군'].isin(lst_cat[i])].drop(columns='상품군'))
+        cat_prod += 1
+
+    '''
+    st.write("상품군별 매출액 상위 TOP5 보험상품 (어린이)")
+    try: fn_ranking(dfr_cat_child, 'multiple')
+    except: pass
+
     dfr_cat_cover = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['보장성','기타(보장성)'])].drop(columns='상품군') # 보장성
     dfr_cat_whole = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['종신/CI'])].drop(columns='상품군') # 종신/CI
     dfr_cat_ceo = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['CEO정기보험'])].drop(columns='상품군') # CEO정기보험
@@ -265,6 +277,7 @@ def fn_peformance(df_month, this_month):
     dfr_cat_real = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['단독실손'])].drop(columns='상품군') # 단독실손
     dfr_cat_pension = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['연금'])].drop(columns='상품군') # 연금
     dfr_cat_vul = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['변액연금'])].drop(columns='상품군') # 변액연금
+    '''
 
     # 매출액 상위 FA별 상위 TOP5 보험상품
     dfr_fa_prod = fn_visualization(df_month, ['상품명','보험회사','담당자코드','담당자'], 'rank')
@@ -275,19 +288,6 @@ def fn_peformance(df_month, this_month):
         # 1위~5위 스타일카드 항목 제작
         lst_fa[1].append(dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[fa, 3]])].drop(columns=['담당자코드','담당자']))
     
-    '''
-    lst_fa[0].append(dfr_fa.iat[0,1] + ' (' + dfr_fa.iat[0,0] + ')') # 매출액 1위 
-    lst_fa[0].append(dfr_fa.iat[1,1] + ' (' + dfr_fa.iat[1,0] + ')') # 매출액 2위
-    lst_fa[0].append(dfr_fa.iat[2,1] + ' (' + dfr_fa.iat[2,0] + ')') # 매출액 3위
-    lst_fa[0].append(dfr_fa.iat[3,1] + ' (' + dfr_fa.iat[3,0] + ')') # 매출액 4위
-    lst_fa[0].append(dfr_fa.iat[4,1] + ' (' + dfr_fa.iat[4,0] + ')') # 매출액 5위
-    lst_fa[1].append(dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[0, 3]])].drop(columns=['담당자코드','담당자'])) # 매출액 1위
-    lst_fa[1].append(dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[1, 3]])].drop(columns=['담당자코드','담당자'])) # 매출액 2위
-    lst_fa[1].append(dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[2, 3]])].drop(columns=['담당자코드','담당자'])) # 매출액 3위
-    lst_fa[1].append(dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[3, 3]])].drop(columns=['담당자코드','담당자'])) # 매출액 4위
-    lst_fa[1].append(dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[4, 3]])].drop(columns=['담당자코드','담당자'])) # 매출액 5위
-    '''
-
     #########################################################################################################################
     ##################################################     차트 제작     #####################################################
     #########################################################################################################################
@@ -361,6 +361,9 @@ def fn_peformance(df_month, this_month):
         st.markdown("##### 상품군별 매출액 상위 FA")
     if cat[3].toggle("상품군별 매출액 상위 보험상품 (완)"):
         st.markdown("##### 상품군별 매출액 상위 보험상품")
+        fn_ranking_toggle(lst_cat_prod, 'multiple')
+
+        '''
         st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
         try: fn_ranking(dfr_cat_cover, 'multiple')
         except: pass
@@ -388,6 +391,7 @@ def fn_peformance(df_month, this_month):
         st.write("상품군별 매출액 상위 TOP5 보험상품 (변액연금)")
         try: fn_ranking(dfr_cat_vul, 'multiple')
         except: pass
+        '''
 
     st.markdown('---')
     prod = st.columns([2,1,1,1])
