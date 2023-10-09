@@ -87,20 +87,17 @@ def fn_insurance(dfv_month, dfv_insurance):
     return dfv_sum
 
 # ----------------------------------------------    누적 매출액 계산    ----------------------------------------------------
-'''
-    st.write("매출액 상위 TOP5 (FA)")
-    fa = st.columns(5)
-    for i in range(5):
-        fa[i].metric(dfr_fa.iat[i, 2] + ' (' + dfr_fa.iat[i, 0] + ')', dfr_fa.iat[i, 3] + '원')
-
-def fn_running(dfv_visualization, values, counts):
+def fn_ranking(dfv_visualization, values, counts, form):
     st. write("")
     values = st.columns(counts)
-    for i in range(counts):
-        values[i].metric(dfv_visualization.iat[])
-
-    return dfv_total
-'''
+    if form == 'single':
+        for i in range(counts):
+            values[i].metric(dfv_visualization.iat[i, 0] + ' (' + dfv_visualization.iat[i,1] + ')', dfv_visualization[i, 2] + '원')
+            return values[i]
+    elif form == 'multiple':
+        for i in range(counts):
+            values[i].metric(dfv_visualization.iat[i, 0], dfv_visualization[i, 1] + '원')
+            return values[i]
 
 # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
 def fig_linechart(df_linechart, title):

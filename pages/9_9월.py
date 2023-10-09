@@ -8,7 +8,7 @@ import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-from utils import fn_call, fn_sidebar, fn_visualization, fn_insurance, fig_linechart, style_metric_cards
+from utils import fn_call, fn_sidebar, fn_visualization, fn_ranking, fn_insurance, fig_linechart, style_metric_cards
 from utils import month_dict
 
 ###########################################################################################################################
@@ -80,6 +80,7 @@ if authentication_status:
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
     dfr_chn = fn_visualization(df_sep, ['소속'], 'rank') # 소속부문 매출액 순위
     dfr_fa = fn_visualization(df_sep, ['파트너','담당자코드','담당자'], 'rank') # FA 매출액 순위
+    dfr_fa = dfr_fa.drop(columns='담당자코드')
     dfr_com = fn_visualization(df_sep, ['보험회사'], 'rank') # 보험회사 매출액 순이
     dfr_cat = fn_visualization(df_sep, ['상품군'], 'rank') # 상품군 매출액 순위
     dfr_prod = fn_visualization(df_sep, ['보험회사'], 'rank') # 보험상품 매출액 순위
@@ -150,10 +151,13 @@ if authentication_status:
     r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
+      
     st.dataframe(dfr_chn)
     st.dataframe(dfr_fa)
     st.dataframe(dfr_com)
     st.dataframe(dfr_cat)
+
+    rcard_chn = fn_ranking(dfr_chn, "소속부문별 매출액 순위", 'chn', 6, 'single')
 
     
     
