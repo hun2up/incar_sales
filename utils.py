@@ -155,6 +155,7 @@ def fn_ranking(dfv_visualization, form):
 
 def fn_ranking_toggle(df, form, range):
     for i in range(len(df[0])):
+        st.write(len(df[0]))
         st.write(df[0][i])
         try: fn_ranking(df[1][i], form) 
         except: pass
