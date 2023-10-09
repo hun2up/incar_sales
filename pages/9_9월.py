@@ -88,14 +88,14 @@ if authentication_status:
     # 상품군별 상위 TOP5 보험상품
     dfr_cat_prod = fn_visualization(df_sep, ['상품명','보험회사','상품군'], 'rank')
     dfr_cat_cover = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['보장성','기타(보장성)'])].drop(columns='상품군') # 보장성
-    dfr_cat_whole = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['종신/CI'])] # 종신/CI
-    dfr_cat_ceo = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['CEO정기보험'])] # CEO정기보험
-    dfr_cat_child = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['어린이'])] # 어린이
-    dfr_cat_fetus = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['어린이(태아)'])] # 어린이(태아)
-    dfr_cat_driver = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['운전자'])] # 운전자
-    dfr_cat_real = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['단독실손'])] # 단독실손
-    dfr_cat_pension = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['연금'])] # 연금
-    dfr_cat_vul = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['변액연금'])] # 변액연금
+    dfr_cat_whole = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['종신/CI'])].drop(columns='상품군') # 종신/CI
+    dfr_cat_ceo = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['CEO정기보험'])].drop(columns='상품군') # CEO정기보험
+    dfr_cat_child = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['어린이'])].drop(columns='상품군') # 어린이
+    dfr_cat_fetus = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['어린이(태아)'])].drop(columns='상품군') # 어린이(태아)
+    dfr_cat_driver = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['운전자'])].drop(columns='상품군') # 운전자
+    dfr_cat_real = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['단독실손'])].drop(columns='상품군') # 단독실손
+    dfr_cat_pension = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['연금'])].drop(columns='상품군') # 연금
+    dfr_cat_vul = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['변액연금'])].drop(columns='상품군') # 변액연금
 
     # 매출액 상위 FA별 상위 TOP5 보험상품
     dfr_fa_prod = fn_visualization(df_sep, ['파트너','담당자코드','담당자','보험회사','상품명'], 'rank')
@@ -155,7 +155,7 @@ if authentication_status:
     st.markdown("##### 매출액 상위 TOP5 (FA)")
     fa = st.columns(5)
     fn_ranking(dfr_fa, 'multiple', fa)
-    st.markdown("##### 매출액 상위 TOP5 (보험회사 )")
+    st.markdown("##### 매출액 상위 TOP5 (보험회사)")
     com = st.columns(5)
     fn_ranking(dfr_com, 'single', com)
 
@@ -191,6 +191,10 @@ if authentication_status:
         st.write("상품군별 매출액 상위 TOP5 보험상품 (변액연금)")
         cat_vul = st.columns(5)
         fn_ranking(dfr_cat_vul, 'multiple', cat_vul)
+
+    st.markdown("##### 매출액 상위 TOP5 (보험상품)")
+    dfc_product = st.columns(5)
+    fn_ranking(dfr_prod, 'single', prod)
 
     '''
     st.write("상품군별 매출액 상위 TOP5 보험상품 (보장성)")
