@@ -35,37 +35,6 @@ def fn_call(v_month):
     dfv_call = dfv_call[~dfv_call['납입방법'].str.contains('일시납')]
     return dfv_call
 
-def fn_running(dfv_category):
-    dfv_category.columns.values[0] = '구분'
-    # 구분 고유값만 남기기 (보험종목, 보험회사 등)
-    dfv_temp = dfv_category.groupby(['구분'])['구분'].count().reset_index(name="개수")
-    # 영수일자 고유값만 남기기 (매출액 없어도 일자를 최대로 지정하기 위함)
-    dfv_dates = dfv_category.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
-    # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
-    list_running = dfv_temp['구분'].tolist()
-    # 반복문 실행을 위한 초기 데이터프레임 제작
-    dfv_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
-    # 반복문 실행을 위한 구간 선언 
-    for i in range(len(list_running)):
-        # 생명보험이나 손해보험만 남기기
-        dfv_base = dfv_category[dfv_category.iloc[:,0] == list_running[i]]
-        dfv_running = dfv_base.merge(dfv_dates, on='영수일자', how='right')
-        # 최대한의 날짜프레임에 보험사별 매출현황 끼워넣기
-        for insert in range(dfv_running.shape[0]):
-            if pd.isna(dfv_running.iloc[insert, 0]):
-                dfv_running.iloc[insert,0] = list_running[i]
-                dfv_running.iloc[insert,2] = 0
-            else:
-                pass
-        # 누적매출액 구하기
-        for running in range(dfv_running.shape[0]):
-            try:
-                dfv_running.iloc[running+1,2] = dfv_running.iloc[running+1,2] + dfv_running.iloc[running,2]
-            except:
-                pass
-        dfv_total = pd.concat([dfv_total, dfv_running], axis=0)
-    return dfv_total
-
 # ---------------------------------------    그래프 제작을 위한 필요 컬럼 분류    ----------------------------------------------
 def fn_visualization(dfv_month, category, form):
     # 차트 제작용 (누적 매출액 산출)
@@ -261,12 +230,6 @@ def fn_peformance(df_month, this_month):
     dfc_product = fn_visualization(df_month, ['상품군','영수일자'], 'chart') # 상품군별 매출액
     dfc_channel = fn_visualization(df_month, ['소속','영수일자'], 'chart') # 소속부문별 매출액
     df_insu = fn_insurance(df_month, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
-    
-    st.dataframe(dfc_insu)
-    st.write("테스트2")
-
-    st.dataframe(df_insu)
-    st.write("테스트3")
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
     dfr_chn = fn_visualization(df_month, ['소속'], 'rank') # 소속부문 매출액 순위
@@ -310,7 +273,6 @@ def fn_peformance(df_month, this_month):
     ##########################################################################################################################
     # 메인페이지 타이틀
     st.header(f"{this_month} 매출현황 추이 (그래프)")
-    st.dataframe(df_insu)
 
     # -----------------------------------------------------  차트 노출  ---------------------------------------------------------
     # 첫번째 행 (생손매출액)
