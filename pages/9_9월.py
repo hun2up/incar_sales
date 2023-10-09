@@ -151,10 +151,6 @@ if authentication_status:
         st.markdown("##### 부문별 매출액 상위 보험회사")
     if chn[3].toggle("부문별 매출액 상위 보험상품"):
         st.markdown("##### 부문별 매출액 상위 보험상품")
-
-    tgl_chn_fa = st.toggle("각 부문별 매출액 상위 TOP5 FA")
-    tgl_chn_com = st.toggle("각 부문별 매출액 상위 TOP5 보험회사")
-    tgl_chn_prd = st.toggle("각 부문별 매출액 상위 TOP5 보험상품")
     
     st.markdown('---')
     fa = st.columns([2,1,1,1])
