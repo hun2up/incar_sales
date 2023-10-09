@@ -135,7 +135,7 @@ if authentication_status:
     r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------
-    st.dataframe(dfr_prod)
+    st.dataframe(dfr_fa)
   
     
     st.markdown('---')
@@ -151,15 +151,17 @@ if authentication_status:
     tgl_chn_com = st.toggle("각 부문별 매출액 상위 TOP5 보험회사")
     tgl_chn_prd = st.toggle("각 부문별 매출액 상위 TOP5 보험상품")
 
-    st.write("FA 매출액 상위 TOP5")
+    st.write("매출액 상위 TOP5 (FA)")
     fa = st.columns(5)
     fn_ranking(dfr_fa, 'mutliple', fa)
+    st.write("매출액 상위 TOP5 (보험회사 )")
     com = st.columns(5)
-    cat = st.columns(5)
-    prod = st.columns(5)
-    st.write("보험회사 매출액 상위 TOP5")
     fn_ranking(dfr_com, 'single', com)
+    st.write("매출액 상위 TOP5 (상품군)")
+    cat = st.columns(5)
     fn_ranking(dfr_cat, 'single', cat)
+    st.write("매출액 상위 TOP5 (보험상품)")
+    prod = st.columns(5)
     fn_ranking(dfr_prod, 'multiple', prod)
 
     st.write("매출액 상위 TOP5 (FA)")
