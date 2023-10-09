@@ -98,12 +98,12 @@ if authentication_status:
     dfr_cat_vul = dfr_cat_prod[dfr_cat_prod['상품군'].isin(['변액연금'])].drop(columns='상품군') # 변액연금
 
     # 매출액 상위 FA별 상위 TOP5 보험상품
-    dfr_fa_prod = fn_visualization(df_sep, ['파트너','담당자코드','담당자','보험회사','상품명'], 'rank')
-    dfr_fa1 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[0, 2]])] # 매출액 1위
-    dfr_fa2 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[1, 2]])] # 매출액 2위
-    dfr_fa3 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[2, 2]])] # 매출액 3위
-    dfr_fa4 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[3, 2]])] # 매출액 4위
-    dfr_fa5 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[4, 2]])] # 매축액 5위
+    dfr_fa_prod = fn_visualization(df_sep, ['상품명','보험회사','담당자코드','담당자'], 'rank')
+    dfr_fa1 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[0, 2]])].drop(columns=['담당자코드','담당자']) # 매출액 1위
+    dfr_fa2 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[1, 2]])].drop(columns=['담당자코드','담당자']) # 매출액 2위
+    dfr_fa3 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[2, 2]])].drop(columns=['담당자코드','담당자']) # 매출액 3위
+    dfr_fa4 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[3, 2]])].drop(columns=['담당자코드','담당자']) # 매출액 4위
+    dfr_fa5 = dfr_fa_prod[dfr_fa_prod['담당자'].isin([dfr_fa_prod.iat[4, 2]])].drop(columns=['담당자코드','담당자']) # 매축액 5위
 
     #########################################################################################################################
     ##################################################     차트 제작     #####################################################
