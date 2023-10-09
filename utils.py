@@ -153,12 +153,6 @@ def fn_ranking(dfv_visualization, form):
             value[i].metric(dfv_visualization.iat[i,0] + ' (' + dfv_visualization.iat[i,1] + ')', dfv_visualization.iat[i, 2] + '원')
     style_metric_cards()
 
-'''
-       st.write(dfr_fa.iat[4,1] + ' (' + dfr_fa.iat[4,0] + ')') # 매출액 5위
-        try: fn_ranking(dfr_fa5, 'multiple')
-        except: pass
-'''
-
 def fn_ranking_toggle(lst, form):
     for i in range(len(lst[0])):
         st.write(lst[0][i])
@@ -319,7 +313,7 @@ def fn_peformance(df_month, this_month):
     for i in range(6):
         rchn[i].metric(dfr_chn.iat[i, 0], dfr_chn.iat[i, 1])
     if chn[1].toggle("부문별 매출액 상위 FA"):
-        st.markdown("##### 부문별 매출액 상위 FA")
+        st.markdown("##### 부문별 매출액 상위 FA (완)")
         fn_ranking_toggle(lst_chn_fa, 'multiple')
     if chn[2].toggle("부문별 매출액 상위 보험회사"):
         st.markdown("##### 부문별 매출액 상위 보험회사")
