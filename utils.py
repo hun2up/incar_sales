@@ -247,10 +247,10 @@ def fn_peformance(df_month, this_month):
     df_insu = fn_insurance(df_month, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
     df_test = df_month.groupby(['보험종목','영수/환급보험료','증권번호'])['증권번호'].count().reset_index(name='구분')
     df_life = df_test[df_test['보험종목'].isin(['생명보험'])]
-    df_life = df_life.renmae(columns={'영수/환급보험료':'생명보험'})
+    df_life = df_life.rename(columns={'영수/환급보험료':'생명보험'})
     df_life = df_life.drop(columns=['보험종목','증권번호','구분'])
     df_fire = df_test[df_test['보험종목'].isin(['손해보험'])]
-    df_fire = df_fire.renmae(columns={'영수/환급보험료':'생명보험'})
+    df_fire = df_fire.rename(columns={'영수/환급보험료':'생명보험'})
     df_fire = df_fire.drop(columns=['보험종목','증권번호','구분'])
 
     ##########################################################################################################################
@@ -429,7 +429,13 @@ def fn_peformance(df_month, this_month):
     fn_ranking(dfr_fa, 'multiple')
     if fa[3].toggle("매출액 상위 FA 주요 판매상품 "):
         st.markdown("##### 매출액 상위 FA 주요 판매상품")
-        fn_toggle(lst_fa_prod, 'multiple')
+        fa = st.column_config(5)
+        for c in range(5):
+            st.write(dfr_fa.iat[i,1] + ' (' + dfr_fa.iat[i,0] + ')')
+            for i in range(5):
+                try: fa[i].metric(dfr_fa_prod.iat[i,0] + ' (' + dfr_fa_prod.iat[i,1] + ')', dfr_fa_prod.iat[i, 2] + '원') 
+                except: pass
+        # fn_toggle(lst_fa_prod, 'multiple')
 
     st.markdown('---')
     com = st.columns([2,1,1,1])
