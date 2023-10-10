@@ -11,10 +11,26 @@ import plotly.figure_factory as ff
 ########################################################################################################################
 # ---------------------------------------    Google Sheet 데이터베이스 호출    ----------------------------------------------
 month_dict = {'jan':'1월','feb':'2월','mar':'3월','apr':'4월','may':'5월','jun':'6월','jul':'7월','aug':'8월','sep':'9월','oct':'10월','nov':'11월','dec':'12월'}
+'''
 @st.cache_data(ttl=600)
 def load_data(sheets_url):
     csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
     return pd.read_csv(csv_url)
+'''
+
+@st.cache_data(ttl=600)
+def fn_call(v_month):
+    # 월별 매출현황 불러오고, 필요없는 칼럼 삭제
+    dfv_call = pd.read_csv(st.secrets[f"{v_month}_url"].replace("/edit#gid=", "/export?format=csv&gid="))
+    dfv_call = dfv_call.drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
+    # 영수/환급보험료 데이터를 숫자로 변환
+    dfv_call['영수/환급보험료'] = pd.to_numeric(dfv_call['영수/환급보험료'].str.replace(",",""))
+    # 컬럼명 재설정: '영수/환급일' > '영수일자' ('영수/환급보험료' > '매출액' 수정 예정)
+    dfv_call.rename(columns={'영수/환급일':'영수일자'}, inplace=True)
+    # 불러 온 데이터에서 납입방법 '일시납'인 데이터 삭제
+    return dfv_call[~dfv_call['납입방법'].str.contains('일시납')]
+    # dfv_call = dfv_call[~dfv_call['납입방법'].str.contains('일시납')]
+    # return dfv_call
 
 # ----------------------------------------------    사아드바 제작    -------------------------------------------------------
 def fn_sidebar(dfv_sidebar, colv_sidebar):
@@ -25,6 +41,7 @@ def fn_sidebar(dfv_sidebar, colv_sidebar):
     )
 
 # -----------------------------------------------    자료 전처리    -------------------------------------------------------
+'''
 def fn_call(v_month):
     # 월별 매출현황 불러오고, 필요없는 칼럼 삭제
     dfv_call = load_data(st.secrets[f"{v_month}_url"]).drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
@@ -35,6 +52,7 @@ def fn_call(v_month):
     # 불러 온 데이터에서 납입방법 '일시납'인 데이터 삭제
     dfv_call = dfv_call[~dfv_call['납입방법'].str.contains('일시납')]
     return dfv_call
+'''
 
 # --------------------------------    그래프 제작을 위한 필요 컬럼 분류하고 누적값 구하기    -----------------------------------
 def fn_vchart(dfv_month, category):
