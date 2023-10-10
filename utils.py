@@ -184,7 +184,7 @@ def fn_peformance(df_month, this_month):
     fig_line_insurnace = fig_linechart(df_insu, '보험종목별 매출액 추이')
     fig_line_company = fig_linechart(dfc_company, '보험회사별 매출액 추이')
     fig_line_product = fig_linechart(dfc_product, '상품군별 매출액 추이')
-    fig_line_channel = fig_linechart(dfc_channel, '소속부문별 매출액 추이')
+    # fig_line_channel = fig_linechart(dfc_channel, '소속부문별 매출액 추이')
     # fig_dist_insurance = fig_distplot(df_insu, ['생명보험','손해보험'])
 
     ##########################################################################################################################
@@ -201,8 +201,8 @@ def fn_peformance(df_month, this_month):
     r1_c1.plotly_chart(fig_line_company, use_container_width=True)
     r1_c2.plotly_chart(fig_line_product, use_container_width=True)
     # 세번째 행 (소속부문별, 입사연차별 매출액)
-    r2_c1, r2_c2 = st.columns(2)
-    r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
+    fig_line_channel, r2_c2 = st.columns(2)
+    fig_line_channel.plotly_chart(fig_linechart(dfc_channel, '소속부문별 매출액 추이'), use_container_width=True)
 
     ##########################################################################################################################
     ##############################################     스타일 카드 (랭킹)     #################################################
