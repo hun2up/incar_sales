@@ -269,6 +269,7 @@ def fn_peformance(df_month, this_month):
     lst_cat_prod = fn_ranking_category(dfr_cat_prod, '보험상품')
 
     # -----------------------------------------------  보험상품별 랭킹  -----------------------------------------------------------
+    '''
     def fn_ranking_prod(dfr, df, value, drop):
         lstv_ranking = [[],[]]
         # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
@@ -285,6 +286,7 @@ def fn_peformance(df_month, this_month):
     # 보험상품별 매출액 상위 FA
     dfr_prod_fa = fn_vrank(df_month, ['상품명','담당자코드','담당자','파트너'])
     lst_prod_fa = fn_ranking_prod(dfr_prod, dfr_prod_fa, '상품명', ['상품명','담당자코드'])
+    '''
 
     #########################################################################################################################
     ##################################################     차트 제작     #####################################################
@@ -365,16 +367,25 @@ def fn_peformance(df_month, this_month):
             st.write(lst[0][i])
             fn_making_card(lst[1][i], form)
 
-    def fn_ranking_com(dfr, df, value, drop):
+
+    def fn_ranking_comnpro(df, dfv, value, drop, form):
         lstv_ranking = [[],[]]
         # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
         for i in range(5):
-            # 기초 리스트에 들어갈 각 랭킹 제목 제작
-            lstv_ranking[0].append(dfr.iat[i,0])
+            if form == 'com':
+                # 기초 리스트에 들어갈 각 랭킹 제목 제작
+                lstv_ranking[0].append(df.iat[i,0])
+            elif form == 'prod':
+                lstv_ranking[0].append(f"{df.iat[i,0]} ({df.iat[i,1]})")
             # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
-            lstv_ranking[1].append(df[df[value].isin([dfr.iat[i,0]])].drop(columns=drop))
+            lstv_ranking[1].append(dfv[dfv[value].isin([df.iat[i,0]])].drop(columns=drop))
         return lstv_ranking
-
+    
+    
+    dfr_prod_ptn = fn_vrank(df_month, ['상품명','파트너','소속']) # 보험상품별 매출액 상위 지점
+    lst_prod_ptn = fn_ranking_comnpro(dfr_prod, dfr_prod_ptn, '상품명', ['상품명'])
+    dfr_prod_fa = fn_vrank(df_month, ['상품명','담당자코드','담당자','파트너']) # 보험상품별 매출액 상위 FA
+    lst_prod_fa = fn_ranking_comnpro(dfr_prod, dfr_prod_fa, '상품명', ['상품명','담당자코드'])
 
     # --------------------------------------------------  부문별 랭킹  -----------------------------------------------------------      
     # 소속부문 매출액 순위는 금액 단위가 커서 '원' 생략
