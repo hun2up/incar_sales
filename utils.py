@@ -9,19 +9,14 @@ import plotly.figure_factory as ff
 ########################################################################################################################
 ##############################################     fntion 정의     ####################################################
 ########################################################################################################################
-# ---------------------------------------    Google Sheet 데이터베이스 호출    ----------------------------------------------
+# ------------------------------    Google Sheet 데이터베이스 호출 및 자료 전처리    ---------------------------------------
 month_dict = {'jan':'1월','feb':'2월','mar':'3월','apr':'4월','may':'5월','jun':'6월','jul':'7월','aug':'8월','sep':'9월','oct':'10월','nov':'11월','dec':'12월'}
-'''
-@st.cache_data(ttl=600)
-def load_data(sheets_url):
-    csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
-    return pd.read_csv(csv_url)
-'''
 
 @st.cache_data(ttl=600)
 def fn_call(v_month):
-    # 월별 매출현황 불러오고, 필요없는 칼럼 삭제
+    # 월별 매출현황 불러오기
     dfv_call = pd.read_csv(st.secrets[f"{v_month}_url"].replace("/edit#gid=", "/export?format=csv&gid="))
+    # 필요없는 컬럼 삭제
     dfv_call = dfv_call.drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
     # 영수/환급보험료 데이터를 숫자로 변환
     dfv_call['영수/환급보험료'] = pd.to_numeric(dfv_call['영수/환급보험료'].str.replace(",",""))
@@ -39,20 +34,6 @@ def fn_sidebar(dfv_sidebar, colv_sidebar):
         options=dfv_sidebar[colv_sidebar].unique(),
         default=dfv_sidebar[colv_sidebar].unique()
     )
-
-# -----------------------------------------------    자료 전처리    -------------------------------------------------------
-'''
-def fn_call(v_month):
-    # 월별 매출현황 불러오고, 필요없는 칼럼 삭제
-    dfv_call = load_data(st.secrets[f"{v_month}_url"]).drop(columns=['SUNAB_PK','납입회차','납입월도','영수유형','확정자','확정일','환산월초','인정실적','실적구분','이관일자','확정유형','계약상태','최초등록일'])
-    # 영수/환급보험료 데이터를 숫자로 변환
-    dfv_call['영수/환급보험료'] = pd.to_numeric(dfv_call['영수/환급보험료'].str.replace(",",""))
-    # 컬럼명 재설정: '영수/환급일' > '영수일자' ('영수/환급보험료' > '매출액' 수정 예정)
-    dfv_call.rename(columns={'영수/환급일':'영수일자'}, inplace=True)
-    # 불러 온 데이터에서 납입방법 '일시납'인 데이터 삭제
-    dfv_call = dfv_call[~dfv_call['납입방법'].str.contains('일시납')]
-    return dfv_call
-'''
 
 # --------------------------------    그래프 제작을 위한 필요 컬럼 분류하고 누적값 구하기    -----------------------------------
 def fn_vchart(dfv_month, category):
@@ -133,52 +114,6 @@ def fn_insurance(dfv_month, dfv_insurance):
     dfv_total = pd.concat([dfv_insurance, dfv_total], axis=0)
     return dfv_total
 
-# ---------------------------------------    랭킹 디스플레이를 위한 스타일 카드    ----------------------------------------------
-def style_metric_cards(
-    border_size_px: int = 1,
-    border_color: str = "#CCC",
-    border_radius_px: int = 5,
-    border_left_color: str = "rgb(55,126,184)",
-    box_shadow: bool = True,
-):
-
-    box_shadow_str = (
-        "box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;"
-        if box_shadow
-        else "box-shadow: none !important;"
-    )
-    st.markdown(
-        f"""
-        <style>
-            div[data-testid="metric-container"] {{
-                border: {border_size_px}px solid {border_color};
-                padding: 5% 5% 5% 10%;
-                border-radius: {border_radius_px}px;
-                border-left: 0.5rem solid {border_left_color} !important;
-                {box_shadow_str}
-            }}
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-# -----------------------------------------------    랭킹 카드 제작    --------------------------------------------------------
-def fn_ranking(dfv_visualization, form):
-    value = st.columns(5)
-    if form == 'single':
-        for i in range(5):
-            value[i].metric(dfv_visualization.iat[i,0], dfv_visualization.iat[i,1] + '원')
-    elif form == 'multiple':
-        for i in range(5):
-            value[i].metric(dfv_visualization.iat[i,0] + ' (' + dfv_visualization.iat[i,1] + ')', dfv_visualization.iat[i, 2] + '원')
-    style_metric_cards()
-
-# -------------------------------------------------    토글 제작    --------------------------------------------------------
-def fn_toggle(lst, form):
-    for i in range(len(lst[0])):
-        st.write(lst[0][i])
-        fn_ranking(lst[1][i], form)
-
 '''
 def fn_toggle(lst, form):
     for i in range(len(lst[0])):
@@ -216,31 +151,6 @@ def fig_linechart(df_linechart, title):
     )
     return fig_line
 
-# ------------------------------------------------    막대 그래프    ------------------------------------------------------
-def fig_vbarchart_double(list_vbarchart):
-    # 오늘의 신청현황 막대그래프
-    fig_vbar1 = pl.graph_objs.Bar(
-        x=list_vbarchart[0]['과정명'],
-        y=list_vbarchart[0]['목표인원'],
-        name='목표인원',
-        text=list_vbarchart[0]['목표인원'],
-        marker={'color':'grey'}, # 여기수정
-        orientation='v'
-    )
-    fig_fig_vbar2 = pl.graph_objs.Bar(
-        x=list_vbarchart[0]['과정명'],
-        y=list_vbarchart[0]['신청인원'],
-        name='신청인원',
-        text=list_vbarchart[0]['신청인원'],
-        marker={'color':list_vbarchart[3]},
-        orientation='v'
-    )
-    data_fig_vbar = [fig_vbar1, fig_fig_vbar2]
-    layout_fig_vbar = pl.graph_objs.Layout(title=list_vbarchart[5],xaxis={'categoryorder':'array', 'categoryarray':None})
-    return_fig_vbar = pl.graph_objs.Figure(data=data_fig_vbar,layout=layout_fig_vbar)
-    return_fig_vbar.update_traces(textposition=list_vbarchart[4])
-    return_fig_vbar.update_layout(showlegend=True)
-    return return_fig_vbar
 
 # -------------------------------------------------    화면 구현    -------------------------------------------------------
 def fn_peformance(df_month, this_month):
@@ -310,20 +220,9 @@ def fn_peformance(df_month, this_month):
     lst_chn_prod = fn_ranking_channel(dfr_chn, dfr_chn_prod, "보험상품")
 
     # --------------------------------------------------  FA별 랭킹  -----------------------------------------------------------
-    def fn_ranking_fa(dfr, df, value, drop):
-        lstv_ranking = [[],[]]
-        # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
-        for i in range(5):
-            # 기초 리스트에 들어갈 각 랭킹 제목 제작
-            lstv_ranking[0].append(dfr.iat[i,1] + ' (' + dfr.iat[i,0] + ')')
-            # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
-            lstv_ranking[1].append(df[df[value].isin([dfr.iat[i,0]])].drop(columns=drop))
-        return lstv_ranking
-
-    # 매출액 상위 FA별 상위 TOP5 보험상품
+    # FA별 매출액 상위 보험상품
     dfr_fa_prod = fn_vrank(df_month, ['담당자','담당자코드','상품명','보험회사'])
     dfr_fa_prod = dfr_fa_prod.drop(columns=['담당자','담당자코드'])
-    # lst_fa_prod = fn_ranking_fa(dfr_fa, dfr_fa_prod, '담당자', ['담당자','담당자코드'])
 
     # -----------------------------------------------  보험회사별 랭킹  -----------------------------------------------------------
     def fn_ranking_com(dfr, df, value, drop):
@@ -404,10 +303,6 @@ def fn_peformance(df_month, this_month):
     st.header(f"{this_month} 매출현황 추이 (그래프)")
 
     # -----------------------------------------------------  차트 노출  ---------------------------------------------------------
-    # test = df_month.groupby(['보험종목','영수/환급보험료'])
-    
-    # st.plotly_chart(fig_dist_insurance, use_container_width=True)
-
     # 첫번째 행 (생손매출액)
     st.plotly_chart(fig_line_insurnace, use_container_width=True)
     # 두번째 행 (보험사별, 상품군별 매출액)
@@ -417,12 +312,71 @@ def fn_peformance(df_month, this_month):
     # 세번째 행 (소속부문별, 입사연차별 매출액)
     r2_c1, r2_c2 = st.columns(2)
     r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
-
-    # ----------------------------------------------------  랭킹  -----------------------------------------------------------       
+    ##########################################################################################################################
+    ##############################################     스타일 카드 (랭킹)     #################################################
+    ##########################################################################################################################
     st.markdown('---')
     st.markdown("## 전체 현황 요약")
     st.write("랭킹 옵션에  표시된 옵션은 구현완료")
 
+    # ------------------------------------    랭킹 디스플레이를 위한 스타일 카드 정의    --------------------------------------------
+    def style_metric_cards(
+        border_size_px: int = 1,
+        border_color: str = "#CCC",
+        border_radius_px: int = 5,
+        border_left_color: str = "rgb(55,126,184)",
+        box_shadow: bool = True,
+    ):
+
+        box_shadow_str = (
+            "box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;"
+            if box_shadow
+            else "box-shadow: none !important;"
+        )
+        st.markdown(
+            f"""
+            <style>
+                div[data-testid="metric-container"] {{
+                    border: {border_size_px}px solid {border_color};
+                    padding: 5% 5% 5% 10%;
+                    border-radius: {border_radius_px}px;
+                    border-left: 0.5rem solid {border_left_color} !important;
+                    {box_shadow_str}
+                }}
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    # -------------------------------------------    스타일카드(랭킹) 제작    -----------------------------------------------------
+    def fn_making_card(dfv_visual, form):
+        value = st.columns(5)
+        if form == 'single':
+            for i in range(5):
+                value[i].metric(dfv_visual.iat[i,0], dfv_visual.iat[i,1] + '원')
+        elif form == 'multiple':
+            for i in range(5):
+                value[i].metric(dfv_visual.iat[i,0] + ' (' + dfv_visual.iat[i,1] + ')', dfv_visual.iat[i, 2] + '원')
+        style_metric_cards()
+
+    # -------------------------------------------------    토글 제작    --------------------------------------------------------
+    def fn_toggle(lst, form):
+        for i in range(len(lst[0])):
+            st.write(lst[0][i])
+            fn_making_card(lst[1][i], form)
+
+    def fn_ranking_com(dfr, df, value, drop):
+        lstv_ranking = [[],[]]
+        # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
+        for i in range(5):
+            # 기초 리스트에 들어갈 각 랭킹 제목 제작
+            lstv_ranking[0].append(dfr.iat[i,0])
+            # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
+            lstv_ranking[1].append(df[df[value].isin([dfr.iat[i,0]])].drop(columns=drop))
+        return lstv_ranking
+
+
+    # --------------------------------------------------  부문별 랭킹  -----------------------------------------------------------      
     # 소속부문 매출액 순위는 금액 단위가 커서 '원' 생략
     chn = st.columns([2,1,1,1])
     chn[0].markdown("#### 부문 매출액 순위")
@@ -443,7 +397,8 @@ def fn_peformance(df_month, this_month):
     st.markdown('---')
     fa = st.columns([2,1,1,1])
     fa[0].markdown("#### 매출액 상위 FA")
-    fn_ranking(dfr_fa, 'multiple')
+    fn_making_card(dfr_fa, 'multiple')
+    # FA별 주요 판매상품의 경우 매출건수가 5건 미만인 경우가 있어서 하드코딩
     if fa[3].toggle("매출액 상위 FA 주요 판매상품 "):
         st.markdown("##### 매출액 상위 FA 주요 판매상품")
         st.dataframe(dfr_fa_prod)
@@ -453,12 +408,11 @@ def fn_peformance(df_month, this_month):
             for i in range(5):
                 try: fa_prod[i].metric(dfr_fa_prod.iat[i,0] + ' (' + dfr_fa_prod.iat[i,1] + ')', dfr_fa_prod.iat[i, 2] + '원') 
                 except: pass
-        # fn_toggle(lst_fa_prod, 'multiple')
 
     st.markdown('---')
     com = st.columns([2,1,1,1])
     com[0].markdown("#### 매출액 상위 보험회사")
-    fn_ranking(dfr_com, 'single')
+    fn_making_card(dfr_com, 'single')
     if com[1].toggle("보험회사별 매출액 상위 지점 "):
         st.markdown("##### 보험회사별 매출액 상위 지점")
         fn_toggle(lst_com_ptn, 'multiple')
@@ -472,7 +426,7 @@ def fn_peformance(df_month, this_month):
     st.markdown('---')
     cat = st.columns([2,1,1,1])
     cat[0].markdown("#### 매출액 상위 상품군")
-    fn_ranking(dfr_cat, 'single')
+    fn_making_card(dfr_cat, 'single')
     if cat[1].toggle("상품군별 매출액 상위 지점 "):
         st.markdown("##### 상품군별 매출액 상위 부문")
         fn_toggle(lst_cat_ptn, 'multiple')
@@ -486,7 +440,7 @@ def fn_peformance(df_month, this_month):
     st.markdown('---')
     prod = st.columns([2,1,1,1])
     prod[0].markdown("#### 매출액 상위 보험상품")
-    fn_ranking(dfr_prod, 'multiple')
+    fn_making_card(dfr_prod, 'multiple')
     if prod[2].toggle("보험상품별 매출액 상위 지점"):
         st.markdown("##### 보험상품별 매출액 상위 지점")
         fn_toggle(lst_prod_ptn, 'multiple')
