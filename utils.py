@@ -154,6 +154,7 @@ def fn_peformance(df_month, this_month):
     df_insu = fn_insurance(df_month, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
     st.plotly_chart(fig_linechart(df_insu, '보험종목별 매출액 추이'), use_container_width=True)
 
+    '''
     # ---------------------------------------------  생손매출액 (히스토그램)  --------------------------------------------------
     df_test = df_month.groupby(['보험종목','영수/환급보험료','증권번호'])['증권번호'].count().reset_index(name='구분')
     df_life = df_test[df_test['보험종목'].isin(['생명보험'])]
@@ -168,6 +169,7 @@ def fn_peformance(df_month, this_month):
     labels = ['생명보험','손해보험']
     fig_displot = ff.create_distplot(data, labels, bin_size=.2)
     st.plotly_chart(fig_displot, use_container_width=True)
+    '''
 
     # -----------------------------------------  보험사별 매출액, 상품군별 매출액  ----------------------------------------------
     fig_line_company, fig_line_prod = st.columns(2)
