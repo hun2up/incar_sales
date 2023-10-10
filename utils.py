@@ -245,6 +245,7 @@ def fn_peformance(df_month, this_month):
     dfc_product = fn_visualization(df_month, ['상품군','영수일자'], 'chart') # 상품군별 매출액
     dfc_channel = fn_visualization(df_month, ['소속','영수일자'], 'chart') # 소속부문별 매출액
     df_insu = fn_insurance(df_month, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
+    df_test = df_month.groupby(['보험종목','영수/환급보험료'])['영수/환급보험료'].count().reset_index(name='개수')
 
     ##########################################################################################################################
     ############################################     랭킹 제작용 전처리     ######################################################
@@ -390,7 +391,7 @@ def fn_peformance(df_month, this_month):
     
     
     
-    st.dataframe(dfc_insu)
+    st.dataframe(df_test)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------       
     st.markdown('---')
