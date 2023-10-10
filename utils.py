@@ -308,7 +308,9 @@ def fn_peformance(df_month, this_month):
 
 
     # ------------------------------------------------  상품군별 랭킹  -----------------------------------------------------------
-    # 상품군별 매출액 상위 부문
+    # 상품군별 매출액 상위 파트너
+    dfr_cat_ptn = fn_visualization(df_month, ['파트너','소속','상품군'], 'rank')
+    lst_cat_ptn = fn_ranking_category(dfr_cat_ptn, '지점')
     # 상품군별 매출액 상위 FA
     dfr_cat_fa = fn_visualization(df_month, ['담당자','담당자코드','파트너','상품군'], 'rank')
     dfr_cat_fa = dfr_cat_fa.drop(columns='담당자코드')
@@ -384,7 +386,7 @@ def fn_peformance(df_month, this_month):
     fn_ranking(dfr_com, 'single')
     if com[1].toggle("보험회사별 매출액 상위 부문"):
         st.markdown("##### 보험회사별 매출액 상위 부문")
-    if com[2].toggle("보험회사별 매출액 상위 FA"):
+    if com[2].toggle("보험회사별 매출액 상위 FA (완)"):
         st.markdown("##### 보험회사멸 매출액 상위 FA")
     if com[3].toggle("보험회사별 매출액 상위 보험상품"):
         st.markdown("##### 보험회사별 매출액 상위 보험상품")
@@ -394,7 +396,8 @@ def fn_peformance(df_month, this_month):
     cat[0].markdown("#### 매출액 상위 상품군")
     fn_ranking(dfr_cat, 'single')
     if cat[1].toggle("상품군별 매출액 상위 부문"):
-        st.markdown("##### 상품군별 매출액 상위 부문")
+        st.markdown("##### 상품군별 매출액 상위 부문 (완)")
+        fn_toggle(lst_cat_ptn, 'multiple')
     if cat[2].toggle("상품군별 매출액 상위 FA"):
         st.markdown("##### 상품군별 매출액 상위 FA")
         fn_toggle(lst_cat_fa, 'multiple')
