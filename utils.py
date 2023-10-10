@@ -190,7 +190,9 @@ def fn_peformance(df_month, this_month):
     ##########################################################################################################################
     # --------------------------------------------  랭킹 제작 기본 전처리  -------------------------------------------------------
     dfr_chn = fn_vrank(df_month, ['소속']) # 소속부문 매출액 순위
+    dfr_fa = fn_vrank(df_month, ['담당자코드','담당자','파트너']) # FA 매출액 순위
     dfr_fa = dfr_fa.drop(columns='담당자코드')
+    
     dfr_cat = fn_vrank(df_month, ['상품군']) # 상품군 매출액 순위
 
     # -------------------------------------------------  부문별 랭킹  -----------------------------------------------------------
@@ -217,7 +219,9 @@ def fn_peformance(df_month, this_month):
     lst_chn_prod = fn_ranking_channel(dfr_chn, dfr_chn_prod, "보험상품")
 
     # --------------------------------------------------  FA별 랭킹  -----------------------------------------------------------
-
+    # FA별 매출액 상위 보험상품
+    dfr_fa_prod = fn_vrank(df_month, ['담당자','담당자코드','상품명','보험회사'])
+    dfr_fa_prod = dfr_fa_prod.drop(columns=['담당자','담당자코드'])
 
     # ------------------------------------------------  상품군별 랭킹  -----------------------------------------------------------
     def fn_ranking_category(df, title):
@@ -352,14 +356,10 @@ def fn_peformance(df_month, this_month):
         st.markdown("##### 부문별 매출액 상위 보험상품")
         fn_toggle(lst_chn_prod, 'multiple')
     
-    # ------------------------------------------------------  FA별  --------------------------------------------------------------
-    dfr_fa = fn_vrank(df_month, ['담당자코드','담당자','파트너']) # FA 매출액 순위 (메인랭킹)
-    dfr_fa_prod = fn_vrank(df_month, ['담당자','담당자코드','상품명','보험회사']) # FA별 매출액 상위 보험상품
-    dfr_fa_prod = dfr_fa_prod.drop(columns=['담당자','담당자코드'])
-    st.markdown('---') # 구분선
-    fa = st.columns([2,1,1,1]) # 컬럼 나누기
-    fa[0].markdown("#### 매출액 상위 FA") # 제목
-    fn_making_card(dfr_fa, 'multiple') # 메인랭킹 노출
+    st.markdown('---')
+    fa = st.columns([2,1,1,1])
+    fa[0].markdown("#### 매출액 상위 FA")
+    fn_making_card(dfr_fa, 'multiple')
     # FA별 주요 판매상품의 경우 매출건수가 5건 미만인 경우가 있어서 하드코딩
     if fa[3].toggle("매출액 상위 FA 주요 판매상품 "):
         st.markdown("##### 매출액 상위 FA 주요 판매상품")
