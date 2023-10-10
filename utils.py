@@ -160,7 +160,11 @@ def fn_toggle(lst, form):
         try: fn_ranking(lst[1][i], form) 
         except: pass
         i += 1
- 
+
+def fig_distplot(df, col):
+    return pl.figure_factory.create_displot(df, col, bin_size=.2)
+
+
 # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
 def fig_linechart(df_linechart, title):
     fig_line = pl.graph_objs.Figure()
@@ -359,6 +363,7 @@ def fn_peformance(df_month, this_month):
     fig_line_company = fig_linechart(dfc_company, '보험회사별 매출액 추이')
     fig_line_product = fig_linechart(dfc_product, '상품군별 매출액 추이')
     fig_line_channel = fig_linechart(dfc_channel, '소속부문별 매출액 추이')
+    fig_dist_insurance = fig_distplot(df_insu, ['생명보험','손해보험'])
 
     ##########################################################################################################################
     ################################################     메인페이지 설정     ##################################################
@@ -367,7 +372,7 @@ def fn_peformance(df_month, this_month):
     st.header(f"{this_month} 매출현황 추이 (그래프)")
 
     # -----------------------------------------------------  차트 노출  ---------------------------------------------------------
-    
+    st.plotly_chart(fig_dist_insurance, use_container_width=True)
     # 첫번째 행 (생손매출액)
     st.plotly_chart(fig_line_insurnace, use_container_width=True)
     # 두번째 행 (보험사별, 상품군별 매출액)
