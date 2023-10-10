@@ -174,7 +174,7 @@ def fn_peformance(df_month, this_month):
     ############################################     랭킹 제작용 전처리     ######################################################
     ##########################################################################################################################
     # --------------------------------------------  랭킹 제작 기본 전처리  -------------------------------------------------------
-    dfr_chn = fn_vrank(df_month, ['소속']) # 소속부문 매출액 순위
+    
     dfr_fa = fn_vrank(df_month, ['담당자코드','담당자','파트너']) # FA 매출액 순위
     dfr_fa = dfr_fa.drop(columns='담당자코드')
     
@@ -354,20 +354,16 @@ def fn_peformance(df_month, this_month):
             # 상품군별 매출액 상위 보험상품 제목 제작
             lstv_ranking[0].append(f"{lst[i]} 매출액 상위 {title}")
             # 상품군별 매출액 상위 보험상품 스타일카드 제작
-            lstv_ranking[1].append(df[df[category].isin(lst[i])].drop(columns=category))
+            lstv_ranking[1].append(df[df[category].isin([lst[i]])].drop(columns=category))
         return lstv_ranking
         
     # --------------------------------------------------  부문별 랭킹  -----------------------------------------------------------
-    # 소속부문별 매출액 상위 FA
-    dfr_chn_fa = fn_vrank(df_month, ['소속','담당자','파트너'])
+    dfr_chn = fn_vrank(df_month, ['소속']) # 소속부문 매출액 순위
+    dfr_chn_fa = fn_vrank(df_month, ['소속','담당자','파트너']) # 소속부문별 매출액 상위 FA
     lst_chn_fa = fn_ranking_chnncat(dfr_chn_fa, '소속', "FA")
-    
-    # 소속부문별 매출액 상위 보험회사
-    dfr_chn_com = fn_vrank(df_month, ['소속','보험회사'])
+    dfr_chn_com = fn_vrank(df_month, ['소속','보험회사']) # 소속부문별 매출액 상위 보험회사
     lst_chn_com = fn_ranking_chnncat(dfr_chn_com, '소속', "보험회사")
-
-    # 소속부문별 매출액 상위 보험상품
-    dfr_chn_prod = fn_vrank(df_month, ['소속','상품명','보험회사'])
+    dfr_chn_prod = fn_vrank(df_month, ['소속','상품명','보험회사']) # 소속부문별 매출액 상위 보험상품
     lst_chn_prod = fn_ranking_chnncat(dfr_chn_prod, '소속', "보험상품")
 
     chn = st.columns([2,1,1,1])
