@@ -36,7 +36,7 @@ def fn_call(v_month):
     dfv_call = dfv_call[~dfv_call['납입방법'].str.contains('일시납')]
     return dfv_call
 
-# ---------------------------------------    그래프 제작을 위한 필요 컬럼 분류    ----------------------------------------------
+# --------------------------------    그래프 제작을 위한 필요 컬럼 분류하고 누적값 구하기    -----------------------------------
 def fn_vchart(dfv_month, category):
     # 차트 제작용 (누적 매출액 산출)
     # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
@@ -71,6 +71,7 @@ def fn_vchart(dfv_month, category):
         dfv_total = pd.concat([dfv_total, dfv_running], axis=0)
     return dfv_total
 
+# ------------------------------------    스타일카드 제작을 위한 필요 컬럼 분류    ------------------------------------------
 def fn_vrank(dfv_month, category):
     dfv_category = dfv_month.groupby(category)['영수/환급보험료'].sum().reset_index(name='매출액')
     # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
@@ -198,12 +199,6 @@ def fig_linechart(df_linechart, title):
     return fig_line
 
 # ------------------------------------------------    막대 그래프    ------------------------------------------------------
-'''
-list_vbarchart[0]: dataframe ()
-list_vbarchart[3]: 색상 리스트 ()
-list_vbarchart[4]: outside 리스트 ()
-list_vbarchart[5]: 차트 제목
-'''
 def fig_vbarchart_double(list_vbarchart):
     # 오늘의 신청현황 막대그래프
     fig_vbar1 = pl.graph_objs.Bar(
@@ -438,9 +433,9 @@ def fn_peformance(df_month, this_month):
         st.markdown("##### 매출액 상위 FA 주요 판매상품")
         for c in range(5):
             st.write(dfr_fa.iat[c,1] + ' (' + dfr_fa.iat[c,0] + ')')
-            fa = st.column_config(5)
+            fa_prod = st.column_config(5)
             for i in range(5):
-                try: fa[i].metric(dfr_fa_prod.iat[i,0] + ' (' + dfr_fa_prod.iat[i,1] + ')', dfr_fa_prod.iat[i, 2] + '원') 
+                try: fa_prod[i].metric(dfr_fa_prod.iat[i,0] + ' (' + dfr_fa_prod.iat[i,1] + ')', dfr_fa_prod.iat[i, 2] + '원') 
                 except: pass
         # fn_toggle(lst_fa_prod, 'multiple')
 
