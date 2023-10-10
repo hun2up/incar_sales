@@ -339,7 +339,7 @@ def fn_peformance(df_month, this_month):
         # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
         for i in range(5):
             # 기초 리스트에 들어갈 각 랭킹 제목 제작
-            lstv_ranking[0].append(dfr.iat[i,0])
+            lstv_ranking[0].append(f"{dfr.iat[i,0]} ({dfr.iat[i,1]})")
             # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
             lstv_ranking[1].append(df[df[value].isin([dfr.iat[i,0]])].drop(columns=drop))
         return lstv_ranking
