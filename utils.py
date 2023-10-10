@@ -194,7 +194,6 @@ def fn_peformance(df_month, this_month):
     dfr_fa = dfr_fa.drop(columns='담당자코드')
     dfr_com = fn_vrank(df_month, ['보험회사']) # 보험회사 매출액 순이
     dfr_cat = fn_vrank(df_month, ['상품군']) # 상품군 매출액 순위
-    dfr_prod = fn_vrank(df_month, ['상품명','보험회사']) # 보험상품 매출액 순위
 
     # -------------------------------------------------  부문별 랭킹  -----------------------------------------------------------
     def fn_ranking_channel(dfr, df, title):
@@ -267,26 +266,6 @@ def fn_peformance(df_month, this_month):
     # 상품군별 매출액 상위 보험상품
     dfr_cat_prod = fn_vrank(df_month, ['상품명','보험회사','상품군'])
     lst_cat_prod = fn_ranking_category(dfr_cat_prod, '보험상품')
-
-    # -----------------------------------------------  보험상품별 랭킹  -----------------------------------------------------------
-    '''
-    def fn_ranking_prod(dfr, df, value, drop):
-        lstv_ranking = [[],[]]
-        # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
-        for i in range(5):
-            # 기초 리스트에 들어갈 각 랭킹 제목 제작
-            lstv_ranking[0].append(f"{dfr.iat[i,0]} ({dfr.iat[i,1]})")
-            # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
-            lstv_ranking[1].append(df[df[value].isin([dfr.iat[i,0]])].drop(columns=drop))
-        return lstv_ranking
-    
-    # 보험상품별 매출액 상위 지점
-    dfr_prod_ptn = fn_vrank(df_month, ['상품명','파트너','소속'])
-    lst_prod_ptn = fn_ranking_prod(dfr_prod, dfr_prod_ptn, '상품명', ['상품명'])
-    # 보험상품별 매출액 상위 FA
-    dfr_prod_fa = fn_vrank(df_month, ['상품명','담당자코드','담당자','파트너'])
-    lst_prod_fa = fn_ranking_prod(dfr_prod, dfr_prod_fa, '상품명', ['상품명','담당자코드'])
-    '''
 
     #########################################################################################################################
     ##################################################     차트 제작     #####################################################
@@ -367,7 +346,6 @@ def fn_peformance(df_month, this_month):
             st.write(lst[0][i])
             fn_making_card(lst[1][i], form)
 
-    # -------------------------------------------------    토글 제작    -----------------------------------------------------------
     # ---------------------------------------    세부 랭킹 제작 (보험회사, 보험상품)    ----------------------------------------------
     def fn_ranking_comnpro(df, dfv, value, drop, form):
         lstv_ranking = [[],[]]
@@ -381,12 +359,6 @@ def fn_peformance(df_month, this_month):
             # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
             lstv_ranking[1].append(dfv[dfv[value].isin([df.iat[i,0]])].drop(columns=drop))
         return lstv_ranking
-    
-    # 보험상품별
-    dfr_prod_ptn = fn_vrank(df_month, ['상품명','파트너','소속']) # 보험상품별 매출액 상위 지점
-    lst_prod_ptn = fn_ranking_comnpro(dfr_prod, dfr_prod_ptn, '상품명', ['상품명'], 'prod')
-    dfr_prod_fa = fn_vrank(df_month, ['상품명','담당자코드','담당자','파트너']) # 보험상품별 매출액 상위 FA
-    lst_prod_fa = fn_ranking_comnpro(dfr_prod, dfr_prod_fa, '상품명', ['상품명','담당자코드'], 'prod')
 
     # --------------------------------------------------  부문별 랭킹  -----------------------------------------------------------      
     # 소속부문 매출액 순위는 금액 단위가 커서 '원' 생략
@@ -449,10 +421,17 @@ def fn_peformance(df_month, this_month):
         st.markdown("##### 상품군별 매출액 상위 보험상품")
         fn_toggle(lst_cat_prod, 'multiple')
 
-    st.markdown('---')
-    prod = st.columns([2,1,1,1])
-    prod[0].markdown("#### 매출액 상위 보험상품")
-    fn_making_card(dfr_prod, 'multiple')
+
+    # --------------------------------------------------  보험상품별  -----------------------------------------------------------      
+    dfr_prod = fn_vrank(df_month, ['상품명','보험회사']) # 보험상품 매출액 순위 (메인 랭킹)
+    dfr_prod_ptn = fn_vrank(df_month, ['상품명','파트너','소속']) # 보험상품별 매출액 상위 지점
+    lst_prod_ptn = fn_ranking_comnpro(dfr_prod, dfr_prod_ptn, '상품명', ['상품명'], 'prod')
+    dfr_prod_fa = fn_vrank(df_month, ['상품명','담당자코드','담당자','파트너']) # 보험상품별 매출액 상위 FA
+    lst_prod_fa = fn_ranking_comnpro(dfr_prod, dfr_prod_fa, '상품명', ['상품명','담당자코드'], 'prod')
+    st.markdown('---') # 구분선
+    prod = st.columns([2,1,1,1]) # 컬럼 나누기
+    prod[0].markdown("#### 매출액 상위 보험상품") # 제목
+    fn_making_card(dfr_prod, 'multiple') # 메인 랭킹 노출
     if prod[2].toggle("보험상품별 매출액 상위 지점"):
         st.markdown("##### 보험상품별 매출액 상위 지점")
         fn_toggle(lst_prod_ptn, 'multiple')
