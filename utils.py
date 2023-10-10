@@ -304,7 +304,7 @@ def fn_peformance(df_month, this_month):
     dfr_com_ptn = fn_visualization(df_month, ['보험회사','파트너','소속'], 'rank')
     lst_com_ptn = fn_ranking_com(dfr_com, dfr_com_ptn, '보험회사', ['보험회사'])
     # 보험회사별 매출액 상위 FA
-    dfr_com_fa = fn_visualization(df_month, ['보험회사','담당자코드','담당자','파트너'])
+    dfr_com_fa = fn_visualization(df_month, ['보험회사','담당자코드','담당자','파트너'], 'rank')
     lst_com_fa = fn_ranking_com(dfr_com, dfr_com_fa, '보험회사', ['보험회사','담당자코드'])
     # 보험회사별 매출액 상위 보험상품
 
