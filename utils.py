@@ -310,7 +310,7 @@ def fn_peformance(df_month, this_month):
     # ------------------------------------------------  상품군별 랭킹  -----------------------------------------------------------
     # 상품군별 매출액 상위 부문
     # 상품군별 매출액 상위 FA
-    dfr_cat_fa = fn_visualization(df_month, ['담당자','담당자코드','파트너','상품군'])
+    dfr_cat_fa = fn_visualization(df_month, ['담당자','담당자코드','파트너','상품군'], 'rank')
     dfr_cat_fa = dfr_cat_fa.drop(columns='담당자코드')
     lst_cat_fa = fn_ranking_category(dfr_cat_fa, 'FA')
     # 상품군별 매출액 상위 보험상품
