@@ -21,18 +21,18 @@ st.set_page_config(page_title="실적관리 대시보드", layout='wide')
 # 9월 실적현황 SHEET 호출
 month = "sep"
 this_month = month_dict[month]
-df_all = fn_call(month)
+df_month = fn_call(month)
 
 # -----------------------------------------------------  사이드바  ---------------------------------------------------------
 # 사이드바 헤더
 st.sidebar.header("원하는 옵션을 선택하세요")
 # 사이드바 제작
-insurance = fn_sidebar(df_all,'보험종목') # 월도 선택 사이드바
-company = fn_sidebar(df_all,'보험회사') # 보험사 선택 사이드바
-theme = fn_sidebar(df_all,'상품군') # 입사연차 선택 사이드바
-channel = fn_sidebar(df_all,'소속') # 소속부문 선택 사이드바
+insurance = fn_sidebar(df_month,'보험종목') # 월도 선택 사이드바
+company = fn_sidebar(df_month,'보험회사') # 보험사 선택 사이드바
+theme = fn_sidebar(df_month,'상품군') # 입사연차 선택 사이드바
+channel = fn_sidebar(df_month,'소속') # 소속부문 선택 사이드바
 # 데이터와 사이드바 연결
-df_all = df_all.query(
+df_month = df_month.query(
     "보험종목 == @insurance & 보험회사 == @company & 상품군 == @theme & 소속 == @channel"
 )
 
@@ -57,4 +57,4 @@ if authentication_status == None:
 if authentication_status == False:
     st.error('아이디와 패스워드를 확인해주세요')
 if authentication_status:
-    fn_peformance(df_all, this_month)
+    fn_peformance(df_month, this_month)
