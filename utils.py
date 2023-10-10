@@ -3,6 +3,7 @@
 ########################################################################################################################
 import pandas as pd
 import plotly as pl
+import plotly.figure_factory as ff
 import streamlit as st
 
 ########################################################################################################################
@@ -162,7 +163,7 @@ def fn_toggle(lst, form):
         i += 1
 
 def fig_distplot(df, col):
-    return pl.figure_factory.create_displot(df, col, bin_size=.2)
+    return ff.create_distplot(df, col, bin_size=.2)
 
 
 # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
