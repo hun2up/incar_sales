@@ -398,6 +398,7 @@ def fn_peformance(df_month, this_month):
         st.markdown("##### 보험회사별 매출액 상위 보험상품")
 
     st.markdown('---')
+    st.dataframe(lst_cat_prod)
     cat = st.columns([2,1,1,1])
     cat[0].markdown("#### 매출액 상위 상품군")
     fn_ranking(dfr_cat, 'single')
