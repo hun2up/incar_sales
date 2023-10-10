@@ -361,13 +361,14 @@ def fn_peformance(df_month, this_month):
                 value[i].metric(dfv_visual.iat[i,0] + ' (' + dfv_visual.iat[i,1] + ')', dfv_visual.iat[i, 2] + '원')
         style_metric_cards()
 
-    # -------------------------------------------------    토글 제작    --------------------------------------------------------
+    # -------------------------------------------------    토글 제작    -----------------------------------------------------------
     def fn_toggle(lst, form):
         for i in range(len(lst[0])):
             st.write(lst[0][i])
             fn_making_card(lst[1][i], form)
 
-
+    # -------------------------------------------------    토글 제작    -----------------------------------------------------------
+    # ---------------------------------------    세부 랭킹 제작 (보험회사, 보험상품)    ----------------------------------------------
     def fn_ranking_comnpro(df, dfv, value, drop, form):
         lstv_ranking = [[],[]]
         # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
@@ -381,11 +382,11 @@ def fn_peformance(df_month, this_month):
             lstv_ranking[1].append(dfv[dfv[value].isin([df.iat[i,0]])].drop(columns=drop))
         return lstv_ranking
     
-    
+    # 보험상품별
     dfr_prod_ptn = fn_vrank(df_month, ['상품명','파트너','소속']) # 보험상품별 매출액 상위 지점
-    lst_prod_ptn = fn_ranking_comnpro(dfr_prod, dfr_prod_ptn, '상품명', ['상품명'])
+    lst_prod_ptn = fn_ranking_comnpro(dfr_prod, dfr_prod_ptn, '상품명', ['상품명'], 'prod')
     dfr_prod_fa = fn_vrank(df_month, ['상품명','담당자코드','담당자','파트너']) # 보험상품별 매출액 상위 FA
-    lst_prod_fa = fn_ranking_comnpro(dfr_prod, dfr_prod_fa, '상품명', ['상품명','담당자코드'])
+    lst_prod_fa = fn_ranking_comnpro(dfr_prod, dfr_prod_fa, '상품명', ['상품명','담당자코드'], 'prod')
 
     # --------------------------------------------------  부문별 랭킹  -----------------------------------------------------------      
     # 소속부문 매출액 순위는 금액 단위가 커서 '원' 생략
