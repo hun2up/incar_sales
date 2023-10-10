@@ -429,9 +429,9 @@ def fn_peformance(df_month, this_month):
     fn_ranking(dfr_fa, 'multiple')
     if fa[3].toggle("매출액 상위 FA 주요 판매상품 "):
         st.markdown("##### 매출액 상위 FA 주요 판매상품")
-        fa = st.column_config(5)
         for c in range(5):
-            st.write(dfr_fa.iat[i,1] + ' (' + dfr_fa.iat[i,0] + ')')
+            st.write(dfr_fa.iat[c,1] + ' (' + dfr_fa.iat[c,0] + ')')
+            fa = st.column_config(5)
             for i in range(5):
                 try: fa[i].metric(dfr_fa_prod.iat[i,0] + ' (' + dfr_fa_prod.iat[i,1] + ')', dfr_fa_prod.iat[i, 2] + '원') 
                 except: pass
