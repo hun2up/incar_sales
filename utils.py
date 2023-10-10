@@ -374,7 +374,7 @@ def fn_peformance(df_month, this_month):
     st.header(f"{this_month} 매출현황 추이 (그래프)")
 
     # -----------------------------------------------------  차트 노출  ---------------------------------------------------------
-    st.dataframe(df_month.groupby(['보험종목','영수/환급보험료']))
+    # st.dataframe(df_month.groupby(['보험종목','영수/환급보험료']))
     # st.plotly_chart(fig_dist_insurance, use_container_width=True)
 
     # 첫번째 행 (생손매출액)
