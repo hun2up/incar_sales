@@ -377,8 +377,6 @@ def fn_peformance(df_month, this_month):
     st.dataframe(df_month.groupby(['보험종목','영수/환급보험료']))
     # st.plotly_chart(fig_dist_insurance, use_container_width=True)
 
-
-
     # 첫번째 행 (생손매출액)
     st.plotly_chart(fig_line_insurnace, use_container_width=True)
     # 두번째 행 (보험사별, 상품군별 매출액)
