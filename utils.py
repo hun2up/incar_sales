@@ -433,7 +433,7 @@ def fn_peformance(df_month, this_month):
         st.markdown("##### 매출액 상위 FA 주요 판매상품")
         for c in range(5):
             st.write(dfr_fa.iat[c,1] + ' (' + dfr_fa.iat[c,0] + ')')
-            fa_prod = st.column_config(5)
+            fa_prod = st.columns(5)
             for i in range(5):
                 try: fa_prod[i].metric(dfr_fa_prod.iat[i,0] + ' (' + dfr_fa_prod.iat[i,1] + ')', dfr_fa_prod.iat[i, 2] + '원') 
                 except: pass
