@@ -183,6 +183,7 @@ def fn_ranking_normal(dfr, df, value, drop):
         lstv_ranking[1].append(df[df[value].isin([dfr.iat[i,0]])].drop(columns=drop))
     return lstv_ranking
 
+# -------------------------------------------    소속 부문별 하위 랭킹 제작    --------------------------------------------------
 def fn_ranking_category(df, title):
     lst_cat = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
     lstv_ranking = [[],[]]
@@ -302,13 +303,15 @@ def fn_peformance(df_month, this_month):
     lst_fa_prod = fn_ranking_normal(dfr_fa, dfr_fa_prod, '담당자', ['담당자','담당자코드'])
 
     # -----------------------------------------------  보험회사별 랭킹  -----------------------------------------------------------
-    # 보험회사별 매출액 상위 부문
+    # 보험회사별 매출액 상위 지점
+    dfr_com_ptn = fn_visualization(df_month, ['파트너','소속','보험회사'], 'rank')
+    lst_com_ptn = fn_ranking_normal(dfr_com_ptn, '보험회사', ['파트너','소속'])
     # 보험회사별 매출액 상위 FA
     # 보험회사별 매출액 상위 보험상품
 
 
     # ------------------------------------------------  상품군별 랭킹  -----------------------------------------------------------
-    # 상품군별 매출액 상위 파트너
+    # 상품군별 매출액 상위 지점
     dfr_cat_ptn = fn_visualization(df_month, ['파트너','소속','상품군'], 'rank')
     lst_cat_ptn = fn_ranking_category(dfr_cat_ptn, '지점')
     # 상품군별 매출액 상위 FA
@@ -384,10 +387,11 @@ def fn_peformance(df_month, this_month):
     com = st.columns([2,1,1,1])
     com[0].markdown("#### 매출액 상위 보험회사")
     fn_ranking(dfr_com, 'single')
-    if com[1].toggle("보험회사별 매출액 상위 부문"):
-        st.markdown("##### 보험회사별 매출액 상위 부문")
+    if com[1].toggle("보험회사별 매출액 상위 지점"):
+        st.markdown("##### 보험회사별 매출액 상위 지점")
+        fn_toggle(lst_com_ptn, 'multiple')
     if com[2].toggle("보험회사별 매출액 상위 FA"):
-        st.markdown("##### 보험회사멸 매출액 상위 FA")
+        st.markdown("##### 보험회사별 매출액 상위 FA")
     if com[3].toggle("보험회사별 매출액 상위 보험상품"):
         st.markdown("##### 보험회사별 매출액 상위 보험상품")
 
