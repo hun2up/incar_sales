@@ -245,7 +245,7 @@ def fn_peformance(df_month, this_month):
     dfc_product = fn_visualization(df_month, ['상품군','영수일자'], 'chart') # 상품군별 매출액
     dfc_channel = fn_visualization(df_month, ['소속','영수일자'], 'chart') # 소속부문별 매출액
     df_insu = fn_insurance(df_month, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
-    df_test = df_month.groupby(['증권번호','보험종목','영수/환급보험료'])
+    df_test = df_month.groupby(['보험종목','영수/환급보험료'])['증권번호'].count().reset_index(name='구분')
     # df_life = df_test[df_test['보험종목'].isin(['생명보험'])]
     # df_fire = df_test[df_test['보험종목'].isin(['손해보험'])]
 
