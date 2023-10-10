@@ -162,9 +162,9 @@ def fn_peformance(df_month, this_month):
     df_fire = df_test[df_test['보험종목'].isin(['손해보험'])]
     df_fire = df_fire.rename(columns={'영수/환급보험료':'손해보험'})
     df_fire = df_fire.drop(columns=['보험종목','증권번호','구분'])
-    st.dataframe(df_life)
-    st.dataframe(df_fire)
+    
     data = [df_life['생명보험'].tolist(), df_fire['손해보험'].tolist()]
+    st.dataframe(data)
     labels = ['생명보험','손해보험']
     fig_displot = ff.create_distplot(data, labels, bin_size=.2)
     st.plotly_chart(fig_displot, use_container_width=True)
