@@ -307,6 +307,8 @@ def fn_peformance(df_month, this_month):
     dfr_com_fa = fn_visualization(df_month, ['보험회사','담당자코드','담당자','파트너'], 'rank')
     lst_com_fa = fn_ranking_com(dfr_com, dfr_com_fa, '보험회사', ['보험회사','담당자코드'])
     # 보험회사별 매출액 상위 보험상품
+    dfr_com_prod = fn_visualization(df_month, ['보험회사','상품명','상품군'], 'rank')
+    lst_com_prod = fn_ranking_com(dfr_com, dfr_com_prod, '보험회사', ['보험회사'])
 
 
     # ------------------------------------------------  상품군별 랭킹  -----------------------------------------------------------
@@ -400,10 +402,11 @@ def fn_peformance(df_month, this_month):
         st.markdown("##### 보험회사별 매출액 상위 지점")
         fn_toggle(lst_com_ptn, 'multiple')
     if com[2].toggle("보험회사별 매출액 상위 FA (완)"):
-        fn_toggle(lst_com_fa, 'multiple')
         st.markdown("##### 보험회사별 매출액 상위 FA")
-    if com[3].toggle("보험회사별 매출액 상위 보험상품"):
+        fn_toggle(lst_com_fa, 'multiple')
+    if com[3].toggle("보험회사별 매출액 상위 보험상품 (완)"):
         st.markdown("##### 보험회사별 매출액 상위 보험상품")
+        fn_toggle(lst_com_prod, 'multiple')
 
     st.markdown('---')
     cat = st.columns([2,1,1,1])
