@@ -312,18 +312,16 @@ def fn_peformance(df_month, this_month):
     # 상품군별 매출액 상위 FA
     # 상품군별 매출액 상위 보험상품
     dfr_cat_prod = fn_visualization(df_month, ['상품명','보험회사','상품군'], 'rank')
-    lst_cat_prod = fn_ranking_category(dfr_cat_prod, '보험상품')
+    # lst_cat_prod = fn_ranking_category(dfr_cat_prod, '보험상품')
     lst_cat = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
 
-    '''
     lst_cat_prod = [[],[]]
     for cat_prod in range(len(lst_cat)):
         # 상품군별 매출액 상위 보험상품 제목 제작
         lst_cat_prod[0].append(f"상품군별 매출액 상위 보험상품 ({lst_cat[cat_prod][0]})")
         # 상품군별 매출액 상위 보험상품 스타일카드 제작
         lst_cat_prod[1].append(dfr_cat_prod[dfr_cat_prod['상품군'].isin(lst_cat[cat_prod])].drop(columns='상품군'))
-        cat_prod += 1
-    '''
+    
     
     # -----------------------------------------------  보험상품별 랭킹  -----------------------------------------------------------
     # 보험상품별 매출액 상위 부문
