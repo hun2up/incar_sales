@@ -246,8 +246,8 @@ def fn_peformance(df_month, this_month):
     dfc_channel = fn_visualization(df_month, ['소속','영수일자'], 'chart') # 소속부문별 매출액
     df_insu = fn_insurance(df_month, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
     df_test = df_month.groupby(['보험종목','영수/환급보험료'])['영수/환급보험료'].count().reset_index(name='개수')
-    df_life = df_test[df_test['보험종목'].isin('생명보험')]
-    df_fire = df_test[df_test['보험종목'].isin('손해보험')]
+    df_life = df_test[df_test['보험종목'].isin(['생명보험'])]
+    df_fire = df_test[df_test['보험종목'].isin(['손해보험'])]
 
     ##########################################################################################################################
     ############################################     랭킹 제작용 전처리     ######################################################
