@@ -396,12 +396,6 @@ def fn_peformance(df_month, this_month):
     # 세번째 행 (소속부문별, 입사연차별 매출액)
     r2_c1, r2_c2 = st.columns(2)
     r2_c1.plotly_chart(fig_line_channel, use_container_width=True)
-    
-    
-    
-    st.dataframe(df_test)
-    st.dataframe(df_life)
-    st.dataframe(df_fire)
 
     # ----------------------------------------------------  랭킹  -----------------------------------------------------------       
     st.markdown('---')
@@ -431,6 +425,7 @@ def fn_peformance(df_month, this_month):
     fn_ranking(dfr_fa, 'multiple')
     if fa[3].toggle("매출액 상위 FA 주요 판매상품 "):
         st.markdown("##### 매출액 상위 FA 주요 판매상품")
+        st.dataframe(dfr_fa_prod)
         for c in range(5):
             st.write(dfr_fa.iat[c,1] + ' (' + dfr_fa.iat[c,0] + ')')
             fa_prod = st.columns(5)
