@@ -160,7 +160,7 @@ def fn_peformance(df_month, this_month):
     df_life = df_life.rename(columns={'영수/환급보험료':'생명보험'})
     df_life = df_life.drop(columns=['보험종목','증권번호','구분'])
     df_fire = df_test[df_test['보험종목'].isin(['손해보험'])]
-    df_fire = df_fire.rename(columns={'영수/환급보험료':'생명보험'})
+    df_fire = df_fire.rename(columns={'영수/환급보험료':'손해보험'})
     df_fire = df_fire.drop(columns=['보험종목','증권번호','구분'])
     data = [df_life['생명보험'].tolist(), df_fire['손해보험'].tolist()]
     labels = ['생명보험','손해보험']
