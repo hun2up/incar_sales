@@ -156,9 +156,9 @@ def fn_peformance(df_month, this_month):
     ##########################################################################################################################
     # -------------------------------------------  매출액 기준 기본 전처리  ----------------------------------------------------
     dfc_insu = fn_vchart(df_month, ['보험종목','영수일자']) # 보험종목별 매출액
-    dfc_company = fn_vchart(df_month, ['보험회사','영수일자']) # 보험회사별 매출액
-    dfc_product = fn_vchart(df_month, ['상품군','영수일자']) # 상품군별 매출액
-    dfc_channel = fn_vchart(df_month, ['소속','영수일자']) # 소속부문별 매출액
+    
+    
+    
     df_insu = fn_insurance(df_month, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
     df_test = df_month.groupby(['보험종목','영수/환급보험료','증권번호'])['증권번호'].count().reset_index(name='구분')
     df_life = df_test[df_test['보험종목'].isin(['생명보험'])]
@@ -181,28 +181,28 @@ def fn_peformance(df_month, this_month):
     ##################################################     차트 제작     #####################################################
     #########################################################################################################################
     # --------------------------------------------  추이 그래프(꺾은선) 제작  -------------------------------------------------
-    fig_line_insurnace = fig_linechart(df_insu, '보험종목별 매출액 추이')
-    fig_line_company = fig_linechart(dfc_company, '보험회사별 매출액 추이')
-    fig_line_product = fig_linechart(dfc_product, '상품군별 매출액 추이')
-    # fig_line_channel = fig_linechart(dfc_channel, '소속부문별 매출액 추이')
-    # fig_dist_insurance = fig_distplot(df_insu, ['생명보험','손해보험'])
+    # fig_line_insurnace = fig_linechart(df_insu, '보험종목별 매출액 추이')
 
     ##########################################################################################################################
-    ################################################     메인페이지 설정     ##################################################
+    ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
     # 메인페이지 타이틀
     st.header(f"{this_month} 매출현황 추이 (그래프)")
 
-    # -----------------------------------------------------  차트 노출  ---------------------------------------------------------
-    # 첫번째 행 (생손매출액)
-    st.plotly_chart(fig_line_insurnace, use_container_width=True)
-    # 두번째 행 (보험사별, 상품군별 매출액)
-    r1_c1, r1_c2 = st.columns(2)
-    r1_c1.plotly_chart(fig_line_company, use_container_width=True)
-    r1_c2.plotly_chart(fig_line_product, use_container_width=True)
-    # 세번째 행 (소속부문별, 입사연차별 매출액)
-    fig_line_channel, r2_c2 = st.columns(2)
-    fig_line_channel.plotly_chart(fig_linechart(dfc_channel, '소속부문별 매출액 추이'), use_container_width=True)
+    # ---------------------------------------------  첫번째 행 (생손매출액)  ---------------------------------------------------
+    st.plotly_chart(fig_linechart(df_insu, '보험종목별 매출액 추이'), use_container_width=True)
+
+    # -----------------------------------  두번째 행 (보험사별 매출액, 상품군별 매출액)  -----------------------------------------
+    fig_line_company, fig_line_prod = st.columns(2)
+    dfc_company = fn_vchart(df_month, ['보험회사','영수일자']) # 보험회사별 매출액
+    fig_line_company.plotly_chart(fig_linechart(dfc_company, '보험회사별 매출액 추이'), use_container_width=True)
+    dfc_prod = fn_vchart(df_month, ['상품군','영수일자']) # 상품군별 매출액
+    fig_line_prod.plotly_chart(fig_linechart(dfc_prod, '상품군별 매출액 추이'), use_container_width=True)
+
+    # ---------------------------------  세번째 행 (소속부문별 매출액, 입사연차별 매출액)  ----------------------------------------
+    fig_line_chn, r2_c2 = st.columns(2)
+    dfc_chn = fn_vchart(df_month, ['소속','영수일자']) # 소속부문별 매출액
+    fig_line_chn.plotly_chart(fig_linechart(dfc_chn, '소속부문별 매출액 추이'), use_container_width=True)
 
     ##########################################################################################################################
     ##############################################     스타일 카드 (랭킹)     #################################################
