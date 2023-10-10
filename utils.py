@@ -158,9 +158,16 @@ def fn_ranking(dfv_visualization, form):
 def fn_toggle(lst, form):
     for i in range(len(lst[0])):
         st.write(lst[0][i])
+        fn_ranking(lst[1][i], form)
+
+'''
+def fn_toggle(lst, form):
+    for i in range(len(lst[0])):
+        st.write(lst[0][i])
         try: fn_ranking(lst[1][i], form) 
         except: pass
         i += 1
+'''
 
 '''
 def fig_distplot(df, col):
