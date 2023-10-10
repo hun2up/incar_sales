@@ -160,40 +160,7 @@ def fn_toggle(lst, form):
         try: fn_ranking(lst[1][i], form) 
         except: pass
         i += 1
-
-# -------------------------------------------    소속 부문별 하위 랭킹 제작    --------------------------------------------------
-def fn_ranking_channel(dfr, df, title):
-    lstv_ranking = [[],[]]
-    # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
-    for i in range(6):
-        # 기초 리스트에 들어갈 각 랭킹 제목 제작
-        lstv_ranking[0].append(f"{dfr.iat[i,0]} 매출액 상위 {title}")
-        # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
-        lstv_ranking[1].append(df[df['소속'].isin([dfr.iat[i,0]])].drop(columns=['소속']))
-    return lstv_ranking
-
-# -------------------------------------------    소속 부문별 하위 랭킹 제작    --------------------------------------------------
-def fn_ranking_normal(dfr, df, value, drop):
-    lstv_ranking = [[],[]]
-    # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
-    for i in range(5):
-        # 기초 리스트에 들어갈 각 랭킹 제목 제작
-        lstv_ranking[0].append(dfr.iat[i,1] + ' (' + dfr.iat[i,0] + ')')
-        # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
-        lstv_ranking[1].append(df[df[value].isin([dfr.iat[i,0]])].drop(columns=drop))
-    return lstv_ranking
-
-# -------------------------------------------    소속 부문별 하위 랭킹 제작    --------------------------------------------------
-def fn_ranking_category(df, title):
-    lst_cat = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
-    lstv_ranking = [[],[]]
-    for cat_prod in range(len(lst_cat)):
-        # 상품군별 매출액 상위 보험상품 제목 제작
-        lstv_ranking[0].append(f"상품군별 매출액 상위 {title} ({lst_cat[cat_prod][0]})")
-        # 상품군별 매출액 상위 보험상품 스타일카드 제작
-        lstv_ranking[1].append(df[df['상품군'].isin(lst_cat[cat_prod])].drop(columns='상품군'))
-    return lstv_ranking
-        
+ 
 # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
 def fig_linechart(df_linechart, title):
     fig_line = pl.graph_objs.Figure()
@@ -285,6 +252,16 @@ def fn_peformance(df_month, this_month):
     dfr_prod = fn_visualization(df_month, ['상품명','보험회사'], 'rank') # 보험상품 매출액 순위
 
     # -------------------------------------------------  부문별 랭킹  -----------------------------------------------------------
+    def fn_ranking_channel(dfr, df, title):
+        lstv_ranking = [[],[]]
+        # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
+        for i in range(6):
+            # 기초 리스트에 들어갈 각 랭킹 제목 제작
+            lstv_ranking[0].append(f"{dfr.iat[i,0]} 매출액 상위 {title}")
+            # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
+            lstv_ranking[1].append(df[df['소속'].isin([dfr.iat[i,0]])].drop(columns=['소속']))
+        return lstv_ranking
+    
     # 소속부문별 매출액 상위 FA
     dfr_chn_fa = fn_visualization(df_month, ['소속','담당자','파트너'], 'rank')
     lst_chn_fa = fn_ranking_channel(dfr_chn, dfr_chn_fa, "FA")
@@ -298,19 +275,49 @@ def fn_peformance(df_month, this_month):
     lst_chn_prod = fn_ranking_channel(dfr_chn, dfr_chn_prod, "보험상품")
 
     # --------------------------------------------------  FA별 랭킹  -----------------------------------------------------------
+    def fn_ranking_fa(dfr, df, value, drop):
+        lstv_ranking = [[],[]]
+        # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
+        for i in range(5):
+            # 기초 리스트에 들어갈 각 랭킹 제목 제작
+            lstv_ranking[0].append(dfr.iat[i,1] + ' (' + dfr.iat[i,0] + ')')
+            # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
+            lstv_ranking[1].append(df[df[value].isin([dfr.iat[i,0]])].drop(columns=drop))
+        return lstv_ranking
+
     # 매출액 상위 FA별 상위 TOP5 보험상품
     dfr_fa_prod = fn_visualization(df_month, ['담당자','담당자코드','상품명','보험회사'], 'rank')
-    lst_fa_prod = fn_ranking_normal(dfr_fa, dfr_fa_prod, '담당자', ['담당자','담당자코드'])
+    lst_fa_prod = fn_ranking_fa(dfr_fa, dfr_fa_prod, '담당자', ['담당자','담당자코드'])
 
     # -----------------------------------------------  보험회사별 랭킹  -----------------------------------------------------------
+    def fn_ranking_com(dfr, df, value, drop):
+        lstv_ranking = [[],[]]
+        # 부문 개수(6) 만큼 반복문 실행 (기초 리스트 제작)
+        for i in range(5):
+            # 기초 리스트에 들어갈 각 랭킹 제목 제작
+            lstv_ranking[0].append(dfr.iat[i,0])
+            # 기초 리스트에 들어갈 각 랭킹 스타일카드 제작
+            lstv_ranking[1].append(df[df[value].isin([dfr.iat[i,0]])].drop(columns=drop))
+        return lstv_ranking
+    
     # 보험회사별 매출액 상위 지점
     dfr_com_ptn = fn_visualization(df_month, ['보험회사','파트너','소속'], 'rank')
-    lst_com_ptn = fn_ranking_normal(dfr_com, dfr_com_ptn, '보험회사', ['보험회사'])
+    lst_com_ptn = fn_ranking_com(dfr_com, dfr_com_ptn, '보험회사', ['보험회사'])
     # 보험회사별 매출액 상위 FA
     # 보험회사별 매출액 상위 보험상품
 
 
     # ------------------------------------------------  상품군별 랭킹  -----------------------------------------------------------
+    def fn_ranking_category(df, title):
+        lst_cat = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
+        lstv_ranking = [[],[]]
+        for cat_prod in range(len(lst_cat)):
+            # 상품군별 매출액 상위 보험상품 제목 제작
+            lstv_ranking[0].append(f"상품군별 매출액 상위 {title} ({lst_cat[cat_prod][0]})")
+            # 상품군별 매출액 상위 보험상품 스타일카드 제작
+            lstv_ranking[1].append(df[df['상품군'].isin(lst_cat[cat_prod])].drop(columns='상품군'))
+        return lstv_ranking
+
     # 상품군별 매출액 상위 지점
     dfr_cat_ptn = fn_visualization(df_month, ['파트너','소속','상품군'], 'rank')
     lst_cat_ptn = fn_ranking_category(dfr_cat_ptn, '지점')
