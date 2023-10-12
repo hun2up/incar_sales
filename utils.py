@@ -431,13 +431,13 @@ def fn_peformance(df_month, this_month):
     test_lst_cat_fa = make_rank_category(test_dfr_cat_fa, 'FA')
     test_dfr_cat_prod = fn_vrank(df_month, ['상품명','보험회사','상품군']) # 상품군별 매출액 상위 보험상품
     test_lst_cat_prod = make_rank_category(test_dfr_cat_prod, '보험상품')
-    if test_cat[1].toggle("상품군별 매출액 상위 지점 "):
+    if test_cat[1].toggle("상품군별 매출액 상위 지점 (수정)"):
         st.markdown("##### 상품군별 매출액 상위 부문")
         fn_toggle(test_lst_cat_ptn, 'multiple')
-    if test_cat[2].toggle("상품군별 매출액 상위 FA "):
+    if test_cat[2].toggle("상품군별 매출액 상위 FA (수정)"):
         st.markdown("##### 상품군별 매출액 상위 FA")
         fn_toggle(test_lst_cat_fa, 'multiple')
-    if test_cat[3].toggle("상품군별 매출액 상위 보험상품 "):
+    if test_cat[3].toggle("상품군별 매출액 상위 보험상품 (수정)"):
         st.markdown("##### 상품군별 매출액 상위 보험상품")
         fn_toggle(test_lst_cat_prod, 'multiple')
     test_end_rcat = time.time()
