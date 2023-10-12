@@ -367,13 +367,13 @@ def fn_peformance(df_month, this_month):
     lst_com_fa = fn_ranking_comnpro(dfr_com, dfr_com_fa, '보험회사', ['보험회사','담당자코드'], 'com')
     dfr_com_prod = fn_vrank(df_month, ['보험회사','상품명','상품군']) # 보험회사별 매출액 상위 보험상품
     lst_com_prod = fn_ranking_comnpro(dfr_com, dfr_com_prod, '보험회사', ['보험회사'], 'com')
-    if com[1].toggle("보험회사별 매출액 상위 지점 "): # 보험회사별 매출액 상위 지점
+    if com[1].toggle("보험회사별 매출액 상위 지점"): # 보험회사별 매출액 상위 지점
         st.markdown("##### 보험회사별 매출액 상위 지점")
         fn_toggle(lst_com_ptn, 'multiple')
-    if com[2].toggle("보험회사별 매출액 상위 FA "): # 보험회사별 매출액 상위 FA
+    if com[2].toggle("보험회사별 매출액 상위 FA"): # 보험회사별 매출액 상위 FA
         st.markdown("##### 보험회사별 매출액 상위 FA")
         fn_toggle(lst_com_fa, 'multiple')
-    if com[3].toggle("보험회사별 매출액 상위 보험상품 "): # 보험회사별 매출액 상위 보험상품
+    if com[3].toggle("보험회사별 매출액 상위 보험상품"): # 보험회사별 매출액 상위 보험상품
         st.markdown("##### 보험회사별 매출액 상위 보험상품")
         fn_toggle(lst_com_prod, 'multiple')
     end_rcom = time.time()
@@ -395,13 +395,13 @@ def fn_peformance(df_month, this_month):
     lst_com_fa = make_rank_company(dfr_com, dfr_com_fa, ['보험회사','담당자코드'])
     dfr_com_prod = fn_vrank(df_month, ['보험회사','상품명','상품군']) # 보험회사별 매출액 상위 보험상품
     lst_com_prod = make_rank_company(dfr_com, dfr_com_prod, ['보험회사'])
-    if com[1].toggle("보험회사별 매출액 상위 지점 "): # 보험회사별 매출액 상위 지점
+    if com[1].toggle("보험회사별 매출액 상위 지점"): # 보험회사별 매출액 상위 지점
         st.markdown("##### 보험회사별 매출액 상위 지점")
         fn_toggle(lst_com_ptn, 'multiple')
     if com[2].toggle("보험회사별 매출액 상위 FA "): # 보험회사별 매출액 상위 FA
         st.markdown("##### 보험회사별 매출액 상위 FA")
         fn_toggle(lst_com_fa, 'multiple')
-    if com[3].toggle("보험회사별 매출액 상위 보험상품 "): # 보험회사별 매출액 상위 보험상품
+    if com[3].toggle("보험회사별 매출액 상위 보험상품"): # 보험회사별 매출액 상위 보험상품
         st.markdown("##### 보험회사별 매출액 상위 보험상품")
         fn_toggle(lst_com_prod, 'multiple')
     end_rcom = time.time()
