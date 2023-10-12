@@ -269,7 +269,7 @@ def fn_peformance(df_month, this_month):
         element = [df_result[df_result['보험회사'].isin([df_all.iat[i,0]])].drop(columns=drop) for i in range(5)]
         return [title, element]
 
-    # ---------------------------------------    보험회사별 하위랭킹 제작    ----------------------------------------------
+    # ---------------------------------------    상품군별별 하위랭킹 제작    ----------------------------------------------
     def make_rank_category(df_result, title):
         index = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
@@ -425,12 +425,12 @@ def fn_peformance(df_month, this_month):
     fn_making_card(test_dfr_cat, 'single')
     # 세부랭킹 (토글)
     test_dfr_cat_ptn = fn_vrank(df_month, ['파트너','소속','상품군']) # 상품군별 매출액 상위 지점
-    test_lst_cat_ptn = fn_ranking_chnncat(test_dfr_cat, test_dfr_cat_ptn, '지점')
+    test_lst_cat_ptn = make_rank_category(test_dfr_cat_ptn, '지점')
     test_dfr_cat_fa = fn_vrank(df_month, ['담당자','담당자코드','파트너','상품군']) # 상품군별 매출액 상위 FA
     test_dfr_cat_fa = test_dfr_cat_fa.drop(columns='담당자코드')
-    test_lst_cat_fa = fn_ranking_chnncat(test_dfr_cat, test_dfr_cat_fa, 'FA')
+    test_lst_cat_fa = make_rank_category(test_dfr_cat_fa, 'FA')
     test_dfr_cat_prod = fn_vrank(df_month, ['상품명','보험회사','상품군']) # 상품군별 매출액 상위 보험상품
-    test_lst_cat_prod = fn_ranking_chnncat(test_dfr_cat, test_dfr_cat_prod, '보험상품')
+    test_lst_cat_prod = make_rank_category(test_dfr_cat_prod, '보험상품')
     if test_cat[1].toggle("상품군별 매출액 상위 지점 "):
         st.markdown("##### 상품군별 매출액 상위 부문")
         fn_toggle(test_lst_cat_ptn, 'multiple')
