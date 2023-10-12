@@ -379,36 +379,34 @@ def fn_peformance(df_month, this_month):
     end_rcom = time.time()
     st.write(f"시간측정(랭킹-보험회사(기존)) : {end_rcom - start_rcom} sec")
 
-    start_rcat = time.time()
-
+    test_start_rcom = time.time()
     # --------------------------------------------------  보험회사별  -----------------------------------------------------------
     # 메인랭킹 (보험회사 매출액 순위)
-    dfr_com = fn_vrank(df_month, ['보험회사']) 
+    test_dfr_com = fn_vrank(df_month, ['보험회사']) 
     st.markdown('---') # 구분선
-    com = st.columns([2,1,1,1]) # 컬럼 나누기
-    com[0].markdown("#### 매출액 상위 보험회사") # 제목
-    fn_making_card(dfr_com, 'single') # 메인랭킹 노출
+    test_com = st.columns([2,1,1,1]) # 컬럼 나누기
+    test_com[0].markdown("#### 매출액 상위 보험회사") # 제목
+    fn_making_card(test_dfr_com, 'single') # 메인랭킹 노출
     # 세부랭킹 (토글)
-    dfr_com_ptn = fn_vrank(df_month, ['보험회사','파트너','소속']) # 보험회사별 매출액 상위 지점
-    lst_com_ptn = make_rank_company(dfr_com, dfr_com_ptn, ['보험회사'])
-    dfr_com_fa = fn_vrank(df_month, ['보험회사','담당자코드','담당자','파트너']) # 보험회사별 매출액 상위 FA
-    lst_com_fa = make_rank_company(dfr_com, dfr_com_fa, ['보험회사','담당자코드'])
-    dfr_com_prod = fn_vrank(df_month, ['보험회사','상품명','상품군']) # 보험회사별 매출액 상위 보험상품
-    lst_com_prod = make_rank_company(dfr_com, dfr_com_prod, ['보험회사'])
-    if com[1].toggle("보험회사별 매출액 상위 지점"): # 보험회사별 매출액 상위 지점
+    test_dfr_com_ptn = fn_vrank(df_month, ['보험회사','파트너','소속']) # 보험회사별 매출액 상위 지점
+    test_lst_com_ptn = make_rank_company(test_dfr_com, test_dfr_com_ptn, ['보험회사'])
+    test_dfr_com_fa = fn_vrank(df_month, ['보험회사','담당자코드','담당자','파트너']) # 보험회사별 매출액 상위 FA
+    test_lst_com_fa = make_rank_company(test_dfr_com, test_dfr_com_fa, ['보험회사','담당자코드'])
+    test_dfr_com_prod = fn_vrank(df_month, ['보험회사','상품명','상품군']) # 보험회사별 매출액 상위 보험상품
+    test_lst_com_prod = make_rank_company(test_dfr_com, test_dfr_com_prod, ['보험회사'])
+    if test_com[1].toggle("보험회사별 매출액 상위 지점"): # 보험회사별 매출액 상위 지점
         st.markdown("##### 보험회사별 매출액 상위 지점")
-        fn_toggle(lst_com_ptn, 'multiple')
-    if com[2].toggle("보험회사별 매출액 상위 FA "): # 보험회사별 매출액 상위 FA
+        fn_toggle(test_lst_com_ptn, 'multiple')
+    if test_com[2].toggle("보험회사별 매출액 상위 FA "): # 보험회사별 매출액 상위 FA
         st.markdown("##### 보험회사별 매출액 상위 FA")
-        fn_toggle(lst_com_fa, 'multiple')
-    if com[3].toggle("보험회사별 매출액 상위 보험상품"): # 보험회사별 매출액 상위 보험상품
+        fn_toggle(test_lst_com_fa, 'multiple')
+    if test_com[3].toggle("보험회사별 매출액 상위 보험상품"): # 보험회사별 매출액 상위 보험상품
         st.markdown("##### 보험회사별 매출액 상위 보험상품")
-        fn_toggle(lst_com_prod, 'multiple')
-    end_rcom = time.time()
-    st.write(f"시간측정(랭킹-보험회사(수정)) : {end_rcom - start_rcom} sec")
+        fn_toggle(test_lst_com_prod, 'multiple')
+    test_end_rcom = time.time()
+    st.write(f"시간측정(랭킹-보험회사(수정)) : {test_end_rcom - test_start_rcom} sec")
 
     start_rcat = time.time()
-
     # --------------------------------------------------  상품군별  -----------------------------------------------------------
     # 메인랭킹 (상품군 매출액 순위)
     dfr_cat = fn_vrank(df_month, ['상품군']) 
