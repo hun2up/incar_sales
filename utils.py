@@ -368,11 +368,11 @@ def fn_peformance(df_month, this_month):
     fn_making_card(dfr_com, 'single') # 메인랭킹 노출
     # 세부랭킹 (토글)
     dfr_com_ptn = fn_vrank(df_month, ['보험회사','파트너','소속']) # 보험회사별 매출액 상위 지점
-    lst_com_ptn = make_rank_company(dfr_com_ptn, ['보험회사'])
+    lst_com_ptn = make_rank_company(dfr_com, dfr_com_ptn, ['보험회사'])
     dfr_com_fa = fn_vrank(df_month, ['보험회사','담당자코드','담당자','파트너']) # 보험회사별 매출액 상위 FA
-    lst_com_fa = make_rank_company(dfr_com_fa, ['보험회사','담당자코드'])
+    lst_com_fa = make_rank_company(dfr_com, dfr_com_fa, ['보험회사','담당자코드'])
     dfr_com_prod = fn_vrank(df_month, ['보험회사','상품명','상품군']) # 보험회사별 매출액 상위 보험상품
-    lst_com_prod = make_rank_company(dfr_com_prod, ['보험회사'])
+    lst_com_prod = make_rank_company(dfr_com, dfr_com_prod, ['보험회사'])
     if com[1].toggle("보험회사별 매출액 상위 지점 (수정)"): # 보험회사별 매출액 상위 지점
         st.markdown("##### 보험회사별 매출액 상위 지점")
         fn_toggle(lst_com_ptn, 'multiple')
