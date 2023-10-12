@@ -307,18 +307,18 @@ def fn_peformance(df_month, this_month):
         rchn[i].metric(dfr_chn.iat[i, 0], dfr_chn.iat[i, 1] + '원')
     # 세부랭킹 (토글)
     dfr_chn_fa = fn_vrank(df_month, ['소속','담당자','파트너']) # 소속부문별 매출액 상위 FA
-    lst_chn_fa = make_rank_channel(dfr_chn_fa, '소속', "FA")
+    lst_chn_fa = fn_ranking_chnncat(dfr_chn_fa, '소속', "FA")
     dfr_chn_com = fn_vrank(df_month, ['소속','보험회사']) # 소속부문별 매출액 상위 보험회사
-    lst_chn_com = make_rank_channel(dfr_chn_com, '소속', "보험회사")
+    lst_chn_com = fn_ranking_chnncat(dfr_chn_com, '소속', "보험회사")
     dfr_chn_prod = fn_vrank(df_month, ['소속','상품명','보험회사']) # 소속부문별 매출액 상위 보험상품
-    lst_chn_prod = make_rank_channel(dfr_chn_prod, '소속', "보험상품")
-    if chn[1].toggle("부문별 매출액 상위 FA "):
+    lst_chn_prod = fn_ranking_chnncat(dfr_chn_prod, '소속', "보험상품")
+    if chn[1].toggle("부문별 매출액 상위 FA"):
         st.markdown("##### 부문별 매출액 상위 FA")
         fn_toggle(lst_chn_fa, 'multiple')
-    if chn[2].toggle("부문별 매출액 상위 보험회사 "):
+    if chn[2].toggle("부문별 매출액 상위 보험회사"):
         st.markdown("##### 부문별 매출액 상위 보험회사")
         fn_toggle(lst_chn_com, 'single')
-    if chn[3].toggle("부문별 매출액 상위 보험상품 "):
+    if chn[3].toggle("부문별 매출액 상위 보험상품"):
         st.markdown("##### 부문별 매출액 상위 보험상품")
         fn_toggle(lst_chn_prod, 'multiple')
     end_rchn = time.time()
@@ -338,18 +338,18 @@ def fn_peformance(df_month, this_month):
         test_rchn[i].metric(test_dfr_chn.iat[i, 0], test_dfr_chn.iat[i, 1] + '원')
     # 세부랭킹 (토글)
     test_dfr_chn_fa = fn_vrank(df_month, ['소속','담당자','파트너']) # 소속부문별 매출액 상위 FA
-    test_lst_chn_fa = fn_ranking_chnncat(test_dfr_chn_fa, '소속', "FA")
+    test_lst_chn_fa = make_rank_channel(test_dfr_chn_fa, '소속', "FA")
     test_dfr_chn_com = fn_vrank(df_month, ['소속','보험회사']) # 소속부문별 매출액 상위 보험회사
-    test_lst_chn_com = fn_ranking_chnncat(test_dfr_chn_com, '소속', "보험회사")
+    test_lst_chn_com = make_rank_channel(test_dfr_chn_com, '소속', "보험회사")
     test_dfr_chn_prod = fn_vrank(df_month, ['소속','상품명','보험회사']) # 소속부문별 매출액 상위 보험상품
-    test_lst_chn_prod = fn_ranking_chnncat(test_dfr_chn_prod, '소속', "보험상품")
-    if test_chn[1].toggle("부문별 매출액 상위 FA "):
+    test_lst_chn_prod = make_rank_channel(test_dfr_chn_prod, '소속', "보험상품")
+    if test_chn[1].toggle("부문별 매출액 상위 FA (수정)"):
         st.markdown("##### 부문별 매출액 상위 FA")
         fn_toggle(test_lst_chn_fa, 'multiple')
-    if chn[2].toggle("부문별 매출액 상위 보험회사 "):
+    if chn[2].toggle("부문별 매출액 상위 보험회사 (수정)"):
         st.markdown("##### 부문별 매출액 상위 보험회사")
         fn_toggle(test_lst_chn_com, 'single')
-    if chn[3].toggle("부문별 매출액 상위 보험상품 "):
+    if chn[3].toggle("부문별 매출액 상위 보험상품 (수정)"):
         st.markdown("##### 부문별 매출액 상위 보험상품")
         fn_toggle(test_lst_chn_prod, 'multiple')
     test_end_rchn = time.time()
