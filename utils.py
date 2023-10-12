@@ -271,7 +271,7 @@ def fn_peformance(df_month, this_month):
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         title = [df_all.iat[i,0] for i in range(5)] 
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-        element = [df_result[df_result[['보험회사']].isn([df_all.iat[i,0]])].drop(columns=drop) for i in range(5)] 
+        element = [df_result[df_result['보험회사'].isin([df_all.iat[i,0]])].drop(columns=drop) for i in range(5)] 
         return [title, element]
     
     # ---------------------------------------    보험상품별 하위랭킹 제작    ----------------------------------------------
@@ -279,7 +279,7 @@ def fn_peformance(df_month, this_month):
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         title = [f"{df_all.iat[i,0]} ({df_all.iat[i,1]})" for i in range(5)] 
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-        element = [df_result[df_result[['상품명']].isn([df_all.iat[i,0]])].drop(columns=drop) for i in range(5)] 
+        element = [df_result[df_result['상품명'].isin([df_all.iat[i,0]])].drop(columns=drop) for i in range(5)] 
         return [title, element]
 
     # ---------------------------------------    세부 랭킹 제작 (소속부문, 상품군)    ----------------------------------------------
