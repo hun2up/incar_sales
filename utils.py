@@ -256,7 +256,7 @@ def fn_peformance(df_month, this_month):
     def make_rank_channel(df_all, df_result, title):
         index = [df_all.iat[i,0] for i in range(6)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-        title = [f"{index[i]} 매출액 상위 {title}" for i in range(index)]
+        title = [f"{index[i]} 매출액 상위 {title}" for i in range(len(index))]
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
         element = [df_result[df_result['소속'].isin([index[i]])].drop(columns='소속') for i in range(5)]
         return [title, element]
