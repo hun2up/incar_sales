@@ -420,7 +420,7 @@ def fn_peformance(df_month, this_month):
     lst_prod.append(make_rank_product(dfr_prod, dfr_prod_ptn, ['상품명']))
     dfr_prod_fa = fn_vrank(df_month, ['상품명','담당자코드','담당자','파트너']) # 보험상품별 매출액 상위 FA
     lst_prod.append(make_rank_product(dfr_prod, dfr_prod_fa, ['상품명','담당자코드']))
-    # make_subtoggle(2, lst_prod, ['보험상품별 매출액 상위 지점', '보험상품별 매출액 상위 FA'])
+    make_subtoggle(2, lst_prod, ['보험상품별 매출액 상위 지점', '보험상품별 매출액 상위 FA'])
 
 
     '''
