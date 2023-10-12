@@ -286,6 +286,17 @@ def fn_peformance(df_month, this_month):
         element = [df_result[df_result['상품명'].isin([df_all.iat[i,0]])].drop(columns=drop) for i in range(5)]
         return [title, element]
 
+    # --------------------------------------------    하위토글 노출    ---------------------------------------------------
+    def make_subtoggle(count, reference, title):
+        # st.columns()에서 뒤쪽부터 토글을 생성 (i를 역순으로 반환하는 for문 정의)
+        for i in range(3, 3-count, -1):
+            # 3의 역순으로 하위랭크 생성
+            if prod[i].toggle(title[3-i]):
+                # 타이틀
+                st.markdown(f"##### {title[3-i]}")
+                # 토글 생성
+                fn_toggle(reference[3-i], 'multiple')
+
     # --------------------------------------------------  부문별 랭킹  -----------------------------------------------------------
     start_rchn = time.time()
     # 메인랭킹 (소속부문 매출액 순위)
@@ -404,16 +415,23 @@ def fn_peformance(df_month, this_month):
     prod[0].markdown("#### 매출액 상위 보험상품") # 제목
     fn_making_card(dfr_prod, 'multiple') # 메인랭킹 노출
     # 세부랭킹 (토글)
+    lst_prod = []
     dfr_prod_ptn = fn_vrank(df_month, ['상품명','파트너','소속']) # 보험상품별 매출액 상위 지점
-    lst_prod_ptn = make_rank_product(dfr_prod, dfr_prod_ptn, ['상품명'])
+    lst_prod.append(make_rank_product(dfr_prod, dfr_prod_ptn, ['상품명']))
     dfr_prod_fa = fn_vrank(df_month, ['상품명','담당자코드','담당자','파트너']) # 보험상품별 매출액 상위 FA
-    lst_prod_fa = make_rank_product(dfr_prod, dfr_prod_fa, ['상품명','담당자코드'])
+    lst_prod.append(make_rank_product(dfr_prod, dfr_prod_fa, ['상품명','담당자코드']))
+    # make_subtoggle(2, lst_prod, ['보험상품별 매출액 상위 지점', '보험상품별 매출액 상위 FA'])
+
+
+    '''
     if prod[2].toggle("보험상품별 매출액 상위 지점 (수정)"): # 보험상품별 매출액 상위 지점
         st.markdown("##### 보험상품별 매출액 상위 지점")
         fn_toggle(lst_prod_ptn, 'multiple')
     if prod[3].toggle("보험상품별 매출액 상위 FA (수정)"): # 보험상품별 매출액 상위 FA
         st.markdown("##### 보험상품별 매출액 상위 FA")
         fn_toggle(lst_prod_fa, 'multiple')
+    '''
+    
     end_rprod = time.time()
     st.write(f"시간측정(랭킹-보험상품(수정)) : {end_rprod - start_rprod} sec")
 
