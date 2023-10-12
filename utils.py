@@ -287,11 +287,11 @@ def fn_peformance(df_month, this_month):
         return [title, element]
 
     # --------------------------------------------    하위토글 노출    ---------------------------------------------------
-    def make_subtoggle(count, reference, title):
+    def make_subtoggle(count, theme, reference, title):
         # st.columns()에서 뒤쪽부터 토글을 생성 (i를 역순으로 반환하는 for문 정의)
         for i in range(3, 3-count, -1):
             # 3의 역순으로 하위랭크 생성
-            if prod[i].toggle(title[3-i]):
+            if theme[i].toggle(title[3-i]):
                 # 타이틀
                 st.markdown(f"##### {title[3-i]}")
                 # 토글 생성
@@ -395,7 +395,7 @@ def fn_peformance(df_month, this_month):
     lst_cat.append(make_rank_category(dfr_cat_fa, 'FA'))
     dfr_cat_prod = fn_vrank(df_month, ['상품명','보험회사','상품군']) # 상품군별 매출액 상위 보험상품
     lst_cat.append(make_rank_category(dfr_cat_prod, '보험상품'))
-    make_subtoggle(3, lst_cat, ['상품군별 매출액 상위 지점', '상품군별 매출액 상위 FA', '상품군별 매출액 상위 보험상품'])
+    make_subtoggle(3, cat, lst_cat, ['상품군별 매출액 상위 지점', '상품군별 매출액 상위 FA', '상품군별 매출액 상위 보험상품'])
     '''
     if cat[1].toggle("상품군별 매출액 상위 지점 (수정)"):
         st.markdown("##### 상품군별 매출액 상위 부문")
@@ -424,7 +424,7 @@ def fn_peformance(df_month, this_month):
     lst_prod.append(make_rank_product(dfr_prod, dfr_prod_ptn, ['상품명']))
     dfr_prod_fa = fn_vrank(df_month, ['상품명','담당자코드','담당자','파트너']) # 보험상품별 매출액 상위 FA
     lst_prod.append(make_rank_product(dfr_prod, dfr_prod_fa, ['상품명','담당자코드']))
-    make_subtoggle(2, lst_prod, ['보험상품별 매출액 상위 지점', '보험상품별 매출액 상위 FA'])
+    make_subtoggle(2, prod, lst_prod, ['보험상품별 매출액 상위 지점', '보험상품별 매출액 상위 FA'])
     end_rprod = time.time()
     st.write(f"시간측정(랭킹-보험상품(수정)) : {end_rprod - start_rprod} sec")
 
