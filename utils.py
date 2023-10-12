@@ -295,8 +295,7 @@ def fn_peformance(df_month, this_month):
                 # 타이틀
                 st.markdown(f"##### {title[3-i]}")
                 # 토글 생성
-                try: fn_toggle(reference[3-i], 'multiple')
-                except: pass
+                fn_toggle(reference[3-i], 'multiple')
 
     # --------------------------------------------------  부문별 랭킹  -----------------------------------------------------------
     start_rchn = time.time()
