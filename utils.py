@@ -258,7 +258,7 @@ def fn_peformance(df_month, this_month):
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         title = [f"{index[i]} 매출액 상위 {title}" for i in range(len(index))]
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-        element = [df_result[df_result['소속'].isin([index[i]])].drop(columns='소속') for i in range(5)]
+        element = [df_result[df_result['소속'].isin([index[i]])].drop(columns='소속') for i in range(len(index))]
         return [title, element]
     
     # ---------------------------------------    보험회사별 하위랭킹 제작    ----------------------------------------------
