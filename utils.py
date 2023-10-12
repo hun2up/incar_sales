@@ -253,12 +253,12 @@ def fn_peformance(df_month, this_month):
             fn_making_card(lst[1][i], form)
 
     # ---------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------------
-    def make_rank_channel(df_all, df_result, category, title):
+    def make_rank_channel(df_all, df_result, title):
         index = [df_all.iat[i,0] for i in range(6)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         title = [f"{index[i]} 매출액 상위 {title}" for i in range(index)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-        element = [df_result[df_result[category].isin([index[i]])].drop(columns=category) for i in range(5)]
+        element = [df_result[df_result['소속'].isin([index[i]])].drop(columns='소속') for i in range(5)]
         return [title, element]
     
     # ---------------------------------------    보험회사별 하위랭킹 제작    ----------------------------------------------
@@ -338,11 +338,11 @@ def fn_peformance(df_month, this_month):
         test_rchn[i].metric(test_dfr_chn.iat[i, 0], test_dfr_chn.iat[i, 1] + '원')
     # 세부랭킹 (토글)
     test_dfr_chn_fa = fn_vrank(df_month, ['소속','담당자','파트너']) # 소속부문별 매출액 상위 FA
-    test_lst_chn_fa = make_rank_channel(test_dfr_chn_fa, '소속', "FA")
+    test_lst_chn_fa = make_rank_channel(test_dfr_chn, test_dfr_chn_fa, "FA")
     test_dfr_chn_com = fn_vrank(df_month, ['소속','보험회사']) # 소속부문별 매출액 상위 보험회사
-    test_lst_chn_com = make_rank_channel(test_dfr_chn_com, '소속', "보험회사")
+    test_lst_chn_com = make_rank_channel(test_dfr_chn, test_dfr_chn_com, "보험회사")
     test_dfr_chn_prod = fn_vrank(df_month, ['소속','상품명','보험회사']) # 소속부문별 매출액 상위 보험상품
-    test_lst_chn_prod = make_rank_channel(test_dfr_chn_prod, '소속', "보험상품")
+    test_lst_chn_prod = make_rank_channel(test_dfr_chn, test_dfr_chn_prod, "보험상품")
     if test_chn[1].toggle("부문별 매출액 상위 FA (수정)"):
         st.markdown("##### 부문별 매출액 상위 FA")
         fn_toggle(test_lst_chn_fa, 'multiple')
