@@ -346,10 +346,10 @@ def fn_peformance(df_month, this_month):
     if test_chn[1].toggle("부문별 매출액 상위 FA (수정)"):
         st.markdown("##### 부문별 매출액 상위 FA")
         fn_toggle(test_lst_chn_fa, 'multiple')
-    if chn[2].toggle("부문별 매출액 상위 보험회사 (수정)"):
+    if test_chn[2].toggle("부문별 매출액 상위 보험회사 (수정)"):
         st.markdown("##### 부문별 매출액 상위 보험회사")
         fn_toggle(test_lst_chn_com, 'single')
-    if chn[3].toggle("부문별 매출액 상위 보험상품 (수정)"):
+    if test_chn[3].toggle("부문별 매출액 상위 보험상품 (수정)"):
         st.markdown("##### 부문별 매출액 상위 보험상품")
         fn_toggle(test_lst_chn_prod, 'multiple')
     test_end_rchn = time.time()
