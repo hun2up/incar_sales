@@ -396,12 +396,12 @@ def fn_peformance(df_month, this_month):
     fn_making_card(dfr_cat, 'single')
     # 세부랭킹 (토글)
     dfr_cat_ptn = fn_vrank(df_month, ['파트너','소속','상품군']) # 상품군별 매출액 상위 지점
-    lst_cat_ptn = make_rank_category(dfr_cat_ptn, '지점')
+    lst_cat_ptn = fn_ranking_chnncat(dfr_cat_ptn, '상품군', '지점')
     dfr_cat_fa = fn_vrank(df_month, ['담당자','담당자코드','파트너','상품군']) # 상품군별 매출액 상위 FA
     dfr_cat_fa = dfr_cat_fa.drop(columns='담당자코드')
-    lst_cat_fa = make_rank_category(dfr_cat_fa, 'FA')
+    lst_cat_fa = fn_ranking_chnncat(dfr_cat_fa, '상품군', 'FA')
     dfr_cat_prod = fn_vrank(df_month, ['상품명','보험회사','상품군']) # 상품군별 매출액 상위 보험상품
-    lst_cat_prod = make_rank_category(dfr_cat_prod, '보험상품')
+    lst_cat_prod = fn_ranking_chnncat(dfr_cat_prod,'상품군', '보험상품')
     if cat[1].toggle("상품군별 매출액 상위 지점 "):
         st.markdown("##### 상품군별 매출액 상위 부문")
         fn_toggle(lst_cat_ptn, 'multiple')
@@ -416,32 +416,32 @@ def fn_peformance(df_month, this_month):
 
 
     # --------------------------------------------------  상품군별  -----------------------------------------------------------
-    start_rcat = time.time()
+    test_start_rcat = time.time()
     # 메인랭킹 (상품군 매출액 순위)
-    dfr_cat = fn_vrank(df_month, ['상품군']) 
+    test_dfr_cat = fn_vrank(df_month, ['상품군']) 
     st.markdown('---')
-    cat = st.columns([2,1,1,1])
-    cat[0].markdown("#### 매출액 상위 상품군")
-    fn_making_card(dfr_cat, 'single')
+    test_cat = st.columns([2,1,1,1])
+    test_cat[0].markdown("#### 매출액 상위 상품군")
+    fn_making_card(test_dfr_cat, 'single')
     # 세부랭킹 (토글)
-    dfr_cat_ptn = fn_vrank(df_month, ['파트너','소속','상품군']) # 상품군별 매출액 상위 지점
-    lst_cat_ptn = fn_ranking_chnncat(dfr_cat, dfr_cat_ptn, '지점')
-    dfr_cat_fa = fn_vrank(df_month, ['담당자','담당자코드','파트너','상품군']) # 상품군별 매출액 상위 FA
-    dfr_cat_fa = dfr_cat_fa.drop(columns='담당자코드')
-    lst_cat_fa = fn_ranking_chnncat(dfr_cat, dfr_cat_fa, 'FA')
-    dfr_cat_prod = fn_vrank(df_month, ['상품명','보험회사','상품군']) # 상품군별 매출액 상위 보험상품
-    lst_cat_prod = fn_ranking_chnncat(dfr_cat, dfr_cat_prod, '보험상품')
-    if cat[1].toggle("상품군별 매출액 상위 지점 "):
+    test_dfr_cat_ptn = fn_vrank(df_month, ['파트너','소속','상품군']) # 상품군별 매출액 상위 지점
+    test_lst_cat_ptn = fn_ranking_chnncat(test_dfr_cat, test_dfr_cat_ptn, '지점')
+    test_dfr_cat_fa = fn_vrank(df_month, ['담당자','담당자코드','파트너','상품군']) # 상품군별 매출액 상위 FA
+    test_dfr_cat_fa = test_dfr_cat_fa.drop(columns='담당자코드')
+    test_lst_cat_fa = fn_ranking_chnncat(test_dfr_cat, test_dfr_cat_fa, 'FA')
+    test_dfr_cat_prod = fn_vrank(df_month, ['상품명','보험회사','상품군']) # 상품군별 매출액 상위 보험상품
+    test_lst_cat_prod = fn_ranking_chnncat(test_dfr_cat, test_dfr_cat_prod, '보험상품')
+    if test_cat[1].toggle("상품군별 매출액 상위 지점 "):
         st.markdown("##### 상품군별 매출액 상위 부문")
-        fn_toggle(lst_cat_ptn, 'multiple')
-    if cat[2].toggle("상품군별 매출액 상위 FA "):
+        fn_toggle(test_lst_cat_ptn, 'multiple')
+    if test_cat[2].toggle("상품군별 매출액 상위 FA "):
         st.markdown("##### 상품군별 매출액 상위 FA")
-        fn_toggle(lst_cat_fa, 'multiple')
-    if cat[3].toggle("상품군별 매출액 상위 보험상품 "):
+        fn_toggle(test_lst_cat_fa, 'multiple')
+    if test_cat[3].toggle("상품군별 매출액 상위 보험상품 "):
         st.markdown("##### 상품군별 매출액 상위 보험상품")
-        fn_toggle(lst_cat_prod, 'multiple')
-    end_rcat = time.time()
-    st.write(f"시간측정(랭킹-상품군) : {end_rcat - start_rcat} sec")
+        fn_toggle(test_lst_cat_prod, 'multiple')
+    test_end_rcat = time.time()
+    st.write(f"시간측정(랭킹-상품군) : {test_end_rcat - test_start_rcat} sec")
     
     # --------------------------------------------------  보험상품별  -----------------------------------------------------------      
     start_rprod = time.time()
@@ -465,7 +465,5 @@ def fn_peformance(df_month, this_month):
     end_rprod = time.time()
     st.write(f"시간측정(랭킹-보험상품(수정)) : {end_rprod - start_rprod} sec")
 
-    end_rank = time.time()
-    st.write(f"시간측정(전체) : {end_rank - start_rank} sec")
     end_all = time.time()
     st.write(f"시간측정(전체) : {end_all - start_all} sec")
