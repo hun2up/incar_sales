@@ -10,6 +10,7 @@ from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 from utils import hide_st_style, style_metric_cards, call_data, make_sidebar, make_chartdata, sum_lnf, make_chart_line, make_rankdata, make_cards, make_toggles, make_rank_channel, make_rank_company, make_rank_category, make_rank_product, make_subtoggle, fn_peformance
+from utils import SubRank
 from utils import month_dict
 
 ###########################################################################################################################
@@ -109,7 +110,9 @@ if authentication_status:
     for i in range(6):
         rchn[i].metric(dfr_chn.iat[i, 0], dfr_chn.iat[i, 1] + '원')
     # 세부랭킹 (토글)
-    dfr_chn_fa = make_rankdata(df_month, ['소속','담당자','파트너']) # 소속부문별 매출액 상위 FA
+    dfr_chn_fa = SubRank(df_month, ['소속', '담당자', '파트너'])
+    dfr_chn_fa.make_rankdata_class()
+    # dfr_chn_fa = make_rankdata(df_month, ['소속','담당자','파트너']) # 소속부문별 매출액 상위 FA
     lst_chn_fa = make_rank_channel(dfr_chn, dfr_chn_fa, "FA")
     dfr_chn_com = make_rankdata(df_month, ['소속','보험회사']) # 소속부문별 매출액 상위 보험회사
     lst_chn_com = make_rank_channel(dfr_chn, dfr_chn_com, "보험회사")

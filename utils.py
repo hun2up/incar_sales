@@ -248,3 +248,14 @@ def make_subtoggle(count, theme, reference, title):
             st.markdown(f"##### {title[3-i]}")
             # 토글 생성
             make_toggles(reference[3-i], 'multiple')
+
+class SubRank:
+    def __init__(self, df, reference):
+        self.df = df
+        self.reference = reference
+
+    def make_rankdata_class(self):
+        self.df = self.df.groupby(self.reference)['영수/환급보험료'].sum().reset_index(name='매출액')
+        self.df = self.df.sort_values(by='매출액', ascending=False)
+        self.df['매출액'] = self.df['매출액'].map('{:,.0f}'.format)
+        return self.df
