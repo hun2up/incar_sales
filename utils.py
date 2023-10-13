@@ -272,7 +272,7 @@ class Rank:
 class MakeCard(Rank):
     def __init__(self, df, reference):
         super().__init__(df, reference)
-        
+
     # ----------------------------    라벨이 단일항목으로 구성된 스타일 카드 제작    ----------------------------
     def make_card_single(self, number): 
         df_result = super().make_rankdata_class() # Rank 클래스의 make_rankdata_calss() 함수 상속
@@ -291,6 +291,9 @@ class MakeCard(Rank):
 #################################     하위 랭킹 스타일 카드 제작 (Rank 클래스 상속)     #####################################
 ##########################################################################################################################  
 class SubCards(Rank):
+    def __init__(self, df, reference):
+        super().__init__(df, reference)
+        
     # ------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------
     def make_rank_channel(self, title):
         df_result = super().make_rankdata_class()

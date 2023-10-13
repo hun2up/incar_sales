@@ -10,7 +10,7 @@ from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 from utils import hide_st_style, style_metric_cards, call_data, make_sidebar, make_chartdata, sum_lnf, make_chart_line, make_rankdata, make_cards, make_toggles, make_rank_channel, make_rank_company, make_rank_category, make_rank_product, make_subtoggle
-from utils import Rank, MakeCard
+from utils import Rank, MakeCard, SubCards
 from utils import month_dict
 
 ###########################################################################################################################
@@ -221,10 +221,13 @@ if authentication_status:
     # make_cards(dfr_prod, 'multiple') # 메인랭킹 노출
     # 세부랭킹 (토글)
     lst_prod = []
-    instance_product_partner = Rank(df_month, ['상품명','파트너','소속'])
-    dfr_prod_ptn = instance_product_partner.make_rankdata_class()
+    # instance_product_partner = Rank(df_month, ['상품명','파트너','소속'])
+    # dfr_prod_ptn = instance_product_partner.make_rankdata_class()
     # dfr_prod_ptn = make_rankdata(df_month, ['상품명','파트너','소속']) # 보험상품별 매출액 상위 지점
-    lst_prod.append(make_rank_product(dfr_prod, dfr_prod_ptn, ['상품명']))
+    instance_product_partner = SubCards(df_month, ['상품명','파트너','소속'])
+    lst_prod.append(instance_product_partner.make_rank_product(['상품명']))
+
+    # lst_prod.append(make_rank_product(dfr_prod, dfr_prod_ptn, ['상품명']))
     dfr_prod_fa = make_rankdata(df_month, ['상품명','담당자코드','담당자','파트너']) # 보험상품별 매출액 상위 FA
     lst_prod.append(make_rank_product(dfr_prod, dfr_prod_fa, ['상품명','담당자코드']))
     make_subtoggle(2, prod, lst_prod, ['보험상품별 매출액 상위 지점', '보험상품별 매출액 상위 FA'])
