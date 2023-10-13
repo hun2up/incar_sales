@@ -323,9 +323,22 @@ class SubCards(Rank):
         element = [df_result[df_result['상품군'].isin([index[i]])].drop(columns='상품군') for i in range(len(index))]
         return [title, element]
 
+
+    # ---------------------------------------    보험상품별 하위랭킹 제작    ----------------------------------------------
+    def make_rank_product(df_all, df_result, drop):
+        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
+        title = [f"{df_all.iat[i,0]} ({df_all.iat[i,1]})" for i in range(5)]
+        # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
+        element = [df_result[df_result['상품명'].isin([df_all.iat[i,0]])].drop(columns=drop) for i in range(5)]
+        return [title, element]
+
+
+
     # ------------------------------------    보험상품별 하위랭킹 제작    ------------------------------------------
     def make_rank_product(self, df, drop):
         df_result = super().make_rankdata_class()
+        st.dataframe(df)
+        st.dataframe(df_result)
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         title = [f"{df.iat[i,0]} ({df.iat[i,1]})" for i in range(5)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
