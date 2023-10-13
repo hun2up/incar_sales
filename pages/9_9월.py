@@ -228,8 +228,8 @@ if authentication_status:
     lst_prod.append(instance_product_partner.make_rank_product(select=['상품명','파트너','소속'], drop='상품명'))
     lst_prod.append(instance_product_partner.make_rank_product(select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드']))
     # lst_prod.append(make_rank_product(dfr_prod, dfr_prod_ptn, ['상품명']))
-    dfr_prod_fa = make_rankdata(df_month, ['상품명','담당자코드','담당자','파트너']) # 보험상품별 매출액 상위 FA
-    lst_prod.append(make_rank_product(dfr_prod, dfr_prod_fa, ['상품명','담당자코드']))
+    # dfr_prod_fa = make_rankdata(df_month, ['상품명','담당자코드','담당자','파트너']) # 보험상품별 매출액 상위 FA
+    # lst_prod.append(make_rank_product(dfr_prod, dfr_prod_fa, ['상품명','담당자코드']))
     make_subtoggle(2, prod, lst_prod, ['보험상품별 매출액 상위 지점', '보험상품별 매출액 상위 FA'])
     end_rprod = time.time()
     st.write(f"시간측정(랭킹-보험상품(수정)) : {end_rprod - start_rprod} sec")
