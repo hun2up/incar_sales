@@ -259,18 +259,18 @@ class SubRank:
     # ------------------------------    스타일카드 제작을 위한 필요 컬럼 분류    ------------------------------
     def make_rankdata_class(self):
         # 입력 받은 컬럼과 '영수/환급보험료' 칼럼으로 묶고 '영수/환급보혐료' 칼럼은 '매출액' 칼럼으로 변경
-        self.df = self.df.groupby(self.reference)['영수/환급보험료'].sum().reset_index(name='매출액')
+        df_rankdata = self.df.groupby(self.reference)['영수/환급보험료'].sum().reset_index(name='매출액')
         # '매출액' 칼럼을 내림차순으로 정렬
-        self.df = self.df.sort_values(by='매출액', ascending=False)
+        df_rankdata = df_rankdata.sort_values(by='매출액', ascending=False)
         # '매출액' 칼럼을 숫자 형태로 변환
-        self.df['매출액'] = self.df['매출액'].map('{:,.0f}'.format)
-        return self.df
+        df_rankdata['매출액'] = df_rankdata['매출액'].map('{:,.0f}'.format)
+        return df_rankdata
 
 ##########################################################################################################################
 ##############################################     랭킹 데이터 전처리     #################################################
 ##########################################################################################################################    
 class MakeCard(SubRank):
-    def __init__(self, number) -> None:
+    def __init__(self, number):
         self.number = number
     
     def make_card_single(self):
