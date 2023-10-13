@@ -8,7 +8,7 @@ import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-from utils import fn_call, fn_sidebar, fn_peformance
+from utils import hide_st_style, style_metric_cards, call_data, make_sidebar, make_chartdata, sum_lnf, make_chart_line, make_rankdata, make_cards, make_toggles, make_rank_channel, make_rank_company, make_rank_category, make_rank_product, make_subtoggle, fn_peformance
 from utils import month_dict
 
 ###########################################################################################################################
@@ -21,16 +21,16 @@ st.set_page_config(page_title="실적관리 대시보드", layout='wide')
 # 9월 실적현황 SHEET 호출
 month = "sep"
 this_month = month_dict[month]
-df_month = fn_call(month)
+df_month = call_data(month)
 
 # -----------------------------------------------------  사이드바  ---------------------------------------------------------
 # 사이드바 헤더
 st.sidebar.header("원하는 옵션을 선택하세요")
 # 사이드바 제작
-insurance = fn_sidebar(df_month,'보험종목') # 월도 선택 사이드바
-company = fn_sidebar(df_month,'보험회사') # 보험사 선택 사이드바
-theme = fn_sidebar(df_month,'상품군') # 입사연차 선택 사이드바
-channel = fn_sidebar(df_month,'소속') # 소속부문 선택 사이드바
+insurance = make_sidebar(df_month,'보험종목') # 월도 선택 사이드바
+company = make_sidebar(df_month,'보험회사') # 보험사 선택 사이드바
+theme = make_sidebar(df_month,'상품군') # 입사연차 선택 사이드바
+channel = make_sidebar(df_month,'소속') # 소속부문 선택 사이드바
 # 데이터와 사이드바 연결
 df_month = df_month.query(
     "보험종목 == @insurance & 보험회사 == @company & 상품군 == @theme & 소속 == @channel"
