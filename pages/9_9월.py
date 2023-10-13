@@ -225,7 +225,8 @@ if authentication_status:
     # dfr_prod_ptn = instance_product_partner.make_rankdata_class()
     # dfr_prod_ptn = make_rankdata(df_month, ['상품명','파트너','소속']) # 보험상품별 매출액 상위 지점
     instance_product_partner = SubCards(df_month, ['상품명','보험회사','담당자코드','담당자','파트너','소속'])
-    lst_prod.append(instance_product_partner.make_rank_product(select=['상품명','파트너','소속'], drop='상품명'))
+    lst_prod.append(instance_product_partner.make_rank_product(select=['상품명','파트너','소속'], drop=['상품명']))
+    lst_prod.append(instance_product_partner.make_rank_product(select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드']))
     # lst_prod.append(make_rank_product(dfr_prod, dfr_prod_ptn, ['상품명']))
     dfr_prod_fa = make_rankdata(df_month, ['상품명','담당자코드','담당자','파트너']) # 보험상품별 매출액 상위 FA
     lst_prod.append(make_rank_product(dfr_prod, dfr_prod_fa, ['상품명','담당자코드']))
