@@ -252,7 +252,7 @@ def make_subtoggle(count, theme, reference, title):
 ##########################################################################################################################
 ##############################################     랭킹 데이터 전처리     #################################################
 ##########################################################################################################################
-class SubRank:
+class Rank:
     def __init__(self, df, reference):
         self.df = df
         self.reference = reference
@@ -269,20 +269,54 @@ class SubRank:
 ##########################################################################################################################
 ##############################################     랭킹 데이터 전처리     #################################################
 ##########################################################################################################################    
-class MakeCard(SubRank):
-    def __init__(self, df, reference, number):
-        self.df = df
-        self.reference = reference
-        self.number = number
-    
-    def make_card_single(self):
-        super().make_rankdata_class()
-        value = st.columns(self.number)
-        for i in range(self.number):
+class MakeCard(Rank):
+
+    def make_card_single(self, number): # 라벨이 단일항목으로 구성된 스타일 카드 제작
+        super().make_rankdata_class() # Rank 클래스의 make_rankdata_calss() 함수 상속
+        value = st.columns(number) # 카드 노출을 위한 'number'개의 컬럼 제작
+        for i in range(number): # 'number'개 만큼 카드 제작하여 노출
             value[i].metric(self.df.iat[i,0], self.df.iat[i,1] + '원')
 
-    def make_card_multiple(self):
-        super().make_rankdata_class()
-        value = st.columns(self.number)
-        for i in range(self.number):
+    def make_card_multiple(self, number): # 라벨이 괄호를 포함하는 복수항목으로 구성된 스타일 카드 제작
+        super().make_rankdata_class() # Rank 클래스의 make_rankdata_calss() 함수 상속
+        value = st.columns(number) # 카드 노출을 위한 'number'개의 컬럼 제작
+        for i in range(number): # 'number'개 만큼 카드 제작하여 노출
             value[i].metric(self.df.iat[i,0] + '(' + self.df.iat[i,1] + ')', self.df.iat[i, 2] + '원')
+
+class SubCards():
+    def __init__(self) -> None:
+        pass
+
+    # ---------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------------
+    def make_rank_channel(df_all, df_result, title):
+        index = [df_all.iat[i,0] for i in range(6)]
+        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
+        title = [f"{index[i]} 매출액 상위 {title}" for i in range(len(index))]
+        # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
+        element = [df_result[df_result['소속'].isin([index[i]])].drop(columns='소속') for i in range(len(index))]
+        return [title, element]
+
+    # ---------------------------------------    보험회사별 하위랭킹 제작    ----------------------------------------------
+    def make_rank_company(df_all, df_result, drop):
+        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
+        title = [df_all.iat[i,0] for i in range(5)]
+        # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
+        element = [df_result[df_result['보험회사'].isin([df_all.iat[i,0]])].drop(columns=drop) for i in range(5)]
+        return [title, element]
+
+    # ---------------------------------------    상품군별별 하위랭킹 제작    ----------------------------------------------
+    def make_rank_category(df_result, title):
+        index = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
+        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
+        title = [f"{index[i]} 매출액 상위 {title}" for i in range(len(index))]
+        # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
+        element = [df_result[df_result['상품군'].isin([index[i]])].drop(columns='상품군') for i in range(len(index))]
+        return [title, element]
+
+    # ---------------------------------------    보험상품별 하위랭킹 제작    ----------------------------------------------
+    def make_rank_product(df_all, df_result, drop):
+        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
+        title = [f"{df_all.iat[i,0]} ({df_all.iat[i,1]})" for i in range(5)]
+        # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
+        element = [df_result[df_result['상품명'].isin([df_all.iat[i,0]])].drop(columns=drop) for i in range(5)]
+        return [title, element]
