@@ -222,7 +222,7 @@ if authentication_status:
     st.write(f"시간측정(랭킹-보험상품(수정)) : {end_rprod - start_rprod} sec")
 
     end_rank = time.time()
-    st.write(f"시간측정(랭킹) : {end_rank - start_rank_rank} sec")
+    st.write(f"시간측정(랭킹) : {end_rank - start_rank} sec")
 
     end_all = time.time()
     st.write(f"시간측정(전체) : {end_all - start_all} sec")
