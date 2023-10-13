@@ -336,7 +336,7 @@ class SubCards(Rank):
 
     # ------------------------------------    보험상품별 하위랭킹 제작    ------------------------------------------
     def make_rank_product(self, df, select, drop):
-        df_result = super().make_rankdata_class().groupby(select)['매출액'].sum()
+        df_result = super().make_rankdata_class().groupby(select)['매출액'].sum().sort_value()(by='매출액', ascending=False)
         st.dataframe(df)
         st.dataframe(df_result)
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
