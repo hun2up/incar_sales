@@ -197,7 +197,6 @@ def make_cards(dfv_visual, form):
     elif form == 'multiple':
         for i in range(5):
             value[i].metric(dfv_visual.iat[i,0] + ' (' + dfv_visual.iat[i,1] + ')', dfv_visual.iat[i, 2] + '원')
-    # style_metric_cards()
 
 # -------------------------------------------------    토글 제작    -----------------------------------------------------------
 def make_toggles(lst, form):

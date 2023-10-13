@@ -141,7 +141,6 @@ if authentication_status:
     # 세부랭킹 (토글)
     if fa[3].toggle("매출액 상위 FA 주요 판매상품 "):
         st.markdown("##### 매출액 상위 FA 주요 판매상품")
-        st.dataframe(dfr_fa_prod)
         for c in range(5):
             st.write(dfr_fa.iat[c,1] + ' (' + dfr_fa.iat[c,0] + ')')
             fa_prod = st.columns(5)
@@ -151,7 +150,6 @@ if authentication_status:
     end_rfa = time.time()
     st.write(f"시간측정(랭킹-FA) : {end_rfa - start_rfa} sec")
 
-    
     # --------------------------------------------------  보험회사별  -----------------------------------------------------------
     start_rcom = time.time()
     # 메인랭킹 (보험회사 매출액 순위)
