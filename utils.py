@@ -280,10 +280,11 @@ class MakeCard(Rank):
 
     # ---------------------    라벨이 괄호를 포함하는 복수항목으로 구성된 스타일 카드 제작    ---------------------
     def make_card_multiple(self, number):
-        super().make_rankdata_class() # Rank 클래스의 make_rankdata_calss() 함수 상속
+        df_result = super().make_rankdata_class() # Rank 클래스의 make_rankdata_calss() 함수 상속
         value = st.columns(number) # 카드 노출을 위한 'number'개의 컬럼 제작
         for i in range(number): # 'number'개 만큼 카드 제작하여 노출
-            value[i].metric(self.df.iat[i,0] + '(' + self.df.iat[i,1] + ')', self.df.iat[i, 2] + '원')
+            value[i].metric(df_result.iat[i,0] + '(' + df_result.iat[i,1] + ')', df_result.iat[i, 2] + '원')
+            # value[i].metric(self.df.iat[i,0] + '(' + self.df.iat[i,1] + ')', self.df.iat[i, 2] + '원')
 
 ##########################################################################################################################
 #################################     하위 랭킹 스타일 카드 제작 (Rank 클래스 상속)     #####################################
