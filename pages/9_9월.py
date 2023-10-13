@@ -208,14 +208,16 @@ if authentication_status:
     # --------------------------------------------------  보험상품별  -----------------------------------------------------------      
     start_rprod = time.time()
     # 메인랭킹 (보험상품 매출액 순위)
-    instance_product = SubRank(df_month, ['상품명','보험회사'])
+    instance_product = SubRank(df=df_month, reference=['상품명','보험회사'])
     dfr_prod = instance_product.make_rankdata_class()
     # dfr_prod = make_rankdata(df_month, ['상품명','보험회사']) 
     st.markdown('---') # 구분선
     prod = st.columns([2,1,1,1]) # 컬럼 나누기
     prod[0].markdown("#### 매출액 상위 보험상품") # 제목
-    instance_product_cards = MakeCard(dfr_prod, 5)
+    instance_product_cards = MakeCard(df=df_month, reference=['상품명','보험회사'], number=5)
     instance_product_cards.make_card_multiple()
+    # instance_product_cards = MakeCard(dfr_prod, 5)
+    # instance_product_cards.make_card_multiple()
     # make_cards(dfr_prod, 'multiple') # 메인랭킹 노출
     # 세부랭킹 (토글)
     lst_prod = []

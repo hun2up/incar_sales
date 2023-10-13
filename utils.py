@@ -259,27 +259,30 @@ class SubRank:
     # ------------------------------    스타일카드 제작을 위한 필요 컬럼 분류    ------------------------------
     def make_rankdata_class(self):
         # 입력 받은 컬럼과 '영수/환급보험료' 칼럼으로 묶고 '영수/환급보혐료' 칼럼은 '매출액' 칼럼으로 변경
-        df_rankdata = self.df.groupby(self.reference)['영수/환급보험료'].sum().reset_index(name='매출액')
+        self.df = self.df.groupby(self.reference)['영수/환급보험료'].sum().reset_index(name='매출액')
         # '매출액' 칼럼을 내림차순으로 정렬
-        df_rankdata = df_rankdata.sort_values(by='매출액', ascending=False)
+        self.df = self.df.sort_values(by='매출액', ascending=False)
         # '매출액' 칼럼을 숫자 형태로 변환
-        df_rankdata['매출액'] = df_rankdata['매출액'].map('{:,.0f}'.format)
-        return df_rankdata
+        self.df['매출액'] = self.df['매출액'].map('{:,.0f}'.format)
+        return self.df
 
 ##########################################################################################################################
 ##############################################     랭킹 데이터 전처리     #################################################
 ##########################################################################################################################    
 class MakeCard(SubRank):
-    def __init__(self, df, number):
+    def __init__(self, df, reference, number):
         self.df = df
+        self.reference = reference
         self.number = number
     
     def make_card_single(self):
+        super().make_rankdata_class()
         value = st.columns(self.number)
         for i in range(self.number):
             value[i].metric(self.df.iat[i,0], self.df.iat[i,1] + '원')
 
     def make_card_multiple(self):
+        super().make_rankdata_class()
         value = st.columns(self.number)
         for i in range(self.number):
             value[i].metric(self.df.iat[i,0] + '(' + self.df.iat[i,1] + ')', self.df.iat[i, 2] + '원')
