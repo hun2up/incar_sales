@@ -20,7 +20,7 @@ st.set_page_config(page_title="실적관리 대시보드", layout='wide')
 
 # ----------------------------------------    Google Sheet 데이터베이스 호출    ---------------------------------------------
 # 9월 실적현황 SHEET 호출
-month = "9월"
+month = "sep"
 this_month = month_dict[month]
 df_month = call_data(month)
 
