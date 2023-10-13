@@ -65,7 +65,7 @@ if authentication_status:
     ##############################################     메인페이지 타이틀     ##################################################
     ##########################################################################################################################
     hide_st_style()
-    st.header(f"{month} 매출현황 추이 (그래프)")
+    st.header(f"{this_month} 매출현황 추이 (그래프)")
 
     ##########################################################################################################################
     ##################################################     차트 (현황)     ####################################################
@@ -111,8 +111,8 @@ if authentication_status:
     for i in range(6):
         rchn[i].metric(dfr_chn.iat[i, 0], dfr_chn.iat[i, 1] + '원')
     # 세부랭킹 (토글)
-    dfr_chn_fa = SubRank(df_month, ['소속', '담당자', '파트너'])
-    dfr_chn_fa.make_rankdata_class()
+    subrank_instance = SubRank(df_month, ['소속', '담당자', '파트너'])
+    dfr_chn_fa = subrank_instance.make_rankdata_class()
     # dfr_chn_fa = make_rankdata(df_month, ['소속','담당자','파트너']) # 소속부문별 매출액 상위 FA
     lst_chn_fa = make_rank_channel(dfr_chn, dfr_chn_fa, "FA")
     dfr_chn_com = make_rankdata(df_month, ['소속','보험회사']) # 소속부문별 매출액 상위 보험회사
