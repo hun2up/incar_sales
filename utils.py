@@ -332,7 +332,7 @@ class SubCards(Rank):
         element = [df_result[df_result['상품명'].isin([df_all.iat[i,0]])].drop(columns=drop) for i in range(5)]
         return [title, element]
 
-
+########################## 여기!!!
 
     # ------------------------------------    보험상품별 하위랭킹 제작    ------------------------------------------
     def make_rank_product(self, df, select, drop):
