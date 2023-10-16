@@ -122,13 +122,17 @@ if authentication_status:
     # --------------------------------------------------  FA별  -----------------------------------------------------------
     start_rfa = time.time()
     # 메인랭킹 (FA 매출액 순위)
+    instance_fa = Toggles(df=df_month)
+    st.markdown('---')
+    fa = st.columns([2,1,1,1])
+    fa[0].markdown("#### 매출액 상위 FA")
+    instance_fa.make_card_multiple(df=instance_fa.make_rankdata_class(columns=['파트너','담당자'], number=5))
+
+    st.write('수정전')
     dfr_fa = make_rankdata(df_month, ['담당자코드','담당자','파트너']) 
     dfr_fa = dfr_fa.drop(columns='담당자코드')
     dfr_fa_prod = make_rankdata(df_month, ['담당자','담당자코드','상품명','보험회사'])
     dfr_fa_prod = dfr_fa_prod.drop(columns=['담당자','담당자코드'])
-    st.markdown('---')
-    fa = st.columns([2,1,1,1])
-    fa[0].markdown("#### 매출액 상위 FA")
     make_cards(dfr_fa, 'multiple')
     # 세부랭킹 (토글)
     if fa[3].toggle("매출액 상위 FA 주요 판매상품 "):

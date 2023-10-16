@@ -203,52 +203,7 @@ def make_toggles(lst, form):
     for i in range(len(lst[0])):
         st.write(lst[0][i])
         make_cards(lst[1][i], form)
-'''
-# ---------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------------
-def make_rank_channel(df_all, df_result, title):
-    index = [df_all.iat[i,0] for i in range(6)]
-    # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-    title = [f"{index[i]} 매출액 상위 {title}" for i in range(len(index))]
-    # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-    element = [df_result[df_result['소속'].isin([index[i]])].drop(columns='소속') for i in range(len(index))]
-    return [title, element]
 
-# ---------------------------------------    보험회사별 하위랭킹 제작    ----------------------------------------------
-def make_rank_company(df_all, df_result, drop):
-    # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-    title = [df_all.iat[i,0] for i in range(5)]
-    # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-    element = [df_result[df_result['보험회사'].isin([df_all.iat[i,0]])].drop(columns=drop) for i in range(5)]
-    return [title, element]
-
-# ---------------------------------------    상품군별별 하위랭킹 제작    ----------------------------------------------
-def make_rank_category(df_result, title):
-    index = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
-    # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-    title = [f"{index[i]} 매출액 상위 {title}" for i in range(len(index))]
-    # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-    element = [df_result[df_result['상품군'].isin([index[i]])].drop(columns='상품군') for i in range(len(index))]
-    return [title, element]
-
-# ---------------------------------------    보험상품별 하위랭킹 제작    ----------------------------------------------
-def make_rank_product(df_all, df_result, drop):
-    # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-    title = [f"{df_all.iat[i,0]} ({df_all.iat[i,1]})" for i in range(5)]
-    # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-    element = [df_result[df_result['상품명'].isin([df_all.iat[i,0]])].drop(columns=drop) for i in range(5)]
-    return [title, element]
-
-# --------------------------------------------    하위토글 노출    ---------------------------------------------------
-def make_subtoggle(count, theme, reference, title):
-    # st.columns()에서 뒤쪽부터 토글을 생성 (i를 역순으로 반환하는 for문 정의)
-    for i in range(3, 3-count, -1):
-        # 3의 역순으로 하위랭크 생성
-        if theme[i].toggle(title[3-i]):
-            # 타이틀
-            st.markdown(f"##### {title[3-i]}")
-            # 토글 생성
-            make_toggles(reference[3-i], 'multiple')
-'''
 ##########################################################################################################################
 ##############################################     랭킹 데이터 전처리     #################################################
 ##########################################################################################################################
@@ -308,6 +263,18 @@ class Toggles(MakeCard):
             if form == 'multiple':
                 self.make_card_multiple(df=df_subrank, number=5)
 
+    # ------------------------------------    보험회사별 하위랭킹 제작    ------------------------------------------
+    def make_toggles_fa(self, reference, drop, title, form):
+        df_fa = self.make_rankdata_class(columns=['담당자'])
+        df_result = self.make_rankdata_class(reference)
+        index = [df_fa.iat[i,0] for i in range(5)]
+        for i in range(5):
+            st.markdown(f"{index[i]} 매출액 상위 {title}")
+            df_subrank = df_result[df_result['담당자'].isin([index[i]])].drop(columns=drop)
+            if form =='single':
+                self.make_card_single(df=df_subrank, number=5)
+            if form == 'multiple':
+                self.make_card_multiple(df=df_subrank, number=5)
 
     # ------------------------------------    보험회사별 하위랭킹 제작    ------------------------------------------
     def make_toggles_company(self, reference, drop, title, form):
