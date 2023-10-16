@@ -304,57 +304,7 @@ class Rank:
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
         element = [df_sub[df_sub['상품명'].isin([df_result.iat[i,0]])].drop(columns=drop) for i in range(5)]
         return [title, element]
-    
 
-'''
-##########################################################################################################################
-#################################     하위 랭킹 스타일 카드 제작 (Rank 클래스 상속)     #####################################
-##########################################################################################################################  
-class SubRank(Rank):
-    def __init__(self, df):
-        super().__init__(df)
-
-    # ------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------
-    def make_subrank_channel(self, columns, title):
-        df_result = super().make_rankdata_class(columns)
-        index = [self.df.iat[i,0] for i in range(6)]
-        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-        title = [f"{index[i]} 매출액 상위 {title}" for i in range(len(index))]
-        # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-        element = [df_result[df_result['소속'].isin([index[i]])].drop(columns='소속') for i in range(len(index))]
-        return [title, element]
-
-    # ------------------------------------    보험회사별 하위랭킹 제작    ------------------------------------------
-    def make_subrank_company(self, columns, drop):
-        df_result = super().make_rankdata_class(columns)
-        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-        title = [self.df.iat[i,0] for i in range(5)]
-        # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-        element = [df_result[df_result['보험회사'].isin([self.df.iat[i,0]])].drop(columns=drop) for i in range(5)]
-        return [title, element]
-
-    # ------------------------------------    상품군별별 하위랭킹 제작    ------------------------------------------
-    def make_subrank_category(self, columns, title):
-        df_result = super().make_rankdata_class(columns)
-        index = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
-        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-        title = [f"{index[i]} 매출액 상위 {title}" for i in range(len(index))]
-        # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-        element = [df_result[df_result['상품군'].isin([index[i]])].drop(columns='상품군') for i in range(len(index))]
-        return [title, element]
-
-
-    # ---------------------------------------    보험상품별 하위랭킹 제작    ----------------------------------------------
-    def make_subrank_product(self, columns, select, drop):
-        df_result = super().make_rankdata_class(columns)
-        df_sub = super().make_rankdata_class(select)
-        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-        title = [f"{df_result.iat[i,0]} ({df_result.iat[i,1]})" for i in range(5)]
-        # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-        element = [df_sub[df_sub['상품명'].isin([df_result.iat[i,0]])].drop(columns=drop) for i in range(5)]
-        return [title, element]
-'''
-        
 ##########################################################################################################################
 ######################################     스타일 카드 제작 (Rank 클래스 상속)     #########################################
 ##########################################################################################################################
@@ -375,3 +325,24 @@ class MakeCard(Rank):
         for i in range(number): # 'number'개 만큼 카드 제작하여 노출
             try: value[i].metric(df.iat[i,0] + '(' + df.iat[i,1] + ')', df.iat[i, 2] + '원')
             except: pass
+
+    def make_toggle_single(self, zone, reference, number):
+    # st.columns()에서 뒤쪽부터 토글을 생성 (i를 역순으로 반환하는 for문 정의)
+        for i in range(3, 3-len(reference[0]), -1):
+        # 3의 역순으로 하위랭크 생성
+            if zone[i].toggle(reference[0][3-i]):
+                # 타이틀
+                st.markdown(f"##### {reference[0][3-i]}")
+                # 토글 생성
+                self.make_card_single(df=reference[1], number=number)
+
+
+    def make_toggle_multiple(self, zone, reference, number):
+    # st.columns()에서 뒤쪽부터 토글을 생성 (i를 역순으로 반환하는 for문 정의)
+        for i in range(3, 3-len(reference[0]), -1):
+        # 3의 역순으로 하위랭크 생성
+            if zone[i].toggle(reference[0][3-i]):
+                # 타이틀
+                st.markdown(f"##### {reference[0][3-i]}")
+                # 토글 생성
+                self.make_card_multiple(df=reference[1], number=number)
