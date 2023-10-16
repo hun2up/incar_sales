@@ -304,7 +304,7 @@ class Rank:
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
         element = [df_sub[df_sub['상품명'].isin([df_result.iat[i,0]])].drop(columns=drop) for i in range(5)]
         return [title, element]
-    '''
+    
 
     def make_subrank_product(self, columns, select, drop):
         df_result = self.make_rankdata_class(columns)
@@ -314,7 +314,7 @@ class Rank:
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
         element = [df_sub[df_sub['상품명'].isin([df_result.iat[i,0]])].drop(columns=drop) for i in range(5)]
         return [title, element]
-
+'''
 ##########################################################################################################################
 ######################################     스타일 카드 제작 (Rank 클래스 상속)     #########################################
 ##########################################################################################################################
@@ -365,6 +365,7 @@ class Toggle(MakeCard):
     def make_subrank_product(self, columns, select, drop):
         df_result = self.make_rankdata_class(columns)
         df_sub = self.make_rankdata_class(select)
+        subrank = []
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         name = [f"{df_result.iat[i,0]} ({df_result.iat[i,1]})" for i in range(5)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
