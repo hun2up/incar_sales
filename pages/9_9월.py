@@ -9,7 +9,7 @@ import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-from utils import hide_st_style, style_metric_cards, call_data, make_sidebar, make_chartdata, sum_lnf, make_chart_line, make_rankdata, make_cards, make_toggles, make_rank_channel, make_rank_company, make_rank_category, make_rank_product, make_subtoggle
+from utils import hide_st_style, style_metric_cards, call_data, make_sidebar, make_chartdata, sum_lnf, make_chart_line, make_rankdata, make_cards
 from utils import Toggles
 from utils import month_dict
 
