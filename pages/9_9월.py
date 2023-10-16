@@ -214,7 +214,8 @@ if authentication_status:
     st.markdown('---') # 구분선
     prod = st.columns([2,1,1,1]) # 컬럼 나누기
     # prod[0].markdown("#### 매출액 상위 보험상품") # 제목
-    instance_product.make_card_multiple(df=instance_product.make_rankdata_class(columns=['상품명','보험회사']), number=5, title=["#### 매출액 상위 보험상품"])
+    
+    instance_product.make_card_multiple(df=instance_product.make_rankdata_class(columns=['상품명','보험회사']), column = prod, number=5, title=["#### 매출액 상위 보험상품"])
     # 세부랭킹 (토글)
     lst_prod = []
     instance_product_partner = MakeCard(df=df_month)

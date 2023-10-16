@@ -319,14 +319,14 @@ class MakeCard(SubRank):
     def __init__(self, df):
         super().__init__(df)
 
-    def make_card_title(self, title):
-        for i in range(len(title)-1):
-            st.markdown(title[i])
+    def make_card_title(self, column, title):
+        for i in range(len(title)):
+            column[0].st.markdown(title[i])
 
     # ----------------------------    라벨이 단일항목으로 구성된 스타일 카드 제작    ----------------------------
-    def make_card_single(self, df, number, title):
-        self.make_card_title(title)
+    def make_card_single(self, df, title, number):
         value = st.columns(number) # 카드 노출을 위한 'number'개의 컬럼 제작
+        self.make_card_title(title)
         for i in range(number): # 'number'개 만큼 카드 제작하여 노출
             try: value[i].metric(df.iat[i,0], self.df.iat[i,1] + '원')
             except: pass
