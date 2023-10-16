@@ -220,8 +220,8 @@ if authentication_status:
     lst_prod = []
     instance_product_partner = MakeCard(df=df_month)
     # instance_product_partner = SubCards(df=df_month)
-    lst_prod.append(instance_product_partner.make_rank_product(columns=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명']))
-    lst_prod.append(instance_product_partner.make_rank_product(columns=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드']))
+    lst_prod.append(instance_product_partner.make_subrank_product(columns=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명']))
+    lst_prod.append(instance_product_partner.make_subrank_product(columns=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드']))
     make_subtoggle(2, prod, lst_prod, ['보험상품별 매출액 상위 지점', '보험상품별 매출액 상위 FA'])
     end_rprod = time.time()
     st.write(f"시간측정(랭킹-보험상품(수정)) : {end_rprod - start_rprod} sec")
