@@ -341,7 +341,6 @@ class Toggles(MakeCard):
             st.markdown(f"{index[i]} 매출액 상위 {title}")
             df_subrank = [df_result[df_result['상품군'].isin([index[i][c]])] for c in range(len(index[i]))]
             df_subrank = pd.concat(df_subrank, ignore_index=True)
-            st.write(type(df_subrank))
             if form == 'single':
                 self.make_card_single(df=df_subrank, number=5)
             if form == 'multiple':
