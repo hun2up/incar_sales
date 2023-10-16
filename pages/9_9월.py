@@ -98,6 +98,7 @@ if authentication_status:
     ##########################################################################################################################
     st.markdown('---')
     st.markdown("## 주요 매출액 순위")
+    style_metric_cards()
 
     start_rank = time.time()
     # --------------------------------------------------  부문별 랭킹  -----------------------------------------------------------
@@ -239,5 +240,3 @@ if authentication_status:
 
     end_all = time.time()
     st.write(f"시간측정(전체) : {end_all - start_all} sec")
-
-    style_metric_cards()
