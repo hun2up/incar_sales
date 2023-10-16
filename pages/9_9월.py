@@ -217,8 +217,10 @@ if authentication_status:
     prod[0].markdown("#### 매출액 상위 보험상품") # 제목
     instance_product.make_card_multiple(df=instance_product.make_rankdata_class(columns=['상품명','보험회사']), number=5)
     # 세부랭킹 (토글)
-    if prod[2].toggle('보험상품별 매출액 상위 지점'):
+    if prod[3].toggle('보험상품별 매출액 상위 지점'):
         instance_product.make_subrank_product(columns=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'])
+    if prod[3].toggle('보험상품별 매출액 상위 FA'):
+        instance_product.make_subrank_product(columns=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'])
     '''
     lst_prod = []
     instance_product_partner = MakeCard(df=df_month)
