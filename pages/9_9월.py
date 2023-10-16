@@ -71,11 +71,6 @@ if authentication_status:
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
     start_chart = time.time()
-
-    instance_chart = Charts(df_month)
-    instance_chart.make_chart(['보험종목','영수일자'])
-
-
     # ----------------------------------------------  생손매출액 (꺾은선)  -----------------------------------------------------
     dfc_insu = make_chartdata(df_month, ['보험종목','영수일자']) # 보험종목별 매출액
     df_insu = sum_lnf(df_month, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
@@ -193,3 +188,8 @@ if authentication_status:
     st.write(f"시간측정(랭킹) : {end_rank - start_rank} sec")
     end_all = time.time()
     st.write(f"시간측정(전체) : {end_all - start_all} sec")
+
+'''
+    instance_chart = Charts(df_month)
+    instance_chart.make_chart(['보험종목','영수일자'])
+'''
