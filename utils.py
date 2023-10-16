@@ -324,20 +324,26 @@ class Toggles(MakeCard):
     def __init__(self, df):
         super().__init__(df)
     # ------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------
-    def make_toggles_channel(self, reference, title):
+    def make_toggles_channel(self, reference, title, form):
         df_result = self.make_rankdata_class(reference)
         index = [df_result.iat[i,0] for i in range(6)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         for i in range(6):
             st.markdown(f"{index[i]} 매출액 상위 {title}")
             df_subrank = df_result[df_result['소속'].isin([index[i]])].drop(columns='소속')
-            self.make_card_multiple(df=df_subrank, number=5)
+            if form == 'single':
+                self.make_card_single(df=df_subrank, number=5)
+            if form == 'multiple':
+                self.make_card_multiple(df=df_subrank, number=5)
 
-    def make_toggles_product(self, reference, select, drop):
+    def make_toggles_product(self, reference, select, drop, form):
         df_result = self.make_rankdata_class(reference)
         df_sub = self.make_rankdata_class(select)
         for i in range(5):
             st.markdown(f"##### {df_result.iat[i,0]} ({df_result.iat[i,1]}")
             df_subrank = df_sub[df_sub['상품명'].isin([df_result.iat[i,0]])].drop(columns=drop)
-            self.make_card_multiple(df=df_subrank, number=5)
+            if form == 'single':
+                self.make_card_single(df=df_subrank, number=5)
+            if form== 'multiple':
+                self.make_card_multiple(df=df_subrank, number=5)
         

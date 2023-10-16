@@ -111,9 +111,9 @@ if authentication_status:
     instance_channel.make_card_multiple(df=instance_channel.make_rankdata_class(columns=['상품명','보험회사']), number=6)
     # 세부랭킹 (토글)
     if channel[1].toggle('부문별 매출액 상위 FA'):
-        instance_channel.make_toggles_product(reference=['상품명','보험회사'], title='FA')
+        instance_channel.make_toggles_channel(reference=['상품명','보험회사'], title='FA', form='multiple')
     if channel[2].toggle('부문별 매출액 상위 보험상품'):
-        instance_channel.make_toggles_product(reference=['상품명','보험회사'], title='보험상품')
+        instance_channel.make_toggles_channel(reference=['상품명','보험회사'], title='보험상품', form='multiple')
 
     '''
     dfr_chn = make_rankdata(df_month, ['소속']) 
@@ -228,9 +228,9 @@ if authentication_status:
     instance_product.make_card_multiple(df=instance_product.make_rankdata_class(columns=['상품명','보험회사']), number=5)
     # 세부랭킹 (토글)
     if prod[2].toggle('보험상품별 매출액 상위 지점'):
-        instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'])
+        instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'], form='multiple')
     if prod[3].toggle('보험상품별 매출액 상위 FA'):
-        instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'])
+        instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'], forom='multiple')
     end_rprod = time.time()
     st.write(f"시간측정(랭킹-보험상품(수정)) : {end_rprod - start_rprod} sec")
 
