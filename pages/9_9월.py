@@ -152,9 +152,10 @@ if authentication_status:
     instance_company.make_card_single(df=instance_company.make_rankdata_class(columns=['보험회사']), number=5)
     # 세부랭킹 (토글)
     if company[1].toggle('보험회사별 매출액 상위 지점'):
+        st.dataframe(instance_company.make_rankdata_class())
         instance_company.make_toggles_company(reference=['보험회사','파트너','소속'], drop=['보험회사'], title='지점', form='multiple')
     if company[2].toggle('보험회사별 매출액 상위 FA'):
-        instance_company.make_toggles_company(reference=['보험회사','담당자코드','담당자','파트너'], drop=['보험회사','담당자코드'], title='FA', form='single')
+        instance_company.make_toggles_company(reference=['보험회사','담당자코드','담당자','파트너'], drop=['보험회사','담당자코드'], title='FA', form='multiple')
     if company[3].toggle('보험회사별 매출액 상위 보험상품'):
         instance_company.make_toggles_company(reference=['보험회사','상품명','상품군'], drop=['보험회사'], title='보험상품', form='multiple')            
     end_rcom = time.time()
