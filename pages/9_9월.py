@@ -152,48 +152,33 @@ if authentication_status:
     instance_company.make_card_single(df=instance_company.make_rankdata_class(columns=['보험회사']), number=5)
     # 세부랭킹 (토글)
     if company[1].toggle('보험회사별 매출액 상위 지점'):
-        st.dataframe(instance_company.make_rankdata_class())
         instance_company.make_toggles_company(reference=['보험회사','파트너','소속'], drop=['보험회사'], title='지점', form='multiple')
     if company[2].toggle('보험회사별 매출액 상위 FA'):
         instance_company.make_toggles_company(reference=['보험회사','담당자코드','담당자','파트너'], drop=['보험회사','담당자코드'], title='FA', form='multiple')
     if company[3].toggle('보험회사별 매출액 상위 보험상품'):
         instance_company.make_toggles_company(reference=['보험회사','상품명','상품군'], drop=['보험회사'], title='보험상품', form='multiple')            
     end_rcom = time.time()
-    st.write(f"시간측정(랭킹-보험회사(수정)) : {end_rcom - start_rcom} sec")
-
-
-
-    '''
-    # 메인랭킹 (보험회사 매출액 순위)
-    dfr_com = make_rankdata(df_month, ['보험회사']) 
-    st.markdown('---') # 구분선
-    com = st.columns([2,1,1,1]) # 컬럼 나누기
-    com[0].markdown("#### 매출액 상위 보험회사") # 제목
-    make_cards(dfr_com, 'single') # 메인랭킹 노출
-    # 세부랭킹 (토글)
-    company = []
-    dfr_com_ptn = make_rankdata(df_month, ['보험회사','파트너','소속']) # 보험회사별 매출액 상위 지점
-    company.append(make_rank_company(dfr_com, dfr_com_ptn, ['보험회사']))
-    dfr_com_fa = make_rankdata(df_month, ['보험회사','담당자코드','담당자','파트너']) # 보험회사별 매출액 상위 FA
-    company.append(make_rank_company(dfr_com, dfr_com_fa, ['보험회사','담당자코드']))
-    dfr_com_prod = make_rankdata(df_month, ['보험회사','상품명','상품군']) # 보험회사별 매출액 상위 보험상품
-    company.append(make_rank_company(dfr_com, dfr_com_prod, ['보험회사']))
-    # make_subtoggle(3, com, company, ['보험회사별 매출액 상위 지점', '보험회사별 매출액 상위 FA', '보험회사별 매출액 상위 보험상품'])
-    
-    if com[1].toggle("보험회사별 매출액 상위 지점 (수정)"): # 보험회사별 매출액 상위 지점
-        st.markdown("##### 보험회사별 매출액 상위 지점")
-        make_toggles(company[0], 'multiple')
-    if com[2].toggle("보험회사별 매출액 상위 FA (수정)"): # 보험회사별 매출액 상위 FA
-        st.markdown("##### 보험회사별 매출액 상위 FA")
-        make_toggles(company[1], 'multiple')
-    if com[3].toggle("보험회사별 매출액 상위 보험상품 (수정)"): # 보험회사별 매출액 상위 보험상품
-        st.markdown("##### 보험회사별 매출액 상위 보험상품")
-        make_toggles(company[2], 'multiple')
-    '''
+    st.write(f"시간측정(랭킹-보험회사) : {end_rcom - start_rcom} sec")
 
     # --------------------------------------------------  상품군별  -----------------------------------------------------------
+
+    
     start_rcat = time.time()
     # 메인랭킹 (상품군 매출액 순위)
+    instance_category = Toggles(df=df_month)
+    st.markdown('---') # 구분선
+    category = st.columns([2,1,1,1])
+    category[0].markdown('#### 매출액 상위 상품군')
+    instance_category.make_card_multiple(df=instance_category.make_rankdata_class(columns=['상품군']), number=5)
+    # 세부랭킹 (토글)
+    if category[1].toggle('상품군별 매출액 상위 지점'):
+        instance_category.make_toggles_category(reference=['파트너','소속','상품군'], title='지점', form='multiple')
+    if category[2].toggle('상품군별 매출액 상위 FA'):
+        instance_category.make_toggles_category(reference=['담당자','담당자코드','파트너','상품군'], title='FA', form='multiple')
+    if category[3].toggle('상품군별 매출액 상위 보험상품'):
+        instance_category.make_toggles_category(reference=['상품명','보험회사','상품군'], title='보험상품', form='multiple')
+
+    '''
     dfr_cat = make_rankdata(df_month, ['상품군']) 
     st.markdown('---')
     cat = st.columns([2,1,1,1])
@@ -209,8 +194,11 @@ if authentication_status:
     dfr_cat_prod = make_rankdata(df_month, ['상품명','보험회사','상품군']) # 상품군별 매출액 상위 보험상품
     lst_cat.append(make_rank_category(dfr_cat_prod, '보험상품'))
     make_subtoggle(3, cat, lst_cat, ['상품군별 매출액 상위 지점', '상품군별 매출액 상위 FA', '상품군별 매출액 상위 보험상품'])
+    '''
+
     end_rcat = time.time()
     st.write(f"시간측정(랭킹-상품군) : {end_rcat - start_rcat} sec")
+    
     
     # --------------------------------------------------  보험상품별  -----------------------------------------------------------      
     start_rprod = time.time()
@@ -226,7 +214,7 @@ if authentication_status:
     if prod[3].toggle('보험상품별 매출액 상위 FA'):
         instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'], form='multiple')
     end_rprod = time.time()
-    st.write(f"시간측정(랭킹-보험상품(수정)) : {end_rprod - start_rprod} sec")
+    st.write(f"시간측정(랭킹-보험상품) : {end_rprod - start_rprod} sec")
 
     end_rank = time.time()
     st.write(f"시간측정(랭킹) : {end_rank - start_rank} sec")

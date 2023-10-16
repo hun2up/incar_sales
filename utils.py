@@ -265,17 +265,6 @@ class Rank:
         # '매출액' 칼럼을 숫자 형태로 변환
         df_result['매출액'] = df_result['매출액'].map('{:,.0f}'.format)
         return df_result
-    
-    '''
-    # ------------------------------------    보험회사별 하위랭킹 제작    ------------------------------------------
-    def make_subrank_company(self, columns, drop):
-        df_result = self.make_rankdata_class(columns)
-        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-        title = [self.df.iat[i,0] for i in range(5)]
-        # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-        element = [df_result[df_result['보험회사'].isin([self.df.iat[i,0]])].drop(columns=drop) for i in range(5)]
-        return [title, element]
-    '''
 
     # ------------------------------------    상품군별별 하위랭킹 제작    ------------------------------------------
     def make_subrank_category(self, columns, title):
@@ -339,6 +328,19 @@ class Toggles(MakeCard):
             st.markdown(f"{index[i]} 매출액 상위 {title}")
             df_subrank = df_result[df_result['보험회사'].isin([index[i]])].drop(columns=drop)
             if form =='single':
+                self.make_card_single(df=df_subrank, number=5)
+            if form == 'multiple':
+                self.make_card_multiple(df=df_subrank, number=5)
+
+    # ---------------------------------------    상품군별별 하위랭킹 제작    ----------------------------------------------
+    def make_toggles_category(self, reference, title, form):
+        df_result = self.make_rankdata_class(reference)
+        index = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
+        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
+        for i in range(5):
+            st.markdown(f"{index[i]} 매출액 상위 {title}")
+            df_subrank = df_result[df_result['상품군'].isin([index[i]])].drop(columns='상품군')
+            if form == 'single':
                 self.make_card_single(df=df_subrank, number=5)
             if form == 'multiple':
                 self.make_card_multiple(df=df_subrank, number=5)
