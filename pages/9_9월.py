@@ -179,11 +179,9 @@ if authentication_status:
     instance_product.make_card_multiple(df=instance_product.make_rank(columns=['상품명','보험회사']), number=5)
     # 세부랭킹 (토글)
     if prod[2].toggle('보험상품별 매출액 상위 지점'):
-        instance_product.make_toggles(columns_original=['상품명','보험회사'], columns_select=['상품명','파트너','소속'], drop=['상품명'], form='multiple')
-        # instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'], form='multiple')
+        instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'], form='multiple')
     if prod[3].toggle('보험상품별 매출액 상위 FA'):
-        instance_product.make_toggles(columns_original=['상품명','보험회사'], columns_select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'], form='multiple')
-        # instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'], form='multiple')
+        instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'], form='multiple')
     end_product = time.time()
     st.write(f"시간측정(랭킹-보험상품) : {end_product - start_product} sec")
 
