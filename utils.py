@@ -264,30 +264,7 @@ class Rank:
         # '매출액' 칼럼을 숫자 형태로 변환
         df_result['매출액'] = df_result['매출액'].map('{:,.0f}'.format)
         return df_result
-
-'''
-##########################################################################################################################
-######################################     스타일 카드 제작 (Rank 클래스 상속)     #########################################
-##########################################################################################################################
-class MakeCard(Rank):
-    def __init__(self, df):
-        super().__init__(df)
-
-    # ----------------------------    라벨이 단일항목으로 구성된 스타일 카드 제작    ----------------------------
-    def make_card_single(self, columns, number): 
-        df_result = super().make_rankdata_class(columns) # Rank 클래스의 make_rankdata_calss() 함수 상속
-        value = st.columns(number) # 카드 노출을 위한 'number'개의 컬럼 제작
-        for i in range(number): # 'number'개 만큼 카드 제작하여 노출
-            value[i].metric(df_result.iat[i,0], self.df.iat[i,1] + '원')
-
-    # ---------------------    라벨이 괄호를 포함하는 복수항목으로 구성된 스타일 카드 제작    ---------------------
-    def make_card_multiple(self, columns, number):
-        df_result = super().make_rankdata_class(columns) # Rank 클래스의 make_rankdata_calss() 함수 상속
-        value = st.columns(number) # 카드 노출을 위한 'number'개의 컬럼 제작
-        for i in range(number): # 'number'개 만큼 카드 제작하여 노출
-            value[i].metric(df_result.iat[i,0] + '(' + df_result.iat[i,1] + ')', df_result.iat[i, 2] + '원')
-'''
-            
+         
 ##########################################################################################################################
 #################################     하위 랭킹 스타일 카드 제작 (Rank 클래스 상속)     #####################################
 ##########################################################################################################################  
@@ -343,7 +320,7 @@ class MakeCard(SubRank):
         super().__init__(df)
 
     # ----------------------------    라벨이 단일항목으로 구성된 스타일 카드 제작    ----------------------------
-    def make_card_single(self, df, number): 
+    def make_card_single(self, df, number):
         value = st.columns(number) # 카드 노출을 위한 'number'개의 컬럼 제작
         for i in range(number): # 'number'개 만큼 카드 제작하여 노출
             value[i].metric(df.iat[i,0], self.df.iat[i,1] + '원')
@@ -352,4 +329,5 @@ class MakeCard(SubRank):
     def make_card_multiple(self, df, number):
         value = st.columns(number) # 카드 노출을 위한 'number'개의 컬럼 제작
         for i in range(number): # 'number'개 만큼 카드 제작하여 노출
-            value[i].metric(df.iat[i,0] + '(' + df.iat[i,1] + ')', df.iat[i, 2] + '원')
+            try: value[i].metric(df.iat[i,0] + '(' + df.iat[i,1] + ')', df.iat[i, 2] + '원')
+            except: pass
