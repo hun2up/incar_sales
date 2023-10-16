@@ -127,6 +127,9 @@ if authentication_status:
     fa = st.columns([2,1,1,1])
     fa[0].markdown("#### 매출액 상위 FA")
     instance_fa.make_card_multiple(df=instance_fa.make_rankdata_class(columns=['담당자','파트너']), number=5)
+    # 세부랭킹(토글)
+    if fa[3].toggle('매출액 상위 FA 주요 판매상품'):
+        instance_fa.make_toggles_fa(reference=['담당자','담당자코드','상품명','보험회사'], drop=['담당자','담당자코드'], title='보험상품', form='multiple')
 
     st.write('수정전')
     dfr_fa = make_rankdata(df_month, ['담당자코드','담당자','파트너']) 
