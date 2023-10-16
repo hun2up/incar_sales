@@ -328,7 +328,7 @@ class SubCards(Rank):
         df_result = super().make_rankdata_class(columns)
         df_sub = super().make_rankdata_class(select)
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-        title = [f"{self.df.iat[i,0]} ({self.df.iat[i,1]})" for i in range(5)]
+        title = [f"{df_result.iat[i,0]} ({df_result.iat[i,1]})" for i in range(5)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
         element = [df_sub[df_sub['상품명'].isin([df_result.iat[i,0]])].drop(columns=drop) for i in range(5)]
         return [title, element]
