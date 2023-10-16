@@ -119,36 +119,8 @@ if authentication_status:
     end_rchn = time.time()
     st.write(f"시간측정(랭킹-부문) : {end_rchn - start_rchn} sec")
 
-    '''
-    dfr_chn = make_rankdata(df_month, ['소속']) 
-    chn = st.columns([2,1,1,1])
-    chn[0].markdown("#### 부문 매출액 순위")
-    rchn = st.columns(6)
-    for i in range(6):
-        rchn[i].metric(dfr_chn.iat[i, 0], dfr_chn.iat[i, 1] + '원')
-    # 세부랭킹 (토글)
-    # Rank_instance = Rank(df_month, ['소속', '담당자', '파트너'])
-    # dfr_chn_fa = Rank_instance.make_rankdata_class()
-    dfr_chn_fa = make_rankdata(df_month, ['소속','담당자','파트너']) # 소속부문별 매출액 상위 FA
-    lst_chn_fa = make_rank_channel(dfr_chn, dfr_chn_fa, "FA")
-    dfr_chn_com = make_rankdata(df_month, ['소속','보험회사']) # 소속부문별 매출액 상위 보험회사
-    lst_chn_com = make_rank_channel(dfr_chn, dfr_chn_com, "보험회사")
-    dfr_chn_prod = make_rankdata(df_month, ['소속','상품명','보험회사']) # 소속부문별 매출액 상위 보험상품
-    lst_chn_prod = make_rank_channel(dfr_chn, dfr_chn_prod, "보험상품")
-    if chn[1].toggle("부문별 매출액 상위 FA (수정)"):
-        st.markdown("##### 부문별 매출액 상위 FA")
-        make_toggles(lst_chn_fa, 'multiple')
-    if chn[2].toggle("부문별 매출액 상위 보험회사 (수정)"):
-        st.markdown("##### 부문별 매출액 상위 보험회사")
-        make_toggles(lst_chn_com, 'single')
-    if chn[3].toggle("부문별 매출액 상위 보험상품 (수정)"):
-        st.markdown("##### 부문별 매출액 상위 보험상품")
-        make_toggles(lst_chn_prod, 'multiple')
-
-    '''
-
-    start_rfa = time.time()
     # --------------------------------------------------  FA별  -----------------------------------------------------------
+    start_rfa = time.time()
     # 메인랭킹 (FA 매출액 순위)
     dfr_fa = make_rankdata(df_month, ['담당자코드','담당자','파트너']) 
     dfr_fa = dfr_fa.drop(columns='담당자코드')
