@@ -170,9 +170,6 @@ if authentication_status:
     category = st.columns([2,1,1,1])
     category[0].markdown('#### 매출액 상위 상품군')
     instance_category.make_card_single(df=instance_category.make_rankdata_class(columns=['상품군']), number=5)
-    st.dataframe(instance_category.make_rankdata_class(columns=['파트너','소속','상품군']))
-    st.dataframe(instance_category.make_rankdata_class(columns=['담당자','담당자코드','파트너','상품군']))
-    st.dataframe(instance_category.make_rankdata_class(columns=['상품명','보험회사','상품군']))
     # 세부랭킹 (토글)
     if category[1].toggle('상품군별 매출액 상위 지점'):
         instance_category.make_toggles_category(reference=['파트너','소속','상품군'], title='지점', form='multiple')
