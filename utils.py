@@ -317,7 +317,7 @@ class Toggles(MakeCard):
 
     # ------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------
     def make_toggles_channel(self, reference, title, form):
-        df_channel = super().make_rankdata_class(columns=['소속'])
+        df_channel = self.make_rankdata_class(columns=['소속'])
         df_result = self.make_rankdata_class(reference)
         index = [df_channel.iat[i,0] for i in range(6)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
@@ -332,7 +332,7 @@ class Toggles(MakeCard):
 
     # ------------------------------------    보험회사별 하위랭킹 제작    ------------------------------------------
     def make_toggles_company(self, reference, drop, title, form):
-        df_company = super().make_rankdata_class(columns=['보험회사'])
+        df_company = self.make_rankdata_class(columns=['보험회사'])
         df_result = self.make_rankdata_class(reference)
         for i in range(5):
             st.markdown(f"{df_company.iat[i,0]} 매출액 상위 {title}")
