@@ -108,7 +108,7 @@ if authentication_status:
     st.markdown('---') # 구분선
     channel = st.columns([2,1,1,1]) # 컬럼 나누기
     channel[0].markdown('#### 부문 매출액 순위') # 제목
-    instance_channel.make_card_multiple(df=instance_channel.make_rankdata_class(columns=['소속', '담당자', '파트너']), number=6)
+    instance_channel.make_card_single(df=instance_channel.make_rankdata_class(columns=['소속', '담당자', '파트너']), number=6)
     # 세부랭킹 (토글)
     if channel[1].toggle('부문별 매출액 상위 FA'):
         instance_channel.make_toggles_channel(reference=['소속','담당자','파트너'], title='FA', form='multiple')
