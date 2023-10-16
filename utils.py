@@ -340,7 +340,7 @@ class Toggles(MakeCard):
         for i in range(5):
             st.markdown(f"{index[i]} 매출액 상위 {title}")
             df_subrank = df_result[df_result['상품군'].isin([index[0][i]])].drop(columns='상품군')
-            st.dataframe(df_subrank)
+            st.write(index[0][i])
             if form == 'single':
                 self.make_card_single(df=df_subrank, number=5)
             if form == 'multiple':
