@@ -255,6 +255,7 @@ def make_subtoggle(count, theme, reference, title):
 class Rank:
     def __init__(self, df):
         self.df = df
+
     # ------------------------------    스타일카드 제작을 위한 필요 컬럼 분류    ------------------------------
     def make_rankdata_class(self, columns):
         # 입력 받은 컬럼과 '영수/환급보험료' 칼럼으로 묶고 '영수/환급보혐료' 칼럼은 '매출액' 칼럼으로 변경
@@ -266,17 +267,6 @@ class Rank:
         return df_result
     
     '''
-    # ------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------
-    def make_subrank_channel(self, columns, title):
-        df_result = self.make_rankdata_class(columns)
-        index = [self.df.iat[i,0] for i in range(6)]
-        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-        title = [f"{index[i]} 매출액 상위 {title}" for i in range(len(index))]
-        # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-        element = [df_result[df_result['소속'].isin([index[i]])].drop(columns='소속') for i in range(len(index))]
-        return [title, element]
-    '''
-
     # ------------------------------------    보험회사별 하위랭킹 제작    ------------------------------------------
     def make_subrank_company(self, columns, drop):
         df_result = self.make_rankdata_class(columns)
@@ -285,6 +275,7 @@ class Rank:
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
         element = [df_result[df_result['보험회사'].isin([self.df.iat[i,0]])].drop(columns=drop) for i in range(5)]
         return [title, element]
+    '''
 
     # ------------------------------------    상품군별별 하위랭킹 제작    ------------------------------------------
     def make_subrank_category(self, columns, title):
@@ -318,11 +309,12 @@ class MakeCard(Rank):
             except: pass
 
 ##########################################################################################################################
-##################################     하위랭크(토글) 제작 (MakeCard 클래스 상속)     ######################################
+##################################     하위랭킹(토글) 제작 (MakeCard 클래스 상속)     ######################################
 ##########################################################################################################################
 class Toggles(MakeCard):
     def __init__(self, df):
         super().__init__(df)
+
     # ------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------
     def make_toggles_channel(self, reference, title, form):
         df_channel = super().make_rankdata_class(columns=['소속'])
@@ -337,6 +329,20 @@ class Toggles(MakeCard):
             if form == 'multiple':
                 self.make_card_multiple(df=df_subrank, number=5)
 
+
+    # ------------------------------------    보험회사별 하위랭킹 제작    ------------------------------------------
+    def make_subrank_company(self, reference, drop, title, form):
+        df_company = super().make_rankdata_class(columns=['보험회사'])
+        df_result = self.make_rankdata_class(reference)
+        for i in range(5):
+            st.markdown(f"{df_company.iat[i,0]} 매출액 상위 {title}")
+            df_subrank = df_result[df_result['보험회사'].isin([self.df.iat[i,0]])]
+            if form =='single':
+                self.make_card_single(df=df_subrank, number=5)
+            if form == 'multiple':
+                self.make_card_multiple(df=df_subrank, number=5)
+
+    # ------------------------------------    보험상품별 하위랭킹 제작    ------------------------------------------
     def make_toggles_product(self, reference, select, drop, form):
         df_result = self.make_rankdata_class(reference)
         df_sub = self.make_rankdata_class(select)
