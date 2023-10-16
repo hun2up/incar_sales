@@ -126,7 +126,7 @@ if authentication_status:
     st.markdown('---')
     fa = st.columns([2,1,1,1])
     fa[0].markdown("#### 매출액 상위 FA")
-    instance_fa.make_card_multiple(df=instance_fa.make_rankdata_class(columns=['담당자','파트너'], number=5))
+    instance_fa.make_card_multiple(df=instance_fa.make_rankdata_class(columns=['담당자','파트너']), number=5)
 
     st.write('수정전')
     dfr_fa = make_rankdata(df_month, ['담당자코드','담당자','파트너']) 
