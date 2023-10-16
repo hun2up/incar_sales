@@ -338,7 +338,7 @@ class Toggles(MakeCard):
         index = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         for i in range(5):
-            st.markdown(f"{index[i]} 매출액 상위 {title}")
+            st.markdown(f"{index[i][0]} 매출액 상위 {title}")
             df_subrank = [df_result[df_result['상품군'].isin([index[i][c]])] for c in range(len(index[i]))]
             df_subrank = pd.concat(df_subrank, ignore_index=True)
             if form == 'single':
