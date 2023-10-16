@@ -320,7 +320,7 @@ class MakeCard(SubRank):
         super().__init__(df)
 
     def make_card_title(self, title):
-        for i in range(len(title)):
+        for i in range(len(title)+1):
             st.markdown(title[i])
 
     # ----------------------------    라벨이 단일항목으로 구성된 스타일 카드 제작    ----------------------------
