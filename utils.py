@@ -280,21 +280,9 @@ class Toggles(MakeCard):
         df_result = self.make_rank(reference)
         df_sub = self.make_rank(select)
         for i in range(5):
-            st.markdown(f"##### {df_result.iat[i,0]} ({df_result.iat[i,1]}")
+            st.markdown(f"##### {df_result.iat[i,0]} ({df_result.iat[i,1]})")
             df_subrank = df_sub[df_sub['상품명'].isin([df_result.iat[i,0]])].drop(columns=drop)
             if form == 'single':
                 self.make_card_single(df=df_subrank, number=5)
             if form== 'multiple':
-                self.make_card_multiple(df=df_subrank, number=5)
-
-    def make_toggles(self, columns_original, columns_select, drop, form):
-        df_original = self.make_rank(columns_original)
-        df_select = self.make_rank(columns_select)
-        index = [df_original.iat[i,0] for i in range(5)]
-        for i in range(5):
-            st.markdown(f"##### {df_original.iat[i,0]}")
-            df_subrank = df_select[df_select[columns_select].isin([index[i]])].drop(columns=drop)
-            if form =='single':
-                self.make_card_single(df=df_subrank, number=5)
-            if form == 'multiple':
                 self.make_card_multiple(df=df_subrank, number=5)
