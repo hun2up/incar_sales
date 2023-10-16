@@ -108,7 +108,7 @@ if authentication_status:
     st.markdown('---') # 구분선
     channel = st.columns([2,1,1,1]) # 컬럼 나누기
     channel[0].markdown('#### 부문 매출액 순위') # 제목
-    instance_channel.make_card_single(df=instance_channel.make_rankdata_class(columns=['소속']), number=6)
+    instance_channel.make_card_single(df=instance_channel.make_rank(columns=['소속']), number=6)
     # 세부랭킹 (토글)
     if channel[1].toggle('부문별 매출액 상위 FA'):
         instance_channel.make_toggles_channel(reference=['소속','담당자','파트너'], title='FA', form='multiple')
@@ -126,7 +126,7 @@ if authentication_status:
     st.markdown('---')
     fa = st.columns([2,1,1,1])
     fa[0].markdown("#### 매출액 상위 FA")
-    instance_fa.make_card_multiple(df=instance_fa.make_rankdata_class(columns=['담당자','파트너']), number=5)
+    instance_fa.make_card_multiple(df=instance_fa.make_rank(columns=['담당자','파트너']), number=5)
     # 세부랭킹(토글)
     if fa[3].toggle('매출액 상위 FA 주요 판매상품'):
         instance_fa.make_toggles_fa(reference=['담당자','담당자코드','상품명','보험회사'], drop=['담당자','담당자코드'], title='보험상품', form='multiple')
@@ -140,7 +140,7 @@ if authentication_status:
     st.markdown('---') # 구분선
     company = st.columns([2,1,1,1]) # 컬럼 나누기
     company[0].markdown('#### 매출액 상위 보험회사') # 제목
-    instance_company.make_card_single(df=instance_company.make_rankdata_class(columns=['보험회사']), number=5)
+    instance_company.make_card_single(df=instance_company.make_rank(columns=['보험회사']), number=5)
     # 세부랭킹 (토글)
     if company[1].toggle('보험회사별 매출액 상위 지점'):
         instance_company.make_toggles_company(reference=['보험회사','파트너','소속'], drop=['보험회사'], title='지점', form='multiple')
@@ -158,7 +158,7 @@ if authentication_status:
     st.markdown('---') # 구분선
     category = st.columns([2,1,1,1])
     category[0].markdown('#### 매출액 상위 상품군')
-    instance_category.make_card_single(df=instance_category.make_rankdata_class(columns=['상품군']), number=5)
+    instance_category.make_card_single(df=instance_category.make_rank(columns=['상품군']), number=5)
     # 세부랭킹 (토글)
     if category[1].toggle('상품군별 매출액 상위 지점'):
         instance_category.make_toggles_category(reference=['파트너','소속','상품군'], drop=['상품군'], title='지점', form='multiple')
@@ -176,12 +176,14 @@ if authentication_status:
     st.markdown('---') # 구분선
     prod = st.columns([2,1,1,1]) # 컬럼 나누기
     prod[0].markdown("#### 매출액 상위 보험상품") # 제목
-    instance_product.make_card_multiple(df=instance_product.make_rankdata_class(columns=['상품명','보험회사']), number=5)
+    instance_product.make_card_multiple(df=instance_product.make_rank(columns=['상품명','보험회사']), number=5)
     # 세부랭킹 (토글)
     if prod[2].toggle('보험상품별 매출액 상위 지점'):
-        instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'], form='multiple')
+        instance_product.make_toggles(columns_original=['상품명','보험회사'], columns_select=['상품명','파트너','소속'], drop=['상품명'], form='multiple')
+        # instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'], form='multiple')
     if prod[3].toggle('보험상품별 매출액 상위 FA'):
-        instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'], form='multiple')
+        instance_product.make_toggles(columns_original=['상품명','보험회사'], columns_select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'], form='multiple')
+        # instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'], form='multiple')
     end_product = time.time()
     st.write(f"시간측정(랭킹-보험상품) : {end_product - start_product} sec")
 
