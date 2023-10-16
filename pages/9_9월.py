@@ -104,9 +104,20 @@ if authentication_status:
     # --------------------------------------------------  부문별 랭킹  -----------------------------------------------------------
     start_rchn = time.time()
     # 메인랭킹 (소속부문 매출액 순위)
+    instance_channel = Toggles(df=df_month)
+    st.markdown('---') # 구분선
+    channel = st.columns([2,1,1,1]) # 컬럼 나누기
+    channel[0].markdown('#### 부문 매출액 순위') # 제목
+    instance_channel.make_card_multiple(df=instance_channel.make_rankdata_class(columns=['상품명','보험회사']), number=6)
+    # 세부랭킹 (토글)
+    if channel[1].toggle('부문별 매출액 상위 FA'):
+        instance_channel.make_toggles_product(reference=['상품명','보험회사'], title='FA')
+    if channel[2].toggle('부문별 매출액 상위 보험상품'):
+        instance_channel.make_toggles_product(reference=['상품명','보험회사'], title='보험상품')
+
+    '''
     dfr_chn = make_rankdata(df_month, ['소속']) 
-    chn = st.columns([2,1,1,1])\
-    
+    chn = st.columns([2,1,1,1])
     chn[0].markdown("#### 부문 매출액 순위")
     rchn = st.columns(6)
     for i in range(6):
@@ -131,6 +142,7 @@ if authentication_status:
         make_toggles(lst_chn_prod, 'multiple')
     end_rchn = time.time()
     st.write(f"시간측정(랭킹-부문) : {end_rchn - start_rchn} sec")
+    '''
 
     start_rfa = time.time()
     # --------------------------------------------------  FA별  -----------------------------------------------------------
@@ -216,12 +228,12 @@ if authentication_status:
     instance_product.make_card_multiple(df=instance_product.make_rankdata_class(columns=['상품명','보험회사']), number=5)
     # 세부랭킹 (토글)
     if prod[2].toggle('보험상품별 매출액 상위 지점'):
-        instance_product.make_toggles_product(columns=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'])
+        instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'])
     if prod[3].toggle('보험상품별 매출액 상위 FA'):
-        instance_product.make_toggles_product(columns=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'])
-
+        instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'])
     end_rprod = time.time()
     st.write(f"시간측정(랭킹-보험상품(수정)) : {end_rprod - start_rprod} sec")
+
     end_rank = time.time()
     st.write(f"시간측정(랭킹) : {end_rank - start_rank} sec")
     end_all = time.time()
