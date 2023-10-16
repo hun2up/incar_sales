@@ -10,7 +10,7 @@ from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 from utils import hide_st_style, style_metric_cards, call_data, make_sidebar, make_chartdata, sum_lnf, make_chart_line, make_rankdata, make_cards, make_toggles, make_rank_channel, make_rank_company, make_rank_category, make_rank_product, make_subtoggle
-from utils import MakeCard
+from utils import MakeCard, Toggle
 from utils import month_dict
 
 ###########################################################################################################################
@@ -209,13 +209,17 @@ if authentication_status:
     # --------------------------------------------------  보험상품별  -----------------------------------------------------------      
     start_rprod = time.time()
     # 메인랭킹 (보험상품 매출액 순위)
-    instance_product = MakeCard(df=df_month)
+    # instance_product = MakeCard(df=df_month)
+    instance_product = Toggle(df=df_month)
     
     st.markdown('---') # 구분선
     prod = st.columns([2,1,1,1]) # 컬럼 나누기
     prod[0].markdown("#### 매출액 상위 보험상품") # 제목
     instance_product.make_card_multiple(df=instance_product.make_rankdata_class(columns=['상품명','보험회사']), number=5)
     # 세부랭킹 (토글)
+    if prod[2].toggle("테스트"):
+        instance_product.make_subrank_product(columns=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'])
+    '''
     lst_prod = []
     instance_product_partner = MakeCard(df=df_month)
     lst_prod.append(instance_product_partner.make_subrank_product(columns=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명']))
@@ -223,6 +227,7 @@ if authentication_status:
     
     instance_product.make_toggle_multiple(zone=prod, reference=lst_prod, numbers=5)
     # make_subtoggle(2, prod, lst_prod, ['보험상품별 매출액 상위 지점', '보험상품별 매출액 상위 FA'])
+    '''
     end_rprod = time.time()
     st.write(f"시간측정(랭킹-보험상품(수정)) : {end_rprod - start_rprod} sec")
 
