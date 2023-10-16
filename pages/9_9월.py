@@ -10,7 +10,7 @@ from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 from utils import hide_st_style, style_metric_cards, call_data, make_sidebar, make_chartdata, sum_lnf, make_chart_line
-from utils import Toggles
+from utils import Charts, Toggles
 from utils import month_dict
 
 ###########################################################################################################################
@@ -71,6 +71,10 @@ if authentication_status:
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
     start_chart = time.time()
+
+    instance_chart = Charts(df_month)
+    instance_chart.make_chart(['보험종목','영수일자'])
+
 
     # ----------------------------------------------  생손매출액 (꺾은선)  -----------------------------------------------------
     dfc_insu = make_chartdata(df_month, ['보험종목','영수일자']) # 보험종목별 매출액
