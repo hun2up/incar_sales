@@ -336,8 +336,7 @@ class MakeCard(Rank):
                 # 토글 생성
                 self.make_card_single(df=reference[1], number=number)
 
-
-    def make_toggle_multiple(self, zone, reference, number):
+    def make_toggle_multiple(self, zone, reference, numbers):
     # st.columns()에서 뒤쪽부터 토글을 생성 (i를 역순으로 반환하는 for문 정의)
         for i in range(3, 3-len(reference[0]), -1):
         # 3의 역순으로 하위랭크 생성
@@ -345,4 +344,4 @@ class MakeCard(Rank):
                 # 타이틀
                 st.markdown(f"##### {reference[0][3-i]}")
                 # 토글 생성
-                self.make_card_multiple(df=reference[1], number=number)
+                self.make_card_multiple(df=reference[1], number=numbers)
