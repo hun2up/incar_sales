@@ -371,5 +371,6 @@ class Toggle(MakeCard):
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
         element = [df_sub[df_sub['상품명'].isin([df_result.iat[i,0]])].drop(columns=drop) for i in range(5)]
         subrank = [name, element]
+        st.dataframe(subrank)
         self.make_card_multiple(df=subrank, number=5)
         
