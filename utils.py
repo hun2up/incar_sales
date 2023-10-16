@@ -323,7 +323,8 @@ class MakeCard(SubRank):
     def make_card_single(self, df, number):
         value = st.columns(number) # 카드 노출을 위한 'number'개의 컬럼 제작
         for i in range(number): # 'number'개 만큼 카드 제작하여 노출
-            value[i].metric(df.iat[i,0], self.df.iat[i,1] + '원')
+            try: value[i].metric(df.iat[i,0], self.df.iat[i,1] + '원')
+            except: pass
 
     # ---------------------    라벨이 괄호를 포함하는 복수항목으로 구성된 스타일 카드 제작    ---------------------
     def make_card_multiple(self, df, number):
