@@ -10,7 +10,7 @@ from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 from utils import hide_st_style, style_metric_cards, call_data, make_sidebar, make_chartdata, sum_lnf, make_chart_line, make_rankdata, make_cards, make_toggles, make_rank_channel, make_rank_company, make_rank_category, make_rank_product, make_subtoggle
-from utils import Rank, MakeCard, SubCards
+from utils import Rank, SubRank, MakeCard
 from utils import month_dict
 
 ###########################################################################################################################
@@ -209,7 +209,7 @@ if authentication_status:
     # --------------------------------------------------  보험상품별  -----------------------------------------------------------      
     start_rprod = time.time()
     # 메인랭킹 (보험상품 매출액 순위)
-    instance_product = MakeCard(df_month)
+    instance_product = MakeCard(df=df_month)
     
     st.markdown('---') # 구분선
     prod = st.columns([2,1,1,1]) # 컬럼 나누기
@@ -217,16 +217,10 @@ if authentication_status:
     instance_product.make_card_multiple(columns=['상품명','보험회사'], number=5)
     # 세부랭킹 (토글)
     lst_prod = []
-    # instance_product_partner = Rank(df_month, ['상품명','파트너','소속'])
-    # dfr_prod_ptn = instance_product_partner.make_rankdata_class()
-    # dfr_prod_ptn = make_rankdata(df_month, ['상품명','파트너','소속']) # 보험상품별 매출액 상위 지점
-    instance_product_partner = SubCards(df=df_month)
+    instance_product_partner = MakeCard(df=df_month)
+    # instance_product_partner = SubCards(df=df_month)
     lst_prod.append(instance_product_partner.make_rank_product(columns=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명']))
-    # lst_prod.append(instance_product_partner.make_rank_product(select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드']))
-    # lst_prod.append(make_rank_product(dfr_prod, dfr_prod_ptn, ['상품명']))
     lst_prod.append(instance_product_partner.make_rank_product(columns=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드']))
-    # dfr_prod_fa = make_rankdata(df_month, ['상품명','담당자코드','담당자','파트너']) # 보험상품별 매출액 상위 FA
-    # lst_prod.append(make_rank_product(dfr_prod, dfr_prod_fa, ['상품명','담당자코드']))
     make_subtoggle(2, prod, lst_prod, ['보험상품별 매출액 상위 지점', '보험상품별 매출액 상위 FA'])
     end_rprod = time.time()
     st.write(f"시간측정(랭킹-보험상품(수정)) : {end_rprod - start_rprod} sec")
