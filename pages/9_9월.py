@@ -114,8 +114,12 @@ if authentication_status:
     # 세부랭킹 (토글)
     if channel[1].toggle('부문별 매출액 상위 FA'):
         instance_channel.make_toggles_channel(reference=['소속','담당자','파트너'], title='FA', form='multiple')
-    if channel[2].toggle('부문별 매출액 상위 보험상품'):
+    if channel[2].toggle('부문별 매출액 상위 보험회사'):
+        instance_channel.make_toggles_channel(reference=['소속','보험회사'], title='보험회사', form='single')
+    if channel[3].toggle('부문별 매출액 상위 보험상품'):
         instance_channel.make_toggles_channel(reference=['소속','상품명','보험회사'], title='보험상품', form='multiple')
+    end_rchn = time.time()
+    st.write(f"시간측정(랭킹-부문) : {end_rchn - start_rchn} sec")
 
     '''
     dfr_chn = make_rankdata(df_month, ['소속']) 
@@ -142,8 +146,7 @@ if authentication_status:
     if chn[3].toggle("부문별 매출액 상위 보험상품 (수정)"):
         st.markdown("##### 부문별 매출액 상위 보험상품")
         make_toggles(lst_chn_prod, 'multiple')
-    end_rchn = time.time()
-    st.write(f"시간측정(랭킹-부문) : {end_rchn - start_rchn} sec")
+
     '''
 
     start_rfa = time.time()
