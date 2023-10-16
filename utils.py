@@ -253,13 +253,12 @@ def make_subtoggle(count, theme, reference, title):
 ##############################################     랭킹 데이터 전처리     #################################################
 ##########################################################################################################################
 class Rank:
-    def __init__(self, df, reference):
+    def __init__(self, df):
         self.df = df
-        self.reference = reference
     # ------------------------------    스타일카드 제작을 위한 필요 컬럼 분류    ------------------------------
-    def make_rankdata_class(self):
+    def make_rankdata_class(self, columns):
         # 입력 받은 컬럼과 '영수/환급보험료' 칼럼으로 묶고 '영수/환급보혐료' 칼럼은 '매출액' 칼럼으로 변경
-        df_result = self.df.groupby(self.reference)['영수/환급보험료'].sum().reset_index(name='매출액')
+        df_result = self.df.groupby(columns)['영수/환급보험료'].sum().reset_index(name='매출액')
         # '매출액' 칼럼을 내림차순으로 정렬
         df_result = df_result.sort_values(by='매출액', ascending=False)
         # '매출액' 칼럼을 숫자 형태로 변환
@@ -268,21 +267,21 @@ class Rank:
 
 ##########################################################################################################################
 ######################################     스타일 카드 제작 (Rank 클래스 상속)     #########################################
-##########################################################################################################################    
+##########################################################################################################################
 class MakeCard(Rank):
-    def __init__(self, df, reference):
-        super().__init__(df, reference)
+    def __init__(self, df):
+        super().__init__(df)
 
     # ----------------------------    라벨이 단일항목으로 구성된 스타일 카드 제작    ----------------------------
-    def make_card_single(self, number): 
-        df_result = super().make_rankdata_class() # Rank 클래스의 make_rankdata_calss() 함수 상속
+    def make_card_single(self, columns, number): 
+        df_result = super().make_rankdata_class(columns) # Rank 클래스의 make_rankdata_calss() 함수 상속
         value = st.columns(number) # 카드 노출을 위한 'number'개의 컬럼 제작
         for i in range(number): # 'number'개 만큼 카드 제작하여 노출
             value[i].metric(df_result.iat[i,0], self.df.iat[i,1] + '원')
 
     # ---------------------    라벨이 괄호를 포함하는 복수항목으로 구성된 스타일 카드 제작    ---------------------
-    def make_card_multiple(self, number):
-        df_result = super().make_rankdata_class() # Rank 클래스의 make_rankdata_calss() 함수 상속
+    def make_card_multiple(self, columns, number):
+        df_result = super().make_rankdata_class(columns) # Rank 클래스의 make_rankdata_calss() 함수 상속
         value = st.columns(number) # 카드 노출을 위한 'number'개의 컬럼 제작
         for i in range(number): # 'number'개 만큼 카드 제작하여 노출
             value[i].metric(df_result.iat[i,0] + '(' + df_result.iat[i,1] + ')', df_result.iat[i, 2] + '원')

@@ -209,7 +209,7 @@ if authentication_status:
     # --------------------------------------------------  보험상품별  -----------------------------------------------------------      
     start_rprod = time.time()
     # 메인랭킹 (보험상품 매출액 순위)
-    instance_product = Rank(df_month)
+    instance_product = MakeCard(df_month)
     
     st.markdown('---') # 구분선
     prod = st.columns([2,1,1,1]) # 컬럼 나누기
