@@ -335,12 +335,12 @@ class Toggles(MakeCard):
     # --------------------------------------    상품군별 하위랭킹 제작    --------------------------------------------
     def make_toggles_category(self, reference, title, form):
         df_result = self.make_rankdata_class(reference)
-        index = [['보장성'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금'],['변액연금']]
-        # index = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
+        index = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         for i in range(5):
             st.markdown(f"{index[i]} 매출액 상위 {title}")
             df_subrank = df_result[df_result['상품군'].isin([index[i]])].drop(columns='상품군')
+            st.dataframe(df_subrank)
             if form == 'single':
                 self.make_card_single(df=df_subrank, number=5)
             if form == 'multiple':
