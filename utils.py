@@ -339,8 +339,8 @@ class Toggles(MakeCard):
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         for i in range(5):
             st.markdown(f"{index[i]} 매출액 상위 {title}")
-            df_subrank = st.dataframe([(df_result[df_result['상품군'].isin([index[i][c]])] for c in range(len(index[i])))])
-            # df_subrank = df_result[df_result['상품군'].isin([index[0][i]])].drop(columns='상품군')
+            df_subrank = [(df_result[df_result['상품군'].isin([index[i][c]])] for c in range(len(index[i])))]
+            st.write(type(df_subrank))
             if form == 'single':
                 self.make_card_single(df=df_subrank, number=5)
             if form == 'multiple':
