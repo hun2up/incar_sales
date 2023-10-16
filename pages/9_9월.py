@@ -213,13 +213,11 @@ if authentication_status:
     
     st.markdown('---') # 구분선
     prod = st.columns([2,1,1,1]) # 컬럼 나누기
-    prod[0].markdown("#### 매출액 상위 보험상품") # 제목
-    instance_product.make_card_multiple(df=instance_product.make_rankdata_class(columns=['상품명','보험회사']), number=5)
-    # instance_product.make_card_multiple(columns=['상품명','보험회사'], number=5)
+    # prod[0].markdown("#### 매출액 상위 보험상품") # 제목
+    instance_product.make_card_multiple(df=instance_product.make_rankdata_class(columns=['상품명','보험회사']), number=5, title=["#### 매출액 상위 보험상품"])
     # 세부랭킹 (토글)
     lst_prod = []
     instance_product_partner = MakeCard(df=df_month)
-    # instance_product_partner = SubCards(df=df_month)
     lst_prod.append(instance_product_partner.make_subrank_product(columns=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명']))
     lst_prod.append(instance_product_partner.make_subrank_product(columns=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드']))
     make_subtoggle(2, prod, lst_prod, ['보험상품별 매출액 상위 지점', '보험상품별 매출액 상위 FA'])
