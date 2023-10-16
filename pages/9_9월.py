@@ -99,6 +99,7 @@ if authentication_status:
     st.markdown('---')
     st.markdown("## 주요 매출액 순위")
     style_metric_cards()
+    instance = Toggles(df=df_month)
 
     start_rank = time.time()
     # --------------------------------------------------  부문별 랭킹  -----------------------------------------------------------
@@ -209,22 +210,19 @@ if authentication_status:
     # --------------------------------------------------  보험상품별  -----------------------------------------------------------      
     start_rprod = time.time()
     # 메인랭킹 (보험상품 매출액 순위)
-    instance_product = Toggles(df=df_month)
     st.markdown('---') # 구분선
     prod = st.columns([2,1,1,1]) # 컬럼 나누기
     prod[0].markdown("#### 매출액 상위 보험상품") # 제목
-    instance_product.make_card_multiple(df=instance_product.make_rankdata_class(columns=['상품명','보험회사']), number=5)
+    instance.make_card_multiple(df=instance.make_rankdata_class(columns=['상품명','보험회사']), number=5)
     # 세부랭킹 (토글)
     if prod[2].toggle('보험상품별 매출액 상위 지점'):
-        instance_product.make_toggles_product(columns=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'])
+        instance.make_toggles_product(columns=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'])
     if prod[3].toggle('보험상품별 매출액 상위 FA'):
-        instance_product.make_toggles_product(columns=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'])
+        instance.make_toggles_product(columns=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'])
 
     end_rprod = time.time()
     st.write(f"시간측정(랭킹-보험상품(수정)) : {end_rprod - start_rprod} sec")
-
     end_rank = time.time()
     st.write(f"시간측정(랭킹) : {end_rank - start_rank} sec")
-
     end_all = time.time()
     st.write(f"시간측정(전체) : {end_all - start_all} sec")

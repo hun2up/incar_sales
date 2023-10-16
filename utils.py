@@ -265,7 +265,8 @@ class Rank:
         df_result['매출액'] = df_result['매출액'].map('{:,.0f}'.format)
         return df_result
     
-        # ------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------
+    '''
+    # ------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------
     def make_subrank_channel(self, columns, title):
         df_result = self.make_rankdata_class(columns)
         index = [self.df.iat[i,0] for i in range(6)]
@@ -274,6 +275,7 @@ class Rank:
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
         element = [df_result[df_result['소속'].isin([index[i]])].drop(columns='소속') for i in range(len(index))]
         return [title, element]
+    '''
 
     # ------------------------------------    보험회사별 하위랭킹 제작    ------------------------------------------
     def make_subrank_company(self, columns, drop):
@@ -294,27 +296,6 @@ class Rank:
         element = [df_result[df_result['상품군'].isin([index[i]])].drop(columns='상품군') for i in range(len(index))]
         return [title, element]
 
-    '''
-    # ---------------------------------------    보험상품별 하위랭킹 제작    ----------------------------------------------
-    def make_subrank_product(self, columns, select, drop):
-        df_result = self.make_rankdata_class(columns)
-        df_sub = self.make_rankdata_class(select)
-        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-        title = [f"{df_result.iat[i,0]} ({df_result.iat[i,1]})" for i in range(5)]
-        # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-        element = [df_sub[df_sub['상품명'].isin([df_result.iat[i,0]])].drop(columns=drop) for i in range(5)]
-        return [title, element]
-    
-
-    def make_subrank_product(self, columns, select, drop):
-        df_result = self.make_rankdata_class(columns)
-        df_sub = self.make_rankdata_class(select)
-        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-        title = [f"{df_result.iat[i,0]} ({df_result.iat[i,1]})" for i in range(5)]
-        # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-        element = [df_sub[df_sub['상품명'].isin([df_result.iat[i,0]])].drop(columns=drop) for i in range(5)]
-        return [title, element]
-'''
 ##########################################################################################################################
 ######################################     스타일 카드 제작 (Rank 클래스 상속)     #########################################
 ##########################################################################################################################
@@ -342,6 +323,15 @@ class MakeCard(Rank):
 class Toggles(MakeCard):
     def __init__(self, df):
         super().__init__(df)
+    # ------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------
+    def make_toggles_channel(self, columns, title):
+        df_result = self.make_rankdata_class(columns)
+        index = [self.df.iat[i,0] for i in range(6)]
+        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
+        for i in range(6):
+            st.markdown(f"{index[i]} 매출액 상위 {title}")
+            df_subrank = df_result[df_result['소속'].isin([index[i]])].drop(columns='소속')
+            self.make_card_multiple(df=df_subrank, number=5)
 
     def make_toggles_product(self, columns, select, drop):
         df_result = self.make_rankdata_class(columns)
