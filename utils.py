@@ -239,7 +239,7 @@ class Toggles(MakeCard):
     def make_toggles_fa(self, reference, drop, title, form):
         df_fa = self.make_rank(columns=['담당자'])
         df_result = self.make_rank(reference)
-        index = [df_fa.iat[i,0] for i in range(5)]
+        index = map[df_fa.iat[i,0] in range(5)]
         for i in range(5):
             st.markdown(f"{index[i]} 매출액 상위 {title}")
             df_subrank = df_result[df_result['담당자'].isin([index[i]])].drop(columns=drop)
@@ -252,7 +252,7 @@ class Toggles(MakeCard):
     def make_toggles_company(self, reference, drop, title, form):
         df_company = self.make_rank(columns=['보험회사'])
         df_result = self.make_rank(reference)
-        index = [df_company.iat[i,0] for i in range(5)]
+        index = map[df_company.iat[i,0] in range(5)]
         for i in range(5):
             st.markdown(f"{index[i]} 매출액 상위 {title}")
             df_subrank = df_result[df_result['보험회사'].isin([index[i]])].drop(columns=drop)
