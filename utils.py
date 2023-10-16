@@ -336,40 +336,16 @@ class MakeCard(Rank):
             try: value[i].metric(df.iat[i,0] + '(' + df.iat[i,1] + ')', df.iat[i, 2] + '원')
             except: pass
 
-    '''
-    def make_toggle_single(self, zone, reference, number):
-    # st.columns()에서 뒤쪽부터 토글을 생성 (i를 역순으로 반환하는 for문 정의)
-        for i in range(3, 3-len(reference[0]), -1):
-        # 3의 역순으로 하위랭크 생성
-            if zone[i].toggle(reference[0][3-i]):
-                # 타이틀
-                st.markdown(f"##### {reference[0][3-i]}")
-                # 토글 생성
-                self.make_card_single(df=reference[1], number=number)
-
-    def make_toggle_multiple(self, zone, reference, numbers):
-    # st.columns()에서 뒤쪽부터 토글을 생성 (i를 역순으로 반환하는 for문 정의)
-        for i in range(3, 3-len(reference[0]), -1):
-        # 3의 역순으로 하위랭크 생성
-            if zone[i].toggle(reference[0][3-i]):
-                # 타이틀
-                st.markdown(f"##### {reference[0][3-i]}")
-                # 토글 생성
-                self.make_card_multiple(df=reference[1], number=numbers)
-    '''
-
-class Toggle(MakeCard):
+##########################################################################################################################
+##################################     하위랭크(토글) 제작 (MakeCard 클래스 상속)     ######################################
+##########################################################################################################################
+class Toggles(MakeCard):
     def __init__(self, df):
         super().__init__(df)
 
-    def make_subrank_product(self, columns, select, drop):
+    def make_toggles_product(self, columns, select, drop):
         df_result = self.make_rankdata_class(columns)
         df_sub = self.make_rankdata_class(select)
-        # subrank = []
-        # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-        # name = [f"{df_result.iat[i,0]} ({df_result.iat[i,1]})" for i in range(5)]
-        # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-
         for i in range(5):
             st.markdown(f"##### {df_result.iat[i,0]} ({df_result.iat[i,1]}")
             df_subrank = df_sub[df_sub['상품명'].isin([df_result.iat[i,0]])].drop(columns=drop)
