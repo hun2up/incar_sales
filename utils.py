@@ -225,7 +225,7 @@ class Toggles(MakeCard):
     def make_toggles_channel(self, reference, title, form):
         df_channel = self.make_rank(columns=['소속'])
         df_result = self.make_rank(reference)
-        index = [df_channel.iat[i,0] for i in range(6)]
+        index = map[df_channel.iat[i,0] in range(6)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         for i in range(6):
             st.markdown(f"{index[i]} 매출액 상위 {title}")
