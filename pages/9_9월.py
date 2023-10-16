@@ -130,7 +130,7 @@ if authentication_status:
     # 세부랭킹(토글)
     if fa[3].toggle('매출액 상위 FA 주요 판매상품'):
         instance_fa.make_toggles_fa(reference=['담당자','담당자코드','상품명','보험회사'], drop=['담당자','담당자코드'], title='보험상품', form='multiple')
-
+    '''
     st.write('수정전')
     dfr_fa = make_rankdata(df_month, ['담당자코드','담당자','파트너']) 
     dfr_fa = dfr_fa.drop(columns='담당자코드')
@@ -148,6 +148,7 @@ if authentication_status:
                 except: pass
     end_rfa = time.time()
     st.write(f"시간측정(랭킹-FA) : {end_rfa - start_rfa} sec")
+    '''
 
     # --------------------------------------------------  보험회사별  -----------------------------------------------------------
     start_rcom = time.time()
