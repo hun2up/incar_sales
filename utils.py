@@ -372,5 +372,5 @@ class Toggle(MakeCard):
         element = [df_sub[df_sub['상품명'].isin([df_result.iat[i,0]])].drop(columns=drop) for i in range(5)]
         subrank = [name, element]
         st.dataframe(subrank)
-        self.make_card_multiple(df=subrank, number=5)
+        self.make_card_multiple(df=subrank[1], number=5)
         
