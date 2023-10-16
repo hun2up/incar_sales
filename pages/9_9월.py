@@ -99,9 +99,7 @@ if authentication_status:
     st.markdown("## 주요 매출액 순위")
     style_metric_cards()
 
-    start_rank = time.time()
     # --------------------------------------------------  부문별 랭킹  -----------------------------------------------------------
-    start_channel = time.time()
     # 메인랭킹 (소속부문 매출액 순위)
     instance_channel = Toggles(df=df_month)
     st.markdown('---') # 구분선
@@ -115,11 +113,8 @@ if authentication_status:
         instance_channel.make_toggles_channel(reference=['소속','보험회사'], title='보험회사', form='single')
     if channel[3].toggle('부문별 매출액 상위 보험상품'):
         instance_channel.make_toggles_channel(reference=['소속','상품명','보험회사'], title='보험상품', form='multiple')
-    end_channel = time.time()
-    st.write(f"시간측정(랭킹-부문) : {end_channel - start_channel} sec")
 
     # --------------------------------------------------  FA별  -----------------------------------------------------------
-    start_fa = time.time()
     # 메인랭킹 (FA 매출액 순위)
     instance_fa = Toggles(df=df_month)
     st.markdown('---')
@@ -129,11 +124,8 @@ if authentication_status:
     # 세부랭킹(토글)
     if fa[3].toggle('매출액 상위 FA 주요 판매상품'):
         instance_fa.make_toggles_fa(reference=['담당자','담당자코드','상품명','보험회사'], drop=['담당자','담당자코드'], title='보험상품', form='multiple')
-    end_fa = time.time()
-    st.write(f"시간측정(랭킹-FA) : {end_fa - start_fa} sec")
 
     # --------------------------------------------------  보험회사별  -----------------------------------------------------------
-    start_company = time.time()
     # 메인랭킹 (소속부문 매출액 순위)
     instance_company = Toggles(df=df_month)
     st.markdown('---') # 구분선
@@ -147,11 +139,8 @@ if authentication_status:
         instance_company.make_toggles_company(reference=['보험회사','담당자코드','담당자','파트너'], drop=['보험회사','담당자코드'], title='FA', form='multiple')
     if company[3].toggle('보험회사별 매출액 상위 보험상품'):
         instance_company.make_toggles_company(reference=['보험회사','상품명','상품군'], drop=['보험회사'], title='보험상품', form='multiple')            
-    end_company = time.time()
-    st.write(f"시간측정(랭킹-보험회사) : {end_company - start_company} sec")
 
     # --------------------------------------------------  상품군별  -----------------------------------------------------------
-    start_category = time.time()
     # 메인랭킹 (상품군 매출액 순위)
     instance_category = Toggles(df=df_month)
     st.markdown('---') # 구분선
@@ -165,11 +154,8 @@ if authentication_status:
         instance_category.make_toggles_category(reference=['담당자','담당자코드','파트너','상품군'], drop=['담당자코드','상품군'], title='FA', form='multiple')
     if category[3].toggle('상품군별 매출액 상위 보험상품'):
         instance_category.make_toggles_category(reference=['상품명','보험회사','상품군'], drop=['상품군'], title='보험상품', form='multiple')
-    end_category = time.time()
-    st.write(f"시간측정(랭킹-상품군) : {end_category - start_category} sec")
     
     # --------------------------------------------------  보험상품별  -----------------------------------------------------------      
-    start_product = time.time()
     # 메인랭킹 (보험상품 매출액 순위)
     instance_product = Toggles(df=df_month)
     st.markdown('---') # 구분선
@@ -182,10 +168,7 @@ if authentication_status:
     if prod[3].toggle('보험상품별 매출액 상위 FA'):
         instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'], form='multiple')
     end_product = time.time()
-    st.write(f"시간측정(랭킹-보험상품) : {end_product - start_product} sec")
 
-    end_rank = time.time()
-    st.write(f"시간측정(랭킹) : {end_rank - start_rank} sec")
     end_all = time.time()
     st.write(f"시간측정(전체) : {end_all - start_all} sec")
 
