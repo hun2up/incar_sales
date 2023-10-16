@@ -172,11 +172,11 @@ if authentication_status:
     instance_category.make_card_single(df=instance_category.make_rankdata_class(columns=['상품군']), number=5)
     # 세부랭킹 (토글)
     if category[1].toggle('상품군별 매출액 상위 지점'):
-        instance_category.make_toggles_category(reference=['파트너','소속','상품군'], title='지점', form='multiple')
+        instance_category.make_toggles_category(reference=['파트너','소속','상품군'], drop=['상품군'], title='지점', form='multiple')
     if category[2].toggle('상품군별 매출액 상위 FA'):
-        instance_category.make_toggles_category(reference=['담당자','담당자코드','파트너','상품군'], title='FA', form='multiple')
+        instance_category.make_toggles_category(reference=['담당자','담당자코드','파트너','상품군'], drop=['담당자코드','상품군'], title='FA', form='multiple')
     if category[3].toggle('상품군별 매출액 상위 보험상품'):
-        instance_category.make_toggles_category(reference=['상품명','보험회사','상품군'], title='보험상품', form='multiple')
+        instance_category.make_toggles_category(reference=['상품명','보험회사','상품군'], drop=['상품군'], title='보험상품', form='multiple')
 
     '''
     dfr_cat = make_rankdata(df_month, ['상품군']) 
