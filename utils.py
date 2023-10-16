@@ -290,12 +290,12 @@ class MakeCard(Rank):
 #################################     하위 랭킹 스타일 카드 제작 (Rank 클래스 상속)     #####################################
 ##########################################################################################################################  
 class SubCards(Rank):
-    def __init__(self, df, reference):
-        super().__init__(df, reference)
-        
+    def __init__(self, df):
+        super().__init__(df)
+
     # ------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------
-    def make_rank_channel(self, title):
-        df_result = super().make_rankdata_class()
+    def make_rank_channel(self, columns, title):
+        df_result = super().make_rankdata_class(columns)
         index = [self.df.iat[i,0] for i in range(6)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         title = [f"{index[i]} 매출액 상위 {title}" for i in range(len(index))]
@@ -304,8 +304,8 @@ class SubCards(Rank):
         return [title, element]
 
     # ------------------------------------    보험회사별 하위랭킹 제작    ------------------------------------------
-    def make_rank_company(self, drop):
-        df_result = super().make_rankdata_class()
+    def make_rank_company(self, columns, drop):
+        df_result = super().make_rankdata_class(columns)
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         title = [self.df.iat[i,0] for i in range(5)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
@@ -313,8 +313,8 @@ class SubCards(Rank):
         return [title, element]
 
     # ------------------------------------    상품군별별 하위랭킹 제작    ------------------------------------------
-    def make_rank_category(self, title):
-        df_result = super().make_rankdata_class()
+    def make_rank_category(self, columns, title):
+        df_result = super().make_rankdata_class(columns)
         index = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         title = [f"{index[i]} 매출액 상위 {title}" for i in range(len(index))]
@@ -324,15 +324,17 @@ class SubCards(Rank):
 
 
     # ---------------------------------------    보험상품별 하위랭킹 제작    ----------------------------------------------
-    def make_rank_product(df_all, df_result, drop):
+    def make_rank_product(self, columns, select, drop):
+        df_result = super().make_rankdata_class(columns)
+        df_sub = super().make_rankdata_class(select)
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-        title = [f"{df_all.iat[i,0]} ({df_all.iat[i,1]})" for i in range(5)]
+        title = [f"{self.df.iat[i,0]} ({self.df.iat[i,1]})" for i in range(5)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
-        element = [df_result[df_result['상품명'].isin([df_all.iat[i,0]])].drop(columns=drop) for i in range(5)]
+        element = [df_result[df_result['상품명'].isin([self.df.iat[i,0]])].drop(columns=drop) for i in range(5)]
         return [title, element]
 
 ########################## 여기!!!
-
+    '''
     # ------------------------------------    보험상품별 하위랭킹 제작    ------------------------------------------
     def make_rank_product(self, df, select, drop):
         df_result = super().make_rankdata_class().groupby(select)['매출액'].sum().sort_value(by='매출액', ascending=False)
@@ -343,3 +345,4 @@ class SubCards(Rank):
         # 하위랭킹 제작을 위한 5개의 스타일카드 내용 생성
         element = [df_result[df_result['상품명'].isin([df.iat[i,0]])].drop(columns=drop) for i in range(5)]
         return [title, element]
+    '''
