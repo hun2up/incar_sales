@@ -184,7 +184,7 @@ class Rank:
         self.df = df
 
     # ------------------------------    스타일카드 제작을 위한 필요 컬럼 분류    ------------------------------
-    def make_rankdata_class(self, columns):
+    def make_rank(self, columns):
         # 입력 받은 컬럼과 '영수/환급보험료' 칼럼으로 묶고 '영수/환급보혐료' 칼럼은 '매출액' 칼럼으로 변경
         df_result = self.df.groupby(columns)['영수/환급보험료'].sum().reset_index(name='매출액')
         # '매출액' 칼럼을 내림차순으로 정렬
@@ -223,8 +223,8 @@ class Toggles(MakeCard):
 
     # ------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------
     def make_toggles_channel(self, reference, title, form):
-        df_channel = self.make_rankdata_class(columns=['소속'])
-        df_result = self.make_rankdata_class(reference)
+        df_channel = self.make_rank(columns=['소속'])
+        df_result = self.make_rank(reference)
         index = [df_channel.iat[i,0] for i in range(6)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         for i in range(6):
@@ -237,8 +237,8 @@ class Toggles(MakeCard):
 
     # ------------------------------------    보험회사별 하위랭킹 제작    ------------------------------------------
     def make_toggles_fa(self, reference, drop, title, form):
-        df_fa = self.make_rankdata_class(columns=['담당자'])
-        df_result = self.make_rankdata_class(reference)
+        df_fa = self.make_rank(columns=['담당자'])
+        df_result = self.make_rank(reference)
         index = [df_fa.iat[i,0] for i in range(5)]
         for i in range(5):
             st.markdown(f"{index[i]} 매출액 상위 {title}")
@@ -250,8 +250,8 @@ class Toggles(MakeCard):
 
     # ------------------------------------    보험회사별 하위랭킹 제작    ------------------------------------------
     def make_toggles_company(self, reference, drop, title, form):
-        df_company = self.make_rankdata_class(columns=['보험회사'])
-        df_result = self.make_rankdata_class(reference)
+        df_company = self.make_rank(columns=['보험회사'])
+        df_result = self.make_rank(reference)
         index = [df_company.iat[i,0] for i in range(5)]
         for i in range(5):
             st.markdown(f"{index[i]} 매출액 상위 {title}")
@@ -263,7 +263,7 @@ class Toggles(MakeCard):
 
     # --------------------------------------    상품군별 하위랭킹 제작    --------------------------------------------
     def make_toggles_category(self, reference, drop, title, form):
-        df_result = self.make_rankdata_class(reference)
+        df_result = self.make_rank(reference)
         index = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         for i in range(len(index)):
@@ -277,8 +277,8 @@ class Toggles(MakeCard):
 
     # ------------------------------------    보험상품별 하위랭킹 제작    ------------------------------------------
     def make_toggles_product(self, reference, select, drop, form):
-        df_result = self.make_rankdata_class(reference)
-        df_sub = self.make_rankdata_class(select)
+        df_result = self.make_rank(reference)
+        df_sub = self.make_rank(select)
         for i in range(5):
             st.markdown(f"##### {df_result.iat[i,0]} ({df_result.iat[i,1]}")
             df_subrank = df_sub[df_sub['상품명'].isin([df_result.iat[i,0]])].drop(columns=drop)
@@ -286,4 +286,15 @@ class Toggles(MakeCard):
                 self.make_card_single(df=df_subrank, number=5)
             if form== 'multiple':
                 self.make_card_multiple(df=df_subrank, number=5)
-        
+
+    def make_toggles(self, columns_original, columns_select, drop, form):
+        df_original = self.make_rank(columns_original)
+        df_select = self.make_rank(columns_select)
+        index = [df_original.iat[i,0] for i in range(5)]
+        for i in range(5):
+            st.markdown(f"##### {df_original.iat[i,0]}")
+            df_subrank = df_select[df_select[columns_select].isin([index[i]])].drop(columns=drop)
+            if form =='single':
+                self.make_card_single(df=df_subrank, number=5)
+            if form == 'multiple':
+                self.make_card_multiple(df=df_subrank, number=5)
