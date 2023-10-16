@@ -326,7 +326,7 @@ class Toggles(MakeCard):
     # ------------------------------------    소속부문별 하위랭킹 제작    ----------------------------------------
     def make_toggles_channel(self, reference, title, form):
         df_result = self.make_rankdata_class(reference)
-        index = [df_result.iat[i,0] for i in range(6)]
+        index = [self.df.iat[i,0] for i in range(6)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         for i in range(6):
             st.markdown(f"{index[i]} 매출액 상위 {title}")
