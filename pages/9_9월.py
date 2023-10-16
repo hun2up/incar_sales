@@ -153,9 +153,9 @@ if authentication_status:
     # 세부랭킹 (토글)
     if company[1].toggle('보험회사별 매출액 상위 지점'):
         instance_company.make_toggles_company(reference=['보험회사','파트너','소속'], drop=['보험회사'], title='지점', form='multiple')
-    if company[2].toggle('부문별 매출액 상위 보험회사'):
-        instance_company.make_toggles_company(reference=['보험회사','담당자코드','담당자','파트너'], drop=['보험회사','담당자코드'], title='보험회사', form='single')
-    if company[3].toggle('부문별 매출액 상위 보험상품'):
+    if company[2].toggle('보험회사별 매출액 상위 FA'):
+        instance_company.make_toggles_company(reference=['보험회사','담당자코드','담당자','파트너'], drop=['보험회사','담당자코드'], title='FA', form='single')
+    if company[3].toggle('보험회사별 매출액 상위 보험상품'):
         instance_company.make_toggles_company(reference=['보험회사','상품명','상품군'], drop=['보험회사'], title='보험상품', form='multiple')            
     end_rcom = time.time()
     st.write(f"시간측정(랭킹-보험회사(수정)) : {end_rcom - start_rcom} sec")

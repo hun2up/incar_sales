@@ -331,12 +331,12 @@ class Toggles(MakeCard):
 
 
     # ------------------------------------    보험회사별 하위랭킹 제작    ------------------------------------------
-    def make_subrank_company(self, reference, drop, title, form):
+    def make_toggles_company(self, reference, drop, title, form):
         df_company = super().make_rankdata_class(columns=['보험회사'])
         df_result = self.make_rankdata_class(reference)
         for i in range(5):
             st.markdown(f"{df_company.iat[i,0]} 매출액 상위 {title}")
-            df_subrank = df_result[df_result['보험회사'].isin([self.df.iat[i,0]])]
+            df_subrank = df_result[df_result['보험회사'].isin([self.df.iat[i,0]])].drop(columns=drop)
             if form =='single':
                 self.make_card_single(df=df_subrank, number=5)
             if form == 'multiple':
