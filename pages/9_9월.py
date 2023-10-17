@@ -1,7 +1,6 @@
 ###########################################################################################################################
 ################################################     라이브러리 호출     ###################################################
 ###########################################################################################################################
-import time
 import streamlit as st
 import streamlit_authenticator as stauth
 hashed_passwords = stauth.Hasher(['XXX']).generate()
@@ -60,7 +59,6 @@ if authentication_status == False:
     st.error('아이디와 패스워드를 확인해주세요')
 if authentication_status:
     # fn_peformance(df_month, this_month)
-    start_all = time.time()
     ##########################################################################################################################
     ##############################################     메인페이지 타이틀     ##################################################
     ##########################################################################################################################
@@ -157,12 +155,3 @@ if authentication_status:
         instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'], form='multiple')
     if prod[3].toggle('보험상품별 매출액 상위 FA'):
         instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'], form='multiple')
-    end_product = time.time()
-
-    end_all = time.time()
-    st.write(f"시간측정(전체) : {end_all - start_all} sec")
-
-'''
-    instance_chart = Charts(df_month)
-    instance_chart.make_chart(['보험종목','영수일자'])
-'''
