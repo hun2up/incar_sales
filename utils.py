@@ -88,11 +88,11 @@ class ChartData():
         self.df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
 
     # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
-    def make_chart_line(self, title):
+    def make_chart_line(self, df, title):
         fig_line = pl.graph_objs.Figure()
         # Iterate over unique channels and add a trace for each
-        for reference in self.df_total['구분'].unique():
-            line_data = self.df_total[self.df_total['구분'] == reference]
+        for reference in df['구분'].unique():
+            line_data = df[df['구분'] == reference]
             fig_line.add_trace(pl.graph_objs.Scatter(
                 x=line_data['영수일자'],
                 y=line_data['매출액'],
@@ -110,15 +110,15 @@ class ChartData():
         )
         return fig_line
 
-    def make_running(self):
-        for start in range(len(self.df_loop)):
+    def make_running(self, select, dates, loop):
+        for start in range(len(loop)):
             # 생명보험이나 손해보험만 남기기
-            df_base = self.df_select[self.df_select.iloc[:,0] == self.df_loop[start]]
-            df_running = df_base.merge(self.df_dates, on='영수일자', how='right')
+            df_base = select[select.iloc[:,0] == loop[start]]
+            df_running = df_base.merge(dates, on='영수일자', how='right')
             # 최대한의 날짜프레임에 보험사별 매출현황 끼워넣기
             for insert in range(df_running.shape[0]):
                 if pd.isna(df_running.iloc[insert, 0]):
-                    df_running.iloc[insert,0] = self.df_loop[start]
+                    df_running.iloc[insert,0] = loop[start]
                     df_running.iloc[insert,2] = 0
                 else:
                     pass
@@ -128,9 +128,9 @@ class ChartData():
                     df_running.iloc[running+1,2] = df_running.iloc[running+1,2] + df_running.iloc[running,2]
                 except:
                     pass
-            self.df_total = pd.concat([self.df_total, df_running], axis=0)
-            return(self.df_total)
-
+            df_total = pd.concat([df_total, df_running], axis=0)
+            return df_total
+    '''
     # ---------------------------------    고유값 정리를 위한 재정규화    -----------------------------------------------
     def make_standard(self):
         # 영수일자 고유값만 남기기 (매출액 없어도 일자를 최대로 지정하기 위함)
@@ -139,17 +139,25 @@ class ChartData():
         df_category = self.df_select.groupby(['구분'])['구분'].count().reset_index(name="개수")
         # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
         self.df_loop = df_category['구분'].tolist()
+    '''
 
     # -------------------------    누적 매출액 산출을 위해 필요 컬럼 정리 및 차트 제작    -------------------------------------
     def select_columns_basic(self, column_select, title):
         # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
-        self.df_select = self.df.groupby(column_select)['영수/환급보험료'].sum().reset_index(name='매출액')
-        self.df_select.columns.values[0] = '구분'
-        self.make_standard()
-        self.make_running()
+        df_select = self.df.groupby(column_select)['영수/환급보험료'].sum().reset_index(name='매출액')
+        df_select.columns.values[0] = '구분'
+        # 영수일자 고유값만 남기기 (매출액 없어도 일자를 최대로 지정하기 위함)
+        df_dates = df_select.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
+        # 구분 고유값만 남기기 (보험종목, 보험회사 등)
+        df_category = df_select.groupby(['구분'])['구분'].count().reset_index(name="개수")
+        # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
+        df_loop = df_category['구분'].tolist()
+        # self.make_standard()
+        df_total = self.make_running(select=df_select, dates=df_dates, loop=df_loop)
         # return self.df_total
-        return self.make_chart_line(title)
+        self.make_chart_line(df_total, title)
     
+    '''
     # ------------------------------------------------    손생 합계    -------------------------------------------------------
     def make_sum_lnf(self, column_select, title):
         self.df_select = self.df.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
@@ -159,8 +167,7 @@ class ChartData():
         self.make_standard()
         self.df_total = pd.concat([self.select_columns_basic(column_select), self.make_running()], axis=0)
         return self.make_chart_line(title)
-
-
+    '''
 
 # 이거 너무 복잡함 (절차지향적임)
 # --------------------------------    그래프 제작을 위한 필요 컬럼 분류하고 누적값 구하기    -----------------------------------
