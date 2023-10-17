@@ -73,6 +73,7 @@ if authentication_status:
     start_chart_after = time.time()
 
     instance_chart = ChartData(df=df_month)
+    st.plotly_chart(instance_chart.sum_lnf(column_select=['보험종목','영수일자'], title='보험종목별 매출액 추이'), use_container_width=True)
     # instance_chart.select_columns_basic(column_select=['보험종목','영수일자'])
     # st.dataframe(instance_chart.select_columns_basic(column_select=['보험종목','영수일자']))
 
