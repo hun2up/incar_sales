@@ -47,10 +47,11 @@ if authentication_status:
     ##########################################################################################################################
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
-    year_sum = call_data_year("sum").rename(columns={'구분':'보험종목'}).drop(columns=['Unnamed: 0','개수']).reset_index(drop=True)
-    year_company = call_data_year("company").rename(columns={'구분':'보험회사'}).drop(columns=['개수']).reset_index(drop=True)
-    year_product = call_data_year("product").rename(columns={'구분':'상품군'}).drop(columns=['개수']).reset_index(drop=True)
-    year_channel = call_data_year("channel").rename(columns={'구분':'소속'}).drop(columns=['개수']).reset_index(drop=True)
+    year_sum = call_data_year("sum").rename(columns={'구분':'보험종목'}).drop(columns=['Unnamed: 0','개수'])
+    year_company = call_data_year("company").rename(columns={'구분':'보험회사'}).drop(columns=['Unnamed: 0','개수'])
+    year_product = call_data_year("product").rename(columns={'구분':'상품군'}).drop(columns=['Unnamed: 0','개수'])
+    year_channel = call_data_year("channel").rename(columns={'구분':'소속'}).drop(columns=['Unnamed: 0','개수'])
     year_merge = pd.merge(year_sum, year_company, on=['매출액','영수일자'], how='outer')
-    st.dataframe(year_sum)
+    year_merge = pd.merge(year_merge, year_product, on=['매출액','영수일자'], how='outer')
+    year_merge = pd.merge(year_merge, year_channel, on=['매출액','영수일자'], how='outer')
     st.dataframe(year_merge)
