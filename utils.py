@@ -83,10 +83,8 @@ class Charts:
     def __init__(self) -> None:
         pass
 
-
-
 class ChartData():
-    def __init__(self, df) -> None:
+    def __init__(self, df):
         self.df = df
         self.df_select = pd.DataFrame()
         self.df_dates = pd.DataFrame()
