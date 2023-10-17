@@ -62,11 +62,7 @@ if authentication_status:
     ##########################################################################################################################
     ##############################################     메인페이지 타이틀     ##################################################
     ##########################################################################################################################
-    start_all = time.time()
-    
     hide_st_style()
-
-    start_chart = time.time()
     st.header(f"{this_month} 매출현황 추이 (그래프)")
 
     ##########################################################################################################################
@@ -89,13 +85,9 @@ if authentication_status:
     channel_year, channel_month = instance_chart.make_data_basic(column_select=['소속','영수일자'])
     fig_line_channel.plotly_chart(instance_chart.make_chart_line(df=channel_month, title='소속부문별 매출액 추이') ,use_container_width=True)
 
-    end_chart = time.time()
-    st.write(f"시간측정(차트) : {end_chart - start_chart} sec")
     ##########################################################################################################################
     ##############################################     스타일 카드 (랭킹)     #################################################
-    ##########################################################################################################################
-    start_rank = time.time()
-    
+    ##########################################################################################################################    
     st.markdown('---')
     st.markdown("## 주요 매출액 순위")
     style_metric_cards()
@@ -168,14 +160,3 @@ if authentication_status:
         instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'], form='multiple')
     if prod[3].toggle('보험상품별 매출액 상위 FA'):
         instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'], form='multiple')
-
-    end_rank = time.time()
-    st.write(f"시간측정(랭킹) : {end_rank - start_rank} sec")
-
-    end_all = time.time()
-    st.write(f"시간측정(전체) : {end_chart - start_all} sec")
-
-    st.dataframe(sum_year)
-    st.dataframe(company_year)
-    st.dataframe(product_year)
-    st.dataframe(channel_year)
