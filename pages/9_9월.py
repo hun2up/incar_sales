@@ -78,8 +78,8 @@ if authentication_status:
 
     # -----------------------------------------  보험사별 매출액, 상품군별 매출액  ----------------------------------------------
     fig_line_company, fig_line_product = st.columns(2)
-    fig_line_company = instance_chart.select_columns_basic(column_select=['보험회사','영수일자'], title='보험회사별 매출액 추이')
-    fig_line_product = instance_chart.select_columns_basic(column_select=['상품군','영수일자'], title='상품군별 매출액 추이')
+    fig_line_company.plotly_chart(instance_chart.select_columns_basic(column_select=['보험회사','영수일자'], title='보험회사별 매출액 추이'))
+    fig_line_product.plotly_chart(instance_chart.select_columns_basic(column_select=['상품군','영수일자'], title='상품군별 매출액 추이'))
 
     end_chart_after = time.time()
     st.write(f"시간측정(차트-수정후) : {end_chart_after - start_chart_after} sec")

@@ -112,7 +112,7 @@ class ChartData():
             hovermode='x',
             template='plotly_white'  # You can choose different templates if you prefer
         )
-        return st.plotly_chart(fig_line)
+        return fig_line
 
     def make_running(self):
         for start in range(len(self.df_loop)):
