@@ -1,6 +1,7 @@
 ###########################################################################################################################
 ################################################     라이브러리 호출     ###################################################
 ###########################################################################################################################
+import time
 import pandas as pd
 import streamlit as st
 import streamlit_authenticator as stauth
@@ -10,7 +11,7 @@ from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 from utils import hide_st_style, call_data_year
-from utils import Charts
+from utils import Charts, Year
 
 ###########################################################################################################################
 ################################################     인증페이지 설정     ###################################################
@@ -48,6 +49,14 @@ if authentication_status:
     ##########################################################################################################################
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
+    start_after = time.time()
+    year_merge_test = pd.DataFrame()
+    instance_year = Year(year_merge_test)
+    st.dataframe(instance_year.make_data_year())
+    end_after = time.time()
+    st.write(f"after : {end_after - start_after}")
+
+    start_befor = time.time()
     year_sum = call_data_year("sum").rename(columns={'구분':'보험종목'}).drop(columns=['Unnamed: 0','개수'])
     year_company = call_data_year("company").rename(columns={'구분':'보험회사'}).drop(columns=['Unnamed: 0','개수'])
     year_product = call_data_year("product").rename(columns={'구분':'상품군'}).drop(columns=['Unnamed: 0','개수'])
@@ -59,7 +68,7 @@ if authentication_status:
     st.dataframe(year_merge)
 
     instance_chart = Charts(year_merge)
-
+    # ---------------------------------------------------  손생 매출액  ----------------------------------------------------
     sum_fake, sum_year = instance_chart.make_data_basic(column_select=['보험종목','영수일자'])
     st.plotly_chart(instance_chart.make_chart_line(df=sum_year, title='보험종목별 매출액 추이'), use_container_width=True)
 
@@ -74,3 +83,5 @@ if authentication_status:
     fig_line_channel, fig_line_career = st.columns(2)
     channel_fake, channel_year = instance_chart.make_data_basic(column_select=['소속','영수일자'])
     fig_line_channel.plotly_chart(instance_chart.make_chart_line(df=channel_year, title='소속부문별 매출액 추이') ,use_container_width=True)
+    end_before = time.time()
+    st.write(f"before : {end_before - start_befor}")

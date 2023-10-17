@@ -176,6 +176,20 @@ class Charts(ChartData):
         )
         return fig_line
 
+class Year(Charts):
+    def __init__(self, df):
+        super().__init__(df)
+    
+    def make_data_year():
+        category = {'sum':'보험종목','company':'보험회사','product':'상품군','channel':'소속'}
+        df_year = pd.DataFrame()
+        for key, value in category.items():
+            df_category = call_data_year(key).renmae(columns={'구분':value}).drop(columns=['Unnamed: 0','개수'])
+            df_year = pd.merge(df_year, df_category, on=['매출액','영수일자'], how='outer')
+        df_year = df_year.rename(columns={'매출액':'영수/환급보험료'})
+        st.dataframe(df_year)
+        return df_year
+
 ##########################################################################################################################
 ############################################     랭킹 데이터 전처리     #################################################
 ##########################################################################################################################
