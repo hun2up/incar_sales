@@ -144,6 +144,24 @@ class ChartData:
         df_category = df_present['구분'].tolist()
         df_total = self.make_data_running(select=df_select, dates=df_dates, category=df_category)
         return self.make_chart_line(df=df_total, title=chart_title)
+    
+    def make_data_sum(self, column_select, chart_title):
+        df_sum = self.df.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
+        df_sum['구분'] = '손생합계'
+        df_sum = df_sum[['구분','영수일자','매출액']]
+        df_sum.columns.values[0] = '구분'
+        # 구분 고유값만 남기기 (보험종목, 보험회사 등)
+        df_present = df_sum.groupby(['구분'])['구분'].count().reset_index(name="개수")
+        # 영수일자 고유값만 남기기 (매출액 없어도 일자를 최대로 지정하기 위함)
+        df_dates = df_sum.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
+        # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
+        df_category = df_present['구분'].tolist()
+        df_total = self.make_data_running(select=df_sum, dates=df_dates, category=df_category)
+        df_insurance = self.make_data_basic(column_select=column_select)
+        df_total = pd.concat([df_insurance, df_total], axis=0)
+        return self.make_chart_line(df=df_total, title=chart_title)
+
+
 
 # 이거 너무 복잡함 (절차지향적임)
 # --------------------------------    그래프 제작을 위한 필요 컬럼 분류하고 누적값 구하기    -----------------------------------
