@@ -80,19 +80,15 @@ def make_sidebar(dfv_sidebar, colv_sidebar):
 ##################################################     차트 (현황)     ####################################################
 ##########################################################################################################################
 class Charts:
-    def __init__(self, df) -> None:
-        self.df = df
-        self.df_select = pd.DataFrame()
-        self.df_dates = pd.DataFrame()
-        self.df_loop = pd.DataFrame()
-        self.df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
+    def __init__(self) -> None:
+        pass
 
     # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
-    def make_chart_line(self, title):
+    def make_chart_line(self, df, title):
         fig_line = pl.graph_objs.Figure()
         # Iterate over unique channels and add a trace for each
-        for reference in self.df_total['구분'].unique():
-            line_data = self.df_total[self.df_total['구분'] == reference]
+        for reference in df['구분'].unique():
+            line_data = df[df['구분'] == reference]
             fig_line.add_trace(pl.graph_objs.Scatter(
                 x=line_data['영수일자'],
                 y=line_data['매출액'],
@@ -109,6 +105,14 @@ class Charts:
             template='plotly_white'  # You can choose different templates if you prefer
         )
         return fig_line
+
+class ChartData:
+    def __init__(self, df) -> None:
+        self.df = df
+        self.df_select = pd.DataFrame()
+        self.df_dates = pd.DataFrame()
+        self.df_loop = pd.DataFrame()
+        self.df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
 
     def make_running(self):
         for start in range(len(self.df_loop)):
@@ -145,8 +149,7 @@ class Charts:
         self.df_select = self.df.groupby(column_select)['영수/환급보험료'].sum().reset_index(name='매출액')
         self.df_select.columns.values[0] = '구분'
         self.make_standard()
-        self.make_running()
-        st.plotly_chart(self.make_chart_line(title))
+        st.plotly_chart(self.make_chart_line(self.make_running, title))
 
     '''
     # -------------------------------------------    누적 매출액 구하기    ---------------------------------------------------
