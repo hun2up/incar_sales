@@ -190,10 +190,12 @@ class Year(Charts):
         st.dataframe(df_year)
         return df_year
     
+    '''
     def result_year(self, column_select):
         self.df = self.make_data_year()
         df_trash, df_year = self.make_data_basic(column_select)
         return df_trash, df_year
+    '''
 
 ##########################################################################################################################
 ############################################     랭킹 데이터 전처리     #################################################
