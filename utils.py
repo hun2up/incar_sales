@@ -111,6 +111,7 @@ class ChartData():
         return fig_line
 
     def make_running(self, select, dates, loop):
+        df_total = pd.DataFrame()
         for start in range(len(loop)):
             # 생명보험이나 손해보험만 남기기
             df_base = select[select.iloc[:,0] == loop[start]]
