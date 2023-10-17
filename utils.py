@@ -136,10 +136,11 @@ class ChartData:
         df_dates = df_sum.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
         # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
         df_category = df_present['구분'].tolist()
-        df_total = self.make_data_running(select=df_sum, dates=df_dates, category=df_category)
-        df_insurance = self.make_data_basic(column_select)
-        df_total = pd.concat([df_insurance, df_total], axis=0)
-        return df_total
+        df_sum_year, df_sum_month = self.make_data_running(select=df_sum, dates=df_dates, category=df_category)
+        df_insu_year, df_insu_month = self.make_data_basic(column_select)
+        df_total_year = pd.concat([df_insu_year, df_sum_year], axis=0)
+        df_total_month = pd.concat([df_insu_month, df_sum_month], axis=0)
+        return df_total_year, df_total_month
 
 '''
 ##########################################################################################################################
