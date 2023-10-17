@@ -86,6 +86,7 @@ class ChartData:
     def make_data_running(self, select, dates, category):
         # 반복문 실행을 위한 초기 데이터프레임 제작
         df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
+        df_year = pd.DataFrame()
         # 반복문 실행을 위한 구간 선언 
         for i in range(len(category)):
             # 생명보험이나 손해보험만 남기기
@@ -104,8 +105,9 @@ class ChartData:
                     df_running.iloc[running+1,2] = df_running.iloc[running+1,2] + df_running.iloc[running,2]
                 except:
                     pass
+            df_year = pd.concat([df_year, df_running.iloc[-1]], axis=0)
             df_total = pd.concat([df_total, df_running], axis=0)
-        st.dataframe(df_total)
+        st.dataframe(df_year)
         return df_total
 
     # --------------------------------    그래프 제작을 위한 필요 컬럼 분류하고 누적값 구하기    -----------------------------------
