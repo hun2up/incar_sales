@@ -73,32 +73,3 @@ if authentication_status:
     end_after = time.time()
     st.write(f"after : {end_after - start_after}")
     
-
-    start_befor = time.time()
-    year_sum = call_data_year("sum").rename(columns={'구분':'보험종목'}).drop(columns=['Unnamed: 0','개수'])
-    year_company = call_data_year("company").rename(columns={'구분':'보험회사'}).drop(columns=['Unnamed: 0','개수'])
-    year_product = call_data_year("product").rename(columns={'구분':'상품군'}).drop(columns=['Unnamed: 0','개수'])
-    year_channel = call_data_year("channel").rename(columns={'구분':'소속'}).drop(columns=['Unnamed: 0','개수'])
-    year_merge = pd.merge(year_sum, year_company, on=['매출액','영수일자'], how='outer')
-    year_merge = pd.merge(year_merge, year_product, on=['매출액','영수일자'], how='outer')
-    year_merge = pd.merge(year_merge, year_channel, on=['매출액','영수일자'], how='outer')
-    year_merge = year_merge.rename(columns={'매출액':'영수/환급보험료'})
-
-    instance_chart = Charts(year_merge)
-    # ---------------------------------------------------  손생 매출액  ----------------------------------------------------
-    sum_fake, sum_year = instance_chart.make_data_basic(column_select=['보험종목','영수일자'])
-    st.plotly_chart(instance_chart.make_chart_line(df=sum_year, title='보험종목별 매출액 추이'), use_container_width=True)
-
-    # -----------------------------------------  보험사별 매출액, 상품군별 매출액  ----------------------------------------------
-    fig_line_company, fig_line_product = st.columns(2)
-    company_fake, company_year = instance_chart.make_data_basic(column_select=['보험회사','영수일자'])
-    product_fake, product_year = instance_chart.make_data_basic(column_select=['상품군','영수일자'])
-    fig_line_company.plotly_chart(instance_chart.make_chart_line(df=company_year, title='보험회사별 매출액 추이'), use_container_width=True) # 보험회사별 매출액
-    fig_line_product.plotly_chart(instance_chart.make_chart_line(df=product_year, title='상품군별 매출액 추이'), use_container_width=True) # 상품군별 매출액
-    
-    # ---------------------------------------  소속부문별 매출액, 입사연차별 매출액  ---------------------------------------------
-    fig_line_channel, fig_line_career = st.columns(2)
-    channel_fake, channel_year = instance_chart.make_data_basic(column_select=['소속','영수일자'])
-    fig_line_channel.plotly_chart(instance_chart.make_chart_line(df=channel_year, title='소속부문별 매출액 추이') ,use_container_width=True)
-    end_before = time.time()
-    st.write(f"before : {end_before - start_befor}")
