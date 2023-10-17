@@ -70,20 +70,25 @@ if authentication_status:
     ##########################################################################################################################
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
-    start_chart = time.time()
+    start_chart_after = time.time()
 
     instance_chart = Charts(df=df_month)
     st.write(['보험종목','영수일자'])
-    instance_chart.select_columns_basic(column_select=['보험종목','영수일자'])
-    st.dataframe(instance_chart.select_columns_basic(column_select=['보험종목','영수일자']))
+    # instance_chart.select_columns_basic(column_select=['보험종목','영수일자'])
+    # st.dataframe(instance_chart.select_columns_basic(column_select=['보험종목','영수일자']))
     st.write(['보험회사','영수일자'])
-    instance_chart.select_columns_basic(column_select=['보험회사','영수일자'])
-    st.dataframe(instance_chart.select_columns_basic(column_select=['보험회사','영수일자']))
+    instance_chart.select_columns_basic(column_select=['보험회사','영수일자'], title='보험회사별 매출액 추이')
+    # st.dataframe(instance_chart.select_columns_basic(column_select=['보험회사','영수일자']))
     st.write(['상품군','영수일자'])
-    instance_chart.select_columns_basic(column_select=['상품군','영수일자'])
-    st.dataframe(instance_chart.select_columns_basic(column_select=['상품군','영수일자']))
+    instance_chart.select_columns_basic(column_select=['상품군','영수일자'], title='상품군별 매출액 추이')
+    # st.dataframe(instance_chart.select_columns_basic(column_select=['상품군','영수일자']))
+
+    end_chart_after = time.time()
+    st.write(f"시간측정(차트) : {end_chart_after - start_chart_after} sec")
 
     # ----------------------------------------------  생손매출액 (꺾은선)  -----------------------------------------------------
+    start_chart_before = time.time()
+
     dfc_insu = make_chartdata(df_month, ['보험종목','영수일자']) # 보험종목별 매출액
     df_insu = sum_lnf(df_month, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
     st.plotly_chart(make_chart_line(df_insu, '보험종목별 매출액 추이'), use_container_width=True)
@@ -100,8 +105,8 @@ if authentication_status:
     dfc_chn = make_chartdata(df_month, ['소속','영수일자']) # 소속부문별 매출액
     fig_line_chn.plotly_chart(make_chart_line(dfc_chn, '소속부문별 매출액 추이'), use_container_width=True)
 
-    end_chart = time.time()
-    st.write(f"시간측정(차트) : {end_chart - start_chart} sec")
+    end_chart_before = time.time()
+    st.write(f"시간측정(차트) : {end_chart_before - start_chart_before} sec")
 
     
     ##########################################################################################################################

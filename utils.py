@@ -87,6 +87,29 @@ class Charts:
         self.df_loop = pd.DataFrame()
         self.df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
 
+    # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
+    def make_chart_line(self, title):
+        fig_line = pl.graph_objs.Figure()
+        # Iterate over unique channels and add a trace for each
+        for reference in self.df_total['구분'].unique():
+            line_data = self.df_total[self.df_total['구분'] == reference]
+            fig_line.add_trace(pl.graph_objs.Scatter(
+                x=line_data['영수일자'],
+                y=line_data['매출액'],
+                mode='lines+markers',
+                name=reference,
+            ))
+        # Update the layout
+        fig_line.update_layout(
+            title=title,
+            xaxis_title='영수일자',
+            yaxis_title='매출액',
+            legend_title='구분',
+            hovermode='x',
+            template='plotly_white'  # You can choose different templates if you prefer
+        )
+        return fig_line
+
     def make_running(self):
         for start in range(len(self.df_loop)):
             # 생명보험이나 손해보험만 남기기
@@ -106,7 +129,8 @@ class Charts:
                 except:
                     pass
             self.df_total = pd.concat([self.df_total, df_running], axis=0)
-        
+
+    # ---------------------------------    고유값 정리를 위한 재정규화    -----------------------------------------------
     def make_standard(self):
         # 영수일자 고유값만 남기기 (매출액 없어도 일자를 최대로 지정하기 위함)
         self.df_dates = self.df_select.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
@@ -115,14 +139,14 @@ class Charts:
         # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
         self.df_loop = df_category['구분'].tolist()
 
-    # -------------------------------    누적 매출액 산출을 위해 필요 컬럼 정리    ------------------------------------------
-    def select_columns_basic(self, column_select):
+    # -------------------------    누적 매출액 산출을 위해 필요 컬럼 정리 및 차트 제작    -------------------------------------
+    def select_columns_basic(self, column_select, title):
         # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
         self.df_select = self.df.groupby(column_select)['영수/환급보험료'].sum().reset_index(name='매출액')
         self.df_select.columns.values[0] = '구분'
         self.make_standard()
         self.make_running()
-        return self.df_total
+        st.plotly_chart(self.make_chart_line(title))
 
     '''
     # -------------------------------------------    누적 매출액 구하기    ---------------------------------------------------
