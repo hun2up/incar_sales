@@ -151,7 +151,7 @@ class ChartData():
         self.make_standard()
         self.make_running()
         # return self.df_total
-        self.make_chart_line(title)
+        return self.make_chart_line(title)
 
     '''
     # -------------------------------------------    누적 매출액 구하기    ---------------------------------------------------
