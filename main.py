@@ -73,4 +73,4 @@ if authentication_status:
     channel_year, channel_month = instance_chart.make_data_basic(column_select=['소속','영수일자'])
     fig_line_channel.plotly_chart(instance_chart.make_chart_line(df=channel_month, title='소속부문별 매출액 추이') ,use_container_width=True)
     end = time.time()
-    st.write(f"시간측정 : {end} - {start}")
+    st.write(f"시간측정 : {end - start}")
