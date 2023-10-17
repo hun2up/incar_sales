@@ -89,21 +89,15 @@ class Charts:
         df_chart = self.df.groupby(column_select)['영수/환급보험료'].sum().reset_index(name='매출액')
         # 구분 컬럼 추가
         df_chart.columns.values[0] = '구분'
-        st.dataframe(df_chart)
         # 구분 고유값만 남기기 (보험종목, 보험회사 등)
         df_present = df_chart.groupby(['구분'])['구분'].count().reset_index(name="개수")
         # 영수일자 고유값만 남기기 (매출액 없어도 일자를 최대로 지정하기 위함)
         df_date = df_chart.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
-        st.dataframe(df_present)
-        st.dataframe(df_date)
-
-        '''
         # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
-        list_running = dfv_temp['구분'].tolist()
+        running = df_present['구분'].tolist()
         # 반복문 실행을 위한 초기 데이터프레임 제작
-        dfv_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
-        '''
-
+        df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
+        st.dataframe(running)
                 
 
 # 이거 너무 복잡함 (절차지향적임)
