@@ -47,7 +47,7 @@ if authentication_status:
     ##########################################################################################################################
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
-    year_sum = call_data_year("sum").rename(columns={'구분':'보험종목'}).drop(columns=['개수']).reset_index(drop=True)
+    year_sum = call_data_year("sum").rename(columns={'구분':'보험종목'}).drop(columns=['Unnamed: 0','개수']).reset_index(drop=True)
     year_company = call_data_year("company").rename(columns={'구분':'보험회사'}).drop(columns=['개수']).reset_index(drop=True)
     year_product = call_data_year("product").rename(columns={'구분':'상품군'}).drop(columns=['개수']).reset_index(drop=True)
     year_channel = call_data_year("channel").rename(columns={'구분':'소속'}).drop(columns=['개수']).reset_index(drop=True)
