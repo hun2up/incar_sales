@@ -156,7 +156,7 @@ class ChartData():
         # self.make_standard()
         df_total = self.make_running(select=df_select, dates=df_dates, loop=df_loop)
         # return self.df_total
-        self.make_chart_line(df_total, title)
+        return self.make_chart_line(df_total, title)
     
     '''
     # ------------------------------------------------    손생 합계    -------------------------------------------------------
