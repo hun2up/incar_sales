@@ -1,6 +1,7 @@
 ###########################################################################################################################
 ################################################     라이브러리 호출     ###################################################
 ###########################################################################################################################
+from numba import njit
 import time
 import pandas as pd
 import streamlit as st
@@ -63,12 +64,14 @@ if authentication_status:
     df_jan = pd.DataFrame()
     end_jan = time.time()
     st.write(f"{end_jan - start_jan}")
+
     start_feb = time.time()
     df_feb = call_data("feb")
     instance_feb = Charts(df=df_feb)
     instance_feb = pd.DataFrame()
     end_feb = time.time()
     st.write(f"{end_feb - start_feb}")
+
     start_mar = time.time()
     df_mar = call_data("mar")
     instance_mar = Charts(df=df_mar)
@@ -76,17 +79,20 @@ if authentication_status:
     instance_mar = pd.DataFrame()
     end_mar = time.time()
     st.write(f"{end_mar - start_mar}")
+
     start_apr = time.time()
     df_apr = call_data("apr")
     instance_apr = Charts(df=df_apr)
     end_apr = time.time()
     st.write(f"{end_apr - start_apr}")
+
     start_may = time.time()
     df_may = call_data("may")
     instance_may = Charts(df=df_may)
     df_may = pd.DataFrame()
     end_may = time.time()
     st.write(f"{end_may - start_may}")
+
     start_jun = time.time()
     df_jun = call_data("jun")
     instance_jun = Charts(df=df_jun)
@@ -94,6 +100,7 @@ if authentication_status:
     instance_jun = pd.DataFrame()
     end_jun = time.time()
     st.write(f"{end_jun - start_jun}")
+
     start_jul = time.time()
     df_jul = call_data("jul")
     instance_jul = Charts(df=df_jul)
