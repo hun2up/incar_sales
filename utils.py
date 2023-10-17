@@ -66,6 +66,7 @@ def call_data(v_month):
     # 불러 온 데이터에서 납입방법 '일시납'인 데이터 삭제
     return dfv_call[~dfv_call['납입방법'].str.contains('일시납')]
 
+@st.cache_data(ttl=600)
 def call_data_year(category):
     # 연간실적종합 불러오기
     df_call = pd.read_csv(st.secrets[f"{category}_url"].replace("/edit#gid=", "/export?format=csv&gid="))
