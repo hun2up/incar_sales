@@ -152,10 +152,10 @@ class ChartData():
     
     # ------------------------------------------------    손생 합계    -------------------------------------------------------
     def make_sum_lnf(self, column_select, title):
-        df_sum = self.df.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
-        df_sum['구분'] = '손생합계'
-        df_sum = df_sum[['구분','영수일자','매출액']]
-        df_sum.columns.values[0] = '구분'
+        self.df_select = self.df.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
+        self.df_select['구분'] = '손생합계'
+        self.df_select = self.df_select[['구분','영수일자','매출액']]
+        self.df_select.columns.values[0] = '구분'
         self.make_standard()
         self.df_total = pd.concat([self.select_columns_basic(column_select), self.make_running()], axis=0)
         return self.make_chart_line(title)
