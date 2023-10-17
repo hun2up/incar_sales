@@ -53,8 +53,6 @@ if authentication_status:
     df_year = pd.DataFrame()
     for key in month_dict:
         df_month = call_data(f"{key}")
-        st.dataframe(df_month)
-
-        # instance_month = Charts(df=df_month)
-        # df_year = pd.concat([df_year, instance_month.make_monthly_data(column_select=['보험회사','영수일자'])], axis=0)
-    # st.dataframe(df_year)
+        instance_month = Charts(df=df_month)
+        df_year = pd.concat([df_year, instance_month.make_monthly_data(column_select=['보험회사','영수일자'])], axis=0)
+    st.dataframe(df_year)
