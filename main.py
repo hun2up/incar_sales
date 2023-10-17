@@ -56,8 +56,8 @@ if authentication_status:
     df_product = pd.DataFrame()
     df_channel = pd.DataFrame()
 
-    for i in month_dict:
-        df_month = call_data(f"{i}")
+    for key in month_dict:
+        df_month = call_data(key)
         instance_chart = Charts(df=df_month)
         sum_year, sum_month = instance_chart.make_data_sum(column_select=['보험종목','영수일자'])
         company_year, company_month = instance_chart.make_data_basic(column_select=['보험회사','영수일자'])
