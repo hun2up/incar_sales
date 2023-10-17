@@ -88,9 +88,7 @@ class Charts:
         # self.loop = pd.DataFrame()
 
     # 누적매출액 구하기
-    def running(self):
-        st.dataframe(self.df_select)
-        st.dataframe(self.df_total)
+    def running(self):     
         for start in range(len(self.loop)):
             # 생명보험이나 손해보험만 남기기
             df_base = self.df_select[self.df_select.iloc[:,0] == self.loop[start]]
@@ -109,6 +107,7 @@ class Charts:
                 except:
                     pass
             self.df_total = pd.concat([self.df_total, df_running], axis=0)
+            st.dataframe(self.df_total)
             return self.df_total
 
     # ----------------------------    그래프 제작을 위한 필요 컬럼 분류하고 누적값 구하기    -----------------------------------
