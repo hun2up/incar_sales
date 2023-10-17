@@ -55,6 +55,7 @@ if authentication_status:
     year_merge = pd.merge(year_sum, year_company, on=['매출액','영수일자'], how='outer')
     year_merge = pd.merge(year_merge, year_product, on=['매출액','영수일자'], how='outer')
     year_merge = pd.merge(year_merge, year_channel, on=['매출액','영수일자'], how='outer')
+    year_merge = year_merge.rename(columns={'매출액':'영수/환급보험료'})
     st.dataframe(year_merge)
 
     instance_chart = Charts(year_merge)
