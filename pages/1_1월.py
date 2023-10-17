@@ -161,3 +161,6 @@ if authentication_status:
         instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'], form='multiple')
 
     st.dataframe(sum_jan)
+    st.dataframe(company_jan)
+    st.dataframe(product_jan)
+    st.dataframe(channel_jan)
