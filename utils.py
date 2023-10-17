@@ -180,7 +180,7 @@ class Year(Charts):
     def __init__(self, df):
         super().__init__(df)
     
-    def make_data_year():
+    def make_data_year(self):
         category = {'sum':'보험종목','company':'보험회사','product':'상품군','channel':'소속'}
         df_year = pd.DataFrame()
         for key, value in category.items():
