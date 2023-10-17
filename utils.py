@@ -106,6 +106,7 @@ class Charts:
         df_select = self.select_columns(column_select)
         df_dates = self.find_dates(column_select)
         loop = self.find_category(column_select)
+        df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
         for start in range(len(loop)):
             # 생명보험이나 손해보험만 남기기
             df_base = df_select[df_select.iloc[:,0] == loop[start]]
