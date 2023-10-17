@@ -72,4 +72,3 @@ if authentication_status:
     
     end_after = time.time()
     st.write(f"after : {end_after - start_after}")
-    
