@@ -46,10 +46,10 @@ if authentication_status:
     ##########################################################################################################################
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
-    year_sum = call_data("year_sum")
-    year_company = call_data("year_company")
-    year_product = call_data("year_product")
-    year_channel = call_data("year_channel")
+    year_sum = call_data("sum")
+    year_company = call_data("company")
+    year_product = call_data("product")
+    year_channel = call_data("channel")
 
     st.dataframe(year_sum)
     st.dataframe(year_company)
