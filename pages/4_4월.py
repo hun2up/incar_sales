@@ -1,7 +1,6 @@
 ###########################################################################################################################
 ################################################     라이브러리 호출     ###################################################
 ###########################################################################################################################
-import time
 import streamlit as st
 import streamlit_authenticator as stauth
 hashed_passwords = stauth.Hasher(['XXX']).generate()
@@ -9,8 +8,8 @@ import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-from utils import hide_st_style, style_metric_cards, call_data, make_sidebar, make_chartdata, sum_lnf, make_chart_line, make_rankdata, make_cards, make_toggles, make_rank_channel, make_rank_company, make_rank_category, make_rank_product, make_subtoggle
-from utils import Toggles
+from utils import hide_st_style, style_metric_cards, call_data, make_sidebar
+from utils import Charts, Toggles
 from utils import month_dict
 
 ###########################################################################################################################
@@ -60,7 +59,6 @@ if authentication_status == False:
     st.error('아이디와 패스워드를 확인해주세요')
 if authentication_status:
     # fn_peformance(df_month, this_month)
-    start_all = time.time()
     ##########################################################################################################################
     ##############################################     메인페이지 타이틀     ##################################################
     ##########################################################################################################################
@@ -70,28 +68,17 @@ if authentication_status:
     ##########################################################################################################################
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
-    start_chart = time.time()
-
-    # ----------------------------------------------  생손매출액 (꺾은선)  -----------------------------------------------------
-    dfc_insu = make_chartdata(df_month, ['보험종목','영수일자']) # 보험종목별 매출액
-    df_insu = sum_lnf(df_month, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
-    st.plotly_chart(make_chart_line(df_insu, '보험종목별 매출액 추이'), use_container_width=True)
+    instance_chart = Charts(df=df_month)
+    st.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_sum(column_select=['보험종목','영수일자']), title='보험종목별 매출액 추이'), use_container_width=True)
 
     # -----------------------------------------  보험사별 매출액, 상품군별 매출액  ----------------------------------------------
-    fig_line_company, fig_line_prod = st.columns(2)
-    dfc_company = make_chartdata(df_month, ['보험회사','영수일자']) # 보험회사별 매출액
-    fig_line_company.plotly_chart(make_chart_line(dfc_company, '보험회사별 매출액 추이'), use_container_width=True)
-    dfc_prod = make_chartdata(df_month, ['상품군','영수일자']) # 상품군별 매출액
-    fig_line_prod.plotly_chart(make_chart_line(dfc_prod, '상품군별 매출액 추이'), use_container_width=True)
+    fig_line_company, fig_line_product = st.columns(2)
+    fig_line_company.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_basic(column_select=['보험회사','영수일자']), title='보험회사별 매출액 추이'), use_container_width=True) # 보험회사별 매출액
+    fig_line_product.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_basic(column_select=['상품군','영수일자']), title='상품군별 매출액 추이'), use_container_width=True) # 상품군별 매출액
 
     # ---------------------------------------  소속부문별 매출액, 입사연차별 매출액  ---------------------------------------------
-    fig_line_chn, r2_c2 = st.columns(2)
-    dfc_chn = make_chartdata(df_month, ['소속','영수일자']) # 소속부문별 매출액
-    fig_line_chn.plotly_chart(make_chart_line(dfc_chn, '소속부문별 매출액 추이'), use_container_width=True)
-
-    end_chart = time.time()
-    st.write(f"시간측정(차트) : {end_chart - start_chart} sec")
-
+    fig_line_channel, fig_line_career = st.columns(2)
+    fig_line_channel.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_basic(column_select=['소속','영수일자']), title='소속부문별 매출액 추이') ,use_container_width=True)
     
     ##########################################################################################################################
     ##############################################     스타일 카드 (랭킹)     #################################################
@@ -100,15 +87,13 @@ if authentication_status:
     st.markdown("## 주요 매출액 순위")
     style_metric_cards()
 
-    start_rank = time.time()
     # --------------------------------------------------  부문별 랭킹  -----------------------------------------------------------
-    start_rchn = time.time()
     # 메인랭킹 (소속부문 매출액 순위)
     instance_channel = Toggles(df=df_month)
     st.markdown('---') # 구분선
     channel = st.columns([2,1,1,1]) # 컬럼 나누기
     channel[0].markdown('#### 부문 매출액 순위') # 제목
-    instance_channel.make_card_single(df=instance_channel.make_rankdata_class(columns=['소속']), number=6)
+    instance_channel.make_card_single(df=instance_channel.make_rank(columns=['소속']), number=6)
     # 세부랭킹 (토글)
     if channel[1].toggle('부문별 매출액 상위 FA'):
         instance_channel.make_toggles_channel(reference=['소속','담당자','파트너'], title='FA', form='multiple')
@@ -116,40 +101,25 @@ if authentication_status:
         instance_channel.make_toggles_channel(reference=['소속','보험회사'], title='보험회사', form='single')
     if channel[3].toggle('부문별 매출액 상위 보험상품'):
         instance_channel.make_toggles_channel(reference=['소속','상품명','보험회사'], title='보험상품', form='multiple')
-    end_rchn = time.time()
-    st.write(f"시간측정(랭킹-부문) : {end_rchn - start_rchn} sec")
 
     # --------------------------------------------------  FA별  -----------------------------------------------------------
-    start_rfa = time.time()
     # 메인랭킹 (FA 매출액 순위)
-    dfr_fa = make_rankdata(df_month, ['담당자코드','담당자','파트너']) 
-    dfr_fa = dfr_fa.drop(columns='담당자코드')
-    dfr_fa_prod = make_rankdata(df_month, ['담당자','담당자코드','상품명','보험회사'])
-    dfr_fa_prod = dfr_fa_prod.drop(columns=['담당자','담당자코드'])
+    instance_fa = Toggles(df=df_month)
     st.markdown('---')
     fa = st.columns([2,1,1,1])
     fa[0].markdown("#### 매출액 상위 FA")
-    make_cards(dfr_fa, 'multiple')
-    # 세부랭킹 (토글)
-    if fa[3].toggle("매출액 상위 FA 주요 판매상품 "):
-        st.markdown("##### 매출액 상위 FA 주요 판매상품")
-        for c in range(5):
-            st.write(dfr_fa.iat[c,1] + ' (' + dfr_fa.iat[c,0] + ')')
-            fa_prod = st.columns(5)
-            for i in range(5):
-                try: fa_prod[i].metric(dfr_fa_prod.iat[i,0] + ' (' + dfr_fa_prod.iat[i,1] + ')', dfr_fa_prod.iat[i, 2] + '원') 
-                except: pass
-    end_rfa = time.time()
-    st.write(f"시간측정(랭킹-FA) : {end_rfa - start_rfa} sec")
+    instance_fa.make_card_multiple(df=instance_fa.make_rank(columns=['담당자','파트너']), number=5)
+    # 세부랭킹(토글)
+    if fa[3].toggle('매출액 상위 FA 주요 판매상품'):
+        instance_fa.make_toggles_fa(reference=['담당자','담당자코드','상품명','보험회사'], drop=['담당자','담당자코드'], title='보험상품', form='multiple')
 
     # --------------------------------------------------  보험회사별  -----------------------------------------------------------
-    start_rcom = time.time()
     # 메인랭킹 (소속부문 매출액 순위)
     instance_company = Toggles(df=df_month)
     st.markdown('---') # 구분선
     company = st.columns([2,1,1,1]) # 컬럼 나누기
     company[0].markdown('#### 매출액 상위 보험회사') # 제목
-    instance_company.make_card_single(df=instance_company.make_rankdata_class(columns=['보험회사']), number=5)
+    instance_company.make_card_single(df=instance_company.make_rank(columns=['보험회사']), number=5)
     # 세부랭킹 (토글)
     if company[1].toggle('보험회사별 매출액 상위 지점'):
         instance_company.make_toggles_company(reference=['보험회사','파트너','소속'], drop=['보험회사'], title='지점', form='multiple')
@@ -157,17 +127,14 @@ if authentication_status:
         instance_company.make_toggles_company(reference=['보험회사','담당자코드','담당자','파트너'], drop=['보험회사','담당자코드'], title='FA', form='multiple')
     if company[3].toggle('보험회사별 매출액 상위 보험상품'):
         instance_company.make_toggles_company(reference=['보험회사','상품명','상품군'], drop=['보험회사'], title='보험상품', form='multiple')            
-    end_rcom = time.time()
-    st.write(f"시간측정(랭킹-보험회사) : {end_rcom - start_rcom} sec")
 
     # --------------------------------------------------  상품군별  -----------------------------------------------------------
-    start_rcat = time.time()
     # 메인랭킹 (상품군 매출액 순위)
     instance_category = Toggles(df=df_month)
     st.markdown('---') # 구분선
     category = st.columns([2,1,1,1])
     category[0].markdown('#### 매출액 상위 상품군')
-    instance_category.make_card_single(df=instance_category.make_rankdata_class(columns=['상품군']), number=5)
+    instance_category.make_card_single(df=instance_category.make_rank(columns=['상품군']), number=5)
     # 세부랭킹 (토글)
     if category[1].toggle('상품군별 매출액 상위 지점'):
         instance_category.make_toggles_category(reference=['파트너','소속','상품군'], drop=['상품군'], title='지점', form='multiple')
@@ -175,26 +142,16 @@ if authentication_status:
         instance_category.make_toggles_category(reference=['담당자','담당자코드','파트너','상품군'], drop=['담당자코드','상품군'], title='FA', form='multiple')
     if category[3].toggle('상품군별 매출액 상위 보험상품'):
         instance_category.make_toggles_category(reference=['상품명','보험회사','상품군'], drop=['상품군'], title='보험상품', form='multiple')
-    end_rcat = time.time()
-    st.write(f"시간측정(랭킹-상품군) : {end_rcat - start_rcat} sec")
     
     # --------------------------------------------------  보험상품별  -----------------------------------------------------------      
-    start_rprod = time.time()
     # 메인랭킹 (보험상품 매출액 순위)
     instance_product = Toggles(df=df_month)
     st.markdown('---') # 구분선
     prod = st.columns([2,1,1,1]) # 컬럼 나누기
     prod[0].markdown("#### 매출액 상위 보험상품") # 제목
-    instance_product.make_card_multiple(df=instance_product.make_rankdata_class(columns=['상품명','보험회사']), number=5)
+    instance_product.make_card_multiple(df=instance_product.make_rank(columns=['상품명','보험회사']), number=5)
     # 세부랭킹 (토글)
     if prod[2].toggle('보험상품별 매출액 상위 지점'):
         instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'], form='multiple')
     if prod[3].toggle('보험상품별 매출액 상위 FA'):
         instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'], form='multiple')
-    end_rprod = time.time()
-    st.write(f"시간측정(랭킹-보험상품) : {end_rprod - start_rprod} sec")
-
-    end_rank = time.time()
-    st.write(f"시간측정(랭킹) : {end_rank - start_rank} sec")
-    end_all = time.time()
-    st.write(f"시간측정(전체) : {end_all - start_all} sec")
