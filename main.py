@@ -1,6 +1,7 @@
 ###########################################################################################################################
 ################################################     라이브러리 호출     ###################################################
 ###########################################################################################################################
+import time
 import pandas as pd
 import streamlit as st
 import streamlit_authenticator as stauth
@@ -12,7 +13,6 @@ with open('config.yaml') as file:
 from utils import hide_st_style, call_data
 from utils import Charts, Toggles
 from utils import month_dict
-from pages.10_10월 import product_year
 
 ###########################################################################################################################
 ################################################     인증페이지 설정     ###################################################
@@ -51,11 +51,26 @@ if authentication_status:
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
        
-    def test():
-        key = 1
-        value = 2
-        return key, value
+        ##########################################################################################################################
+    ##################################################     차트 (현황)     ####################################################
+    ##########################################################################################################################
+    df_month = call_data("oct")
+    start = time.time()
+    instance_chart = Charts(df=df_month)
+
+    sum_year, sum_month = instance_chart.make_data_sum(column_select=['보험종목','영수일자'])
+    st.plotly_chart(instance_chart.make_chart_line(df=sum_month, title='보험종목별 매출액 추이'), use_container_width=True)
+
+    # -----------------------------------------  보험사별 매출액, 상품군별 매출액  ----------------------------------------------
+    fig_line_company, fig_line_product = st.columns(2)
+    company_year, company_month = instance_chart.make_data_basic(column_select=['보험회사','영수일자'])
+    product_year, product_month = instance_chart.make_data_basic(column_select=['상품군','영수일자'])
+    fig_line_company.plotly_chart(instance_chart.make_chart_line(df=company_month, title='보험회사별 매출액 추이'), use_container_width=True) # 보험회사별 매출액
+    fig_line_product.plotly_chart(instance_chart.make_chart_line(df=product_month, title='상품군별 매출액 추이'), use_container_width=True) # 상품군별 매출액
     
-    a, b = test()
-    st.write(a)
-    st.write(b)
+    # ---------------------------------------  소속부문별 매출액, 입사연차별 매출액  ---------------------------------------------
+    fig_line_channel, fig_line_career = st.columns(2)
+    channel_year, channel_month = instance_chart.make_data_basic(column_select=['소속','영수일자'])
+    fig_line_channel.plotly_chart(instance_chart.make_chart_line(df=channel_month, title='소속부문별 매출액 추이') ,use_container_width=True)
+    end = time.time()
+    st.write(f"시간측정 : {end} - {start}")
