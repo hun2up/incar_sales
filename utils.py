@@ -84,6 +84,7 @@ class ChartData:
     def __init__(self, df):
         self.df = df
         
+    @njit
     def make_data_running(self, select, dates, category):
         # 반복문 실행을 위한 초기 데이터프레임 제작
         df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
