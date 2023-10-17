@@ -187,6 +187,7 @@ class Year(Charts):
             df_category = call_data_year(key).rename(columns={'구분':value}).drop(columns=['Unnamed: 0','개수'])
             df_year = pd.merge(df_year, df_category, on=['매출액','영수일자'], how='outer')
         df_year = df_year.rename(columns={'매출액':'영수/환급보험료'})
+        df_year = df_year[['보험종목','보험회사','상품군','소속','영수일자','영수/환급보험료']]
         st.dataframe(df_year)
         return df_year
     
