@@ -152,6 +152,7 @@ class ChartData():
         self.df_select.columns.values[0] = '구분'
         self.make_standard()
         self.make_running()
+        return self.df_total
         # self.make_chart_line()
 
     '''
