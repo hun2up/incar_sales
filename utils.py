@@ -183,12 +183,16 @@ class Year(Charts):
     def make_data_year(self):
         category = {'sum':'보험종목','company':'보험회사','product':'상품군','channel':'소속'}
         df_year = pd.DataFrame(columns=['매출액','영수일자'])
-        st.dataframe(df_year)
         for key, value in category.items():
             df_category = call_data_year(key).rename(columns={'구분':value}).drop(columns=['Unnamed: 0','개수'])
             df_year = pd.merge(df_year, df_category, on=['매출액','영수일자'], how='outer')
         df_year = df_year.rename(columns={'매출액':'영수/환급보험료'})
         return df_year
+    
+    def result_year(self, column_select):
+        self.df = self.make_data_year()
+        df_trash, df_year = self.make_data_basic(column_select)
+        return df_trash, df_year
 
 ##########################################################################################################################
 ############################################     랭킹 데이터 전처리     #################################################
