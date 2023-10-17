@@ -75,13 +75,13 @@ if authentication_status:
     instance_chart = Charts(df=df_month)
     st.write(['보험종목','영수일자'])
     instance_chart.make_chart(column_select=['보험종목','영수일자'])
-    # st.dataframe(instance_chart.make_chart(column_select=['보험종목','영수일자']))
+    st.dataframe(instance_chart.make_chart(column_select=['보험종목','영수일자']))
     st.write(['보험회사','영수일자'])
     instance_chart.make_chart(column_select=['보험회사','영수일자'])
-    # st.dataframe(instance_chart.make_chart(column_select=['보험회사','영수일자']))
+    st.dataframe(instance_chart.make_chart(column_select=['보험회사','영수일자']))
     st.write(['상품군','영수일자'])
     instance_chart.make_chart(column_select=['상품군','영수일자'])
-    # st.dataframe(instance_chart.make_chart(column_select=['상품군','영수일자']))
+    st.dataframe(instance_chart.make_chart(column_select=['상품군','영수일자']))
 
     # ----------------------------------------------  생손매출액 (꺾은선)  -----------------------------------------------------
     dfc_insu = make_chartdata(df_month, ['보험종목','영수일자']) # 보험종목별 매출액

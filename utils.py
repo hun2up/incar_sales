@@ -124,7 +124,7 @@ class Charts:
         # 반복문 실행을 위한 초기 데이터프레임 제작
         self.df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
         self.running()
-        st.dataframe(self.df_total)
+        # st.dataframe(self.df_total)
 
         
     
