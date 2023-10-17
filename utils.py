@@ -105,7 +105,7 @@ class ChartData:
                     df_running.iloc[running+1,2] = df_running.iloc[running+1,2] + df_running.iloc[running,2]
                 except:
                     pass
-            df_year = pd.concat([df_year, df_running.iloc[-1]], axis=0)
+            df_year = pd.concat([df_year, df_running.iloc[-1]], axis=1)
             df_total = pd.concat([df_total, df_running], axis=0)
         st.dataframe(df_year)
         return df_total
