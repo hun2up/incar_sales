@@ -188,6 +188,8 @@ class Year(Charts):
             df_year = pd.merge(df_year, df_category, on=['매출액','영수일자'], how='outer')
         df_year = df_year.rename(columns={'매출액':'영수/환급보험료'})
         df_year = df_year[['보험종목','보험회사','상품군','소속','영수일자','영수/환급보험료']]
+        df_year['번호'] = range(1, len(df_year)-1)
+        df_year.set_index('번호', inplace=True)
         st.dataframe(df_year)
         return df_year
     
