@@ -50,3 +50,4 @@ if authentication_status:
     ##########################################################################################################################
     for abbreviation, full_name in month_dict.items():
         st.write(f"Abbreviation: {abbreviation}, Full Name: {full_name}")
+        print(f"Key: {abbreviation}")
