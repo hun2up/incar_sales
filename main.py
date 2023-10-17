@@ -13,6 +13,9 @@ with open('config.yaml') as file:
 from utils import hide_st_style, call_data
 from utils import Charts, Toggles
 from utils import month_dict
+from pages.A_JANUARY import sum_jan, company_jan, product_jan, channel_jan
+from pages.B_FEBRUARY import sum_feb, company_feb, product_feb, channel_feb
+from pages.C_MARCH import sum_mar, company_mar, product_mar, channel_mar
 
 ###########################################################################################################################
 ################################################     인증페이지 설정     ###################################################
@@ -57,30 +60,33 @@ if authentication_status:
     df_product = pd.DataFrame()
     df_channel = pd.DataFrame()
     
-    start_jan_call = time.time()
-    df_jan = call_data("jan")
-    end_jan_call = time.time()
-    st.write(f"jan_call : {end_jan_call - start_jan_call}")
+    # start_jan_call = time.time()
+    # df_jan = call_data("jan")
+    # end_jan_call = time.time()
+    # st.write(f"jan_call : {end_jan_call - start_jan_call}")
     start_jan_instance = time.time()
-    instance_jan = Charts(df=df_jan)
+    # instance_jan = Charts(df=df_jan)
+    instance_jan = sum_jan
     end_jan_instance = time.time()
     st.write(f"jan_instance : {end_jan_instance - start_jan_instance}")
     
-    start_feb_call = time.time()
-    df_feb = call_data("feb")
-    end_feb_call = time.time()
-    st.write(f"feb_call : {end_feb_call - start_feb_call}")
+    # start_feb_call = time.time()
+    # df_feb = call_data("feb")
+    # end_feb_call = time.time()
+    # st.write(f"feb_call : {end_feb_call - start_feb_call}")
     start_feb_instance = time.time()
-    instance_feb = Charts(df=df_feb)
+    # instance_feb = Charts(df=df_feb)
+    instance_feb = sum_feb
     end_feb_instance = time.time()
     st.write(f"feb_instance : {end_feb_instance - start_feb_instance}")
 
-    start_mar_call = time.time()
-    df_mar = call_data("mar")
-    end_mar_call = time.time()
-    st.write(f"mar_call : {end_mar_call  - start_mar_call}")
+    # start_mar_call = time.time()
+    # df_mar = call_data("mar")
+    # end_mar_call = time.time()
+    # st.write(f"mar_call : {end_mar_call  - start_mar_call}")
     start_mar_instance = time.time()
-    instance_mar = Charts(df=df_mar)
+    # instance_mar = Charts(df=df_mar)
+    instance_mar = sum_mar
     end_mar_instance = time.time()
     st.write(f"mar_instance : {end_mar_instance - start_mar_instance}")
 
