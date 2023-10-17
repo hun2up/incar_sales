@@ -106,7 +106,7 @@ class Charts:
         )
         return fig_line
 
-class ChartData:
+class ChartData(Charts):
     def __init__(self, df) -> None:
         self.df = df
         self.df_select = pd.DataFrame()

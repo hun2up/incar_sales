@@ -10,7 +10,7 @@ from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 from utils import hide_st_style, style_metric_cards, call_data, make_sidebar, make_chartdata, sum_lnf, make_chart_line
-from utils import Charts, Toggles
+from utils import ChartData, Toggles
 from utils import month_dict
 
 ###########################################################################################################################
@@ -72,7 +72,7 @@ if authentication_status:
     ##########################################################################################################################
     start_chart_after = time.time()
 
-    instance_chart = Charts(df=df_month)
+    instance_chart = ChartData(df=df_month)
     # instance_chart.select_columns_basic(column_select=['보험종목','영수일자'])
     # st.dataframe(instance_chart.select_columns_basic(column_select=['보험종목','영수일자']))
     instance_chart.select_columns_basic(column_select=['보험회사','영수일자'], title='보험회사별 매출액 추이')
