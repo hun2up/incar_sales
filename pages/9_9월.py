@@ -70,13 +70,8 @@ if authentication_status:
     ##########################################################################################################################
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
-    start_chart_after = time.time()
-
     instance_chart = Charts(df=df_month)
-    # st.dataframe(instance_chart.make_data_sum(column=['보험회사','영수일자']))
     st.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_sum(column_select=['보험종목','영수일자']), title='보험종목별 매출액 추이'), use_container_width=True)
-    # instance_chart.select_columns_basic(column_select=['보험종목','영수일자'])
-    # st.dataframe(instance_chart.select_columns_basic(column_select=['보험종목','영수일자']))
 
     # -----------------------------------------  보험사별 매출액, 상품군별 매출액  ----------------------------------------------
     fig_line_company, fig_line_product = st.columns(2)
@@ -86,32 +81,6 @@ if authentication_status:
     # ---------------------------------------  소속부문별 매출액, 입사연차별 매출액  ---------------------------------------------
     fig_line_channel, fig_line_career = st.columns(2)
     fig_line_channel.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_basic(column_select=['소속','영수일자']), title='소속부문별 매출액 추이') ,use_container_width=True)
-
-    end_chart_after = time.time()
-    st.write(f"시간측정(차트-수정후) : {end_chart_after - start_chart_after} sec")
-
-    # ----------------------------------------------  생손매출액 (꺾은선)  -----------------------------------------------------
-    start_chart_before = time.time()
-
-    dfc_insu = make_chartdata(df_month, ['보험종목','영수일자']) # 보험종목별 매출액
-    df_insu = sum_lnf(df_month, dfc_insu) # 보험종목별(손생) 매출액 데이터에 합계 데이터 삽입: ['보험종목','영수/환급일','매출액']
-    st.plotly_chart(make_chart_line(df_insu, '보험종목별 매출액 추이'), use_container_width=True)
-
-    # -----------------------------------------  보험사별 매출액, 상품군별 매출액  ----------------------------------------------
-    fig_line_company, fig_line_prod = st.columns(2)
-    dfc_company = make_chartdata(df_month, ['보험회사','영수일자']) # 보험회사별 매출액
-    fig_line_company.plotly_chart(make_chart_line(dfc_company, '보험회사별 매출액 추이'), use_container_width=True)
-    dfc_prod = make_chartdata(df_month, ['상품군','영수일자']) # 상품군별 매출액
-    fig_line_prod.plotly_chart(make_chart_line(dfc_prod, '상품군별 매출액 추이'), use_container_width=True)
-
-    # ---------------------------------------  소속부문별 매출액, 입사연차별 매출액  ---------------------------------------------
-    fig_line_chn, r2_c2 = st.columns(2)
-    dfc_chn = make_chartdata(df_month, ['소속','영수일자']) # 소속부문별 매출액
-    fig_line_chn.plotly_chart(make_chart_line(dfc_chn, '소속부문별 매출액 추이'), use_container_width=True)
-
-    end_chart_before = time.time()
-    st.write(f"시간측정(차트-수정전) : {end_chart_before - start_chart_before} sec")
-
     
     ##########################################################################################################################
     ##############################################     스타일 카드 (랭킹)     #################################################
