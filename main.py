@@ -47,10 +47,10 @@ if authentication_status:
     ##########################################################################################################################
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
-    year_sum = call_data_year("sum")
-    year_company = call_data_year("company")
-    year_product = call_data_year("product")
-    year_channel = call_data_year("channel")
-    year_merge = pd.merge(year_sum, year_company, on='매출액', how='outer')
+    year_sum = call_data_year("sum").rename(columns={'구분':'보험종목'})
+    year_company = call_data_year("company").rename(columns={'구분':'보험회사'})
+    year_product = call_data_year("product").rename(columns={'구분':'상품군'})
+    year_channel = call_data_year("channel").rename(columns={'구분':'소속'})
+    year_merge = pd.merge(year_sum, year_company, on=['매출액','영수일자'], how='outer')
 
     st.dataframe(year_merge)
