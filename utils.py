@@ -84,7 +84,6 @@ class ChartData:
     def __init__(self, df):
         self.df = df
         
-    
     def make_data_running(self, select, dates, category):
         # 반복문 실행을 위한 초기 데이터프레임 제작
         df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
@@ -113,7 +112,6 @@ class ChartData:
         return df_year, df_total
 
     # --------------------------------    그래프 제작을 위한 필요 컬럼 분류하고 누적값 구하기    -----------------------------------
-    @jit (nopython=True)
     def make_data_basic(self, column_select):
         # 차트 제작용 (누적 매출액 산출)
         # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
