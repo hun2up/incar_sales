@@ -84,7 +84,7 @@ class ChartData:
         self.df = df
     
     # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
-    def make_chart_line(df, title):
+    def make_chart_line(self, df, title):
         fig_line = pl.graph_objs.Figure()
         # Iterate over unique channels and add a trace for each
         for reference in df['구분'].unique():
