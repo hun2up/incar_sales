@@ -82,7 +82,7 @@ def make_sidebar(dfv_sidebar, colv_sidebar):
 class Charts:
     def __init__(self, df) -> None:
         self.df = df
-'''
+
     # ----------------------------    그래프 제작을 위한 필요 컬럼 분류하고 누적값 구하기    -----------------------------------
     def make_chart(self, column_select):
         # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
@@ -91,14 +91,19 @@ class Charts:
         st.dataframe(df_chart)
         df_chart.columns.values[0] = '구분'
         # 구분 고유값만 남기기 (보험종목, 보험회사 등)
-        dfv_temp = dfv_category.groupby(['구분'])['구분'].count().reset_index(name="개수")
+        df_present = df_chart.groupby(['구분'])['구분'].count().reset_index(name="개수")
         # 영수일자 고유값만 남기기 (매출액 없어도 일자를 최대로 지정하기 위함)
-        dfv_dates = dfv_category.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
+        df_date = df_chart.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
+        st.dataframe(df_present)
+        st.dataframe(df_date)
+
+        '''
         # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
         list_running = dfv_temp['구분'].tolist()
         # 반복문 실행을 위한 초기 데이터프레임 제작
         dfv_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
-'''
+        '''
+
                 
 
 # 이거 너무 복잡함 (절차지향적임)
