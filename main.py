@@ -51,6 +51,6 @@ if authentication_status:
     year_company = call_data_year("company")
     year_product = call_data_year("product")
     year_channel = call_data_year("channel")
-    year_merge = pd.merge([year_sum, year_company])
+    year_merge = pd.merge([year_sum, year_company], on='매출액', how='outer')
 
     st.dataframe(year_merge)
