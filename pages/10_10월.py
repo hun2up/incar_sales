@@ -68,7 +68,7 @@ if authentication_status:
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
     instance_chart = Charts(df=df_month)
-    company_year, company_monthy = instance_chart.make_data_basic(df=instance_chart.make_data_basic(column_select=['보험회사','영수일자']))
+    company_year, company_monthy = instance_chart.make_data_basic(column_select=['보험회사','영수일자'])
     st.dataframe(company_year)
     st.dataframe(company_monthy)
     '''
