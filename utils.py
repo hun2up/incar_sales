@@ -113,7 +113,7 @@ class Charts:
         # 구분 고유값만 남기기 (보험종목, 보험회사 등)
         df_category = self.df_select.groupby(['구분'])['구분'].count().reset_index(name="개수")
         # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
-        self.df_loop = df_category['구분'].tolist()
+        self.df_loop.append(df_category['구분'].tolist())
 
     # -------------------------------    누적 매출액 산출을 위해 필요 컬럼 정리    ------------------------------------------
     def select_columns_basic(self, column_select):
