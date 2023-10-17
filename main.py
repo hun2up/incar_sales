@@ -52,6 +52,8 @@ if authentication_status:
     start_after = time.time()
     merge_year_test = pd.DataFrame()
     instance_year_test = Year(merge_year_test)
+    
+    '''
     # ---------------------------------------------------  손생 매출액  ----------------------------------------------------
     sum_trash, sum_year_test = instance_year_test.make_data_basic(column_select=['보험종목','영수일자'])
     st.plotly_chart(instance_year_test.make_chart_line(df=sum_year_test, title='보험종목별 매출액 추이'), use_container_width=True)
@@ -67,9 +69,10 @@ if authentication_status:
     fig_line_channel_test, fig_line_career_test = st.columns(2)
     channel_trash, channel_year_test = instance_year_test.make_data_basic(column_select=['소속','영수일자'])
     fig_line_channel_test.plotly_chart(instance_year_test.make_chart_line(df=channel_year_test, title='소속부문별 매출액 추이') ,use_container_width=True)
- 
+    '''
     end_after = time.time()
     st.write(f"after : {end_after - start_after}")
+    
 
     start_befor = time.time()
     year_sum = call_data_year("sum").rename(columns={'구분':'보험종목'}).drop(columns=['Unnamed: 0','개수'])
