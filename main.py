@@ -60,7 +60,7 @@ if authentication_status:
 
     instance_chart = Charts(year_merge)
 
-    sum_fake, sum_year = instance_chart.make_data_sum(column_select=['보험종목','영수일자'])
+    sum_fake, sum_year = instance_chart.make_data_basic(column_select=['보험종목','영수일자'])
     st.plotly_chart(instance_chart.make_chart_line(df=sum_year, title='보험종목별 매출액 추이'), use_container_width=True)
 
     # -----------------------------------------  보험사별 매출액, 상품군별 매출액  ----------------------------------------------
