@@ -74,18 +74,18 @@ if authentication_status:
 
     instance_chart = Charts(df=df_month)
     # st.dataframe(instance_chart.make_data_sum(column=['보험회사','영수일자']))
-    st.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_sum(column_select=['보험종목','영수일자']), chart_title='보험종목별 매출액 추이'), use_container_width=True)
+    st.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_sum(column_select=['보험종목','영수일자']), title='보험종목별 매출액 추이'), use_container_width=True)
     # instance_chart.select_columns_basic(column_select=['보험종목','영수일자'])
     # st.dataframe(instance_chart.select_columns_basic(column_select=['보험종목','영수일자']))
 
     # -----------------------------------------  보험사별 매출액, 상품군별 매출액  ----------------------------------------------
     fig_line_company, fig_line_product = st.columns(2)
-    fig_line_company.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_basic(column_select=['보험회사','영수일자']), chart_title='보험회사별 매출액 추이'), use_container_width=True) # 보험회사별 매출액
-    fig_line_product.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_basic(column_select=['상품군','영수일자']), chart_title='상품군별 매출액 추이'), use_container_width=True) # 상품군별 매출액
+    fig_line_company.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_basic(column_select=['보험회사','영수일자']), title='보험회사별 매출액 추이'), use_container_width=True) # 보험회사별 매출액
+    fig_line_product.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_basic(column_select=['상품군','영수일자']), title='상품군별 매출액 추이'), use_container_width=True) # 상품군별 매출액
 
     # ---------------------------------------  소속부문별 매출액, 입사연차별 매출액  ---------------------------------------------
     fig_line_channel, fig_line_career = st.columns(2)
-    fig_line_channel.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_basic(column_select=['소속','영수일자']), chart_title='소속부문별 매출액 추이') ,use_container_width=True)
+    fig_line_channel.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_basic(column_select=['소속','영수일자']), title='소속부문별 매출액 추이') ,use_container_width=True)
 
     end_chart_after = time.time()
     st.write(f"시간측정(차트-수정후) : {end_chart_after - start_chart_after} sec")
