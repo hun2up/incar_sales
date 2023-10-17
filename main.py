@@ -8,7 +8,7 @@ import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-from utils import hide_st_style, call_data
+from utils import hide_st_style, call_data_year
 
 ###########################################################################################################################
 ################################################     인증페이지 설정     ###################################################
@@ -46,10 +46,10 @@ if authentication_status:
     ##########################################################################################################################
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
-    year_sum = call_data("sum")
-    year_company = call_data("company")
-    year_product = call_data("product")
-    year_channel = call_data("channel")
+    year_sum = call_data_year("sum")
+    year_company = call_data_year("company")
+    year_product = call_data_year("product")
+    year_channel = call_data_year("channel")
 
     st.dataframe(year_sum)
     st.dataframe(year_company)

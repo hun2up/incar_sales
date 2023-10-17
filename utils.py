@@ -65,8 +65,11 @@ def call_data(v_month):
     dfv_call.rename(columns={'영수/환급일':'영수일자'}, inplace=True)
     # 불러 온 데이터에서 납입방법 '일시납'인 데이터 삭제
     return dfv_call[~dfv_call['납입방법'].str.contains('일시납')]
-    # dfv_call = dfv_call[~dfv_call['납입방법'].str.contains('일시납')]
-    # return dfv_call
+
+def call_data_year(category):
+    # 연간실적종합 불러오기
+    df_call = pd.read_csv(st.secrets[f"{category}_url"].replace("/edit#gid=", "/export?format=csv&gid="))
+    return df_call
 
 # ----------------------------------------------    사이드바 제작    -------------------------------------------------------
 def make_sidebar(dfv_sidebar, colv_sidebar):
