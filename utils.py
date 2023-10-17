@@ -54,9 +54,7 @@ def style_metric_cards(
     )
 
 # ----------------------------------------------    데이터 불러오기    -------------------------------------------------------
-
 @st.cache_data(ttl=600)
-@njit
 def call_data(v_month):
     # 월별 매출현황 불러오기
     dfv_call = pd.read_csv(st.secrets[f"{v_month}_url"].replace("/edit#gid=", "/export?format=csv&gid="))
