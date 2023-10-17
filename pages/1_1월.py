@@ -69,19 +69,19 @@ if authentication_status:
     ##########################################################################################################################
     instance_chart = Charts(df=df_month)
 
-    sum_jan, sum_month = instance_chart.make_data_sum(column_select=['보험종목','영수일자'])
+    sum_year, sum_month = instance_chart.make_data_sum(column_select=['보험종목','영수일자'])
     st.plotly_chart(instance_chart.make_chart_line(df=sum_month, title='보험종목별 매출액 추이'), use_container_width=True)
 
     # -----------------------------------------  보험사별 매출액, 상품군별 매출액  ----------------------------------------------
     fig_line_company, fig_line_product = st.columns(2)
-    company_jan, company_month = instance_chart.make_data_basic(column_select=['보험회사','영수일자'])
-    product_jan, product_month = instance_chart.make_data_basic(column_select=['상품군','영수일자'])
+    company_year, company_month = instance_chart.make_data_basic(column_select=['보험회사','영수일자'])
+    product_year, product_month = instance_chart.make_data_basic(column_select=['상품군','영수일자'])
     fig_line_company.plotly_chart(instance_chart.make_chart_line(df=company_month, title='보험회사별 매출액 추이'), use_container_width=True) # 보험회사별 매출액
     fig_line_product.plotly_chart(instance_chart.make_chart_line(df=product_month, title='상품군별 매출액 추이'), use_container_width=True) # 상품군별 매출액
     
     # ---------------------------------------  소속부문별 매출액, 입사연차별 매출액  ---------------------------------------------
     fig_line_channel, fig_line_career = st.columns(2)
-    channel_jan, channel_month = instance_chart.make_data_basic(column_select=['소속','영수일자'])
+    channel_year, channel_month = instance_chart.make_data_basic(column_select=['소속','영수일자'])
     fig_line_channel.plotly_chart(instance_chart.make_chart_line(df=channel_month, title='소속부문별 매출액 추이') ,use_container_width=True)
 
     ##########################################################################################################################
@@ -159,8 +159,3 @@ if authentication_status:
         instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','파트너','소속'], drop=['상품명'], form='multiple')
     if prod[3].toggle('보험상품별 매출액 상위 FA'):
         instance_product.make_toggles_product(reference=['상품명','보험회사'], select=['상품명','담당자코드','담당자','파트너'], drop=['상품명','담당자코드'], form='multiple')
-
-    st.dataframe(sum_jan)
-    st.dataframe(company_jan)
-    st.dataframe(product_jan)
-    st.dataframe(channel_jan)

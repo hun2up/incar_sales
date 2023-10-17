@@ -174,3 +174,8 @@ if authentication_status:
 
     end_all = time.time()
     st.write(f"시간측정(전체) : {end_chart - start_all} sec")
+
+    st.dataframe(sum_year)
+    st.dataframe(company_year)
+    st.dataframe(product_year)
+    st.dataframe(channel_year)
