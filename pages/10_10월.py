@@ -68,6 +68,10 @@ if authentication_status:
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
     instance_chart = Charts(df=df_month)
+    company_year, company_monthy = instance_chart.make_data_basic(df=instance_chart.make_data_basic(column_select=['보험회사','영수일자']))
+    st.dataframe(company_year)
+    st.dataframe(company_monthy)
+    '''
     st.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_sum(column_select=['보험종목','영수일자']), title='보험종목별 매출액 추이'), use_container_width=True)
 
     # -----------------------------------------  보험사별 매출액, 상품군별 매출액  ----------------------------------------------
@@ -78,7 +82,7 @@ if authentication_status:
     # ---------------------------------------  소속부문별 매출액, 입사연차별 매출액  ---------------------------------------------
     fig_line_channel, fig_line_career = st.columns(2)
     fig_line_channel.plotly_chart(instance_chart.make_chart_line(df=instance_chart.make_data_basic(column_select=['소속','영수일자']), title='소속부문별 매출액 추이') ,use_container_width=True)
-    
+    '''
     ##########################################################################################################################
     ##############################################     스타일 카드 (랭킹)     #################################################
     ##########################################################################################################################

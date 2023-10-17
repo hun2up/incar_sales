@@ -86,6 +86,7 @@ class ChartData:
     def make_data_running(self, select, dates, category):
         # 반복문 실행을 위한 초기 데이터프레임 제작
         df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
+        df_year = pd.DataFrame(columns=['구분','영수일자','매출액'])
         # self.df_year = pd.DataFrame(columns=['구분','영수일자','매출액'])
         # 반복문 실행을 위한 구간 선언 
         for i in range(len(category)):
@@ -105,9 +106,9 @@ class ChartData:
                     df_running.iloc[running+1,2] = df_running.iloc[running+1,2] + df_running.iloc[running,2]
                 except:
                     pass
-            # self.df_year = pd.concat([self.df_year, df_running.iloc[[-1]]], axis=0)
+            df_year = pd.concat([df_year, df_running.iloc[[-1]]], axis=0)
             df_total = pd.concat([df_total, df_running], axis=0)
-        return df_total
+        return df_year, df_total
 
     # --------------------------------    그래프 제작을 위한 필요 컬럼 분류하고 누적값 구하기    -----------------------------------
     def make_data_basic(self, column_select):
@@ -121,8 +122,8 @@ class ChartData:
         df_dates = df_select.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
         # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
         df_category = df_present['구분'].tolist()
-        df_total = self.make_data_running(select=df_select, dates=df_dates, category=df_category)
-        return df_total
+        df_year, df_total = self.make_data_running(select=df_select, dates=df_dates, category=df_category)
+        return df_year, df_total
     
     def make_data_sum(self, column_select):
         df_sum = self.df.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
@@ -140,6 +141,7 @@ class ChartData:
         df_total = pd.concat([df_insurance, df_total], axis=0)
         return df_total
 
+'''
 ##########################################################################################################################
 #####################################     연간 데이터     ##########################################
 ##########################################################################################################################
@@ -186,12 +188,12 @@ class Year(ChartData):
         df_category = df_present['구분'].tolist()
         df_total = self.make_monthly_running(select=df_select, dates=df_dates, category=df_category)
         return df_total
-
+'''
 
 ##########################################################################################################################
 #####################################     차트 제작 (ChartData 클래스 상속)     ##########################################
 ##########################################################################################################################
-class Charts(Year):
+class Charts(ChartData):
     def __init__(self, df):
         super().__init__(df)
         
