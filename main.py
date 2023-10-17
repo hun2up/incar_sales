@@ -57,9 +57,10 @@ if authentication_status:
     df_product = pd.DataFrame()
     df_channel = pd.DataFrame()
     for i in month:
-        df_month = call_data(i)
+        st.write(i)
+        # df_month = call_data(i)
     
-    st.dataframe(df_month)
+    # st.dataframe(df_month)
 
     '''
     for key in month_dict:
