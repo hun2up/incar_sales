@@ -57,8 +57,26 @@ if authentication_status:
     df_product = pd.DataFrame()
     df_channel = pd.DataFrame()
     
-    df_month = call_data("jan")
-    instance_chart = Charts(df=df_month)
+    df_jan = call_data("jan")
+    instance_jan = Charts(df=df_jan)
+    st.write("jan")
+    df_feb = call_data("feb")
+    instance_feb = Charts(df=df_feb)
+    st.write("feb")
+    df_mar = call_data("mar")
+    instance_mar = Charts(df=df_mar)
+    st.write("mar")
+    df_apr = call_data("apr")
+    instance_apr = Charts(df=df_apr)
+    st.write("apr")
+    df_may = call_data("may")
+    instance_may = Charts(df=df_may)
+    st.write("may")
+    df_jun = call_data("jun")
+    instance_jun = Charts(df=df_jun)
+    st.write("jun")
+
+    '''
     sum_jan, sum_month = instance_chart.make_data_sum(column_select=['보험종목','영수일자'])
     company_jan, company_month = instance_chart.make_data_basic(column_select=['보험회사','영수일자'])
     product_jan, product_month = instance_chart.make_data_basic(column_select=['상품군','영수일자'])
@@ -83,6 +101,7 @@ if authentication_status:
     st.dataframe(df_company)
     st.dataframe(df_product)
     st.dataframe(df_channel)
+    '''
 
     end = time.time()
     st.write(f"시간측정 : {end - start}")
