@@ -55,7 +55,12 @@ if authentication_status:
     df_company = pd.DataFrame()
     df_product = pd.DataFrame()
     df_channel = pd.DataFrame()
+    for key in month_dict:
+        df_month = call_data(key)
+    
+    st.dataframe(df_month)
 
+    '''
     for key in month_dict:
         df_month = call_data(key)
         instance_chart = Charts(df=df_month)
@@ -72,6 +77,7 @@ if authentication_status:
     st.dataframe(df_company)
     st.dataframe(df_product)
     st.dataframe(df_channel)
+    '''
 
     end = time.time()
     st.write(f"시간측정 : {end - start}")
