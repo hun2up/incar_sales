@@ -52,7 +52,7 @@ if authentication_status:
     start_after = time.time()
     merge_year_test = pd.DataFrame()
     instance_year_test = Year(merge_year_test)
-    
+    instance_year_test.make_data_year()
     '''
     # ---------------------------------------------------  손생 매출액  ----------------------------------------------------
     sum_trash, sum_year_test = instance_year_test.make_data_basic(column_select=['보험종목','영수일자'])
