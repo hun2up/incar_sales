@@ -75,9 +75,9 @@ if authentication_status:
     instance_chart = ChartData(df=df_month)
     # instance_chart.select_columns_basic(column_select=['보험종목','영수일자'])
     # st.dataframe(instance_chart.select_columns_basic(column_select=['보험종목','영수일자']))
-    instance_chart.select_columns_basic(column_select=['보험회사','영수일자'], title='보험회사별 매출액 추이')
+    instance_chart.select_columns_basic(column_select=['보험회사','영수일자'])
     # st.dataframe(instance_chart.select_columns_basic(column_select=['보험회사','영수일자']))
-    instance_chart.select_columns_basic(column_select=['상품군','영수일자'], title='상품군별 매출액 추이')
+    instance_chart.select_columns_basic(column_select=['상품군','영수일자'])
     # st.dataframe(instance_chart.select_columns_basic(column_select=['상품군','영수일자']))
 
     end_chart_after = time.time()
