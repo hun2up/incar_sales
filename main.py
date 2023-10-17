@@ -12,6 +12,7 @@ with open('config.yaml') as file:
 from utils import hide_st_style, call_data
 from utils import Charts, Toggles
 from utils import month_dict
+from pages.10_10월 import product_year
 
 ###########################################################################################################################
 ################################################     인증페이지 설정     ###################################################
