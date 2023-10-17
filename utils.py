@@ -98,17 +98,15 @@ class Charts:
         # 반복문 실행을 위한 초기 데이터프레임 제작 -> 구분 / 영수일자 / 매출액
         df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
         # 반복문 실행을 위한 구간 선언 
-        for i in range(len(running)):
-            # 생명보험이나 손해보험만 남기기
-            df_base = df_chart[df_chart.iloc[:,0] == running[i]]
+        for dates in range(len(running)):
+            # 기본 데이터프레임에서 각 '구분' 항목과 일치하는 데이터만 추출하기 -> 구분 / 영수일자 / 매출액
+            df_base = df_chart[df_chart.iloc[:,0] == running[dates]]
+            # 영수일자를 기준으로 df_base 데이터프레임에 df_date 데이터프레임 결합 (개수 추가)
             df_running = df_base.merge(df_date, on='영수일자', how='right')
-            st.dataframe(df_base)
-            st.dataframe(df_running)
-            '''
             # 최대한의 날짜프레임에 보험사별 매출현황 끼워넣기
             for insert in range(df_running.shape[0]):
                 if pd.isna(df_running.iloc[insert, 0]):
-                    df_running.iloc[insert,0] = running[i]
+                    df_running.iloc[insert,0] = running[dates]
                     df_running.iloc[insert,2] = 0
                 else:
                     pass
@@ -120,7 +118,6 @@ class Charts:
                     pass
             df_total = pd.concat([df_total, df_running], axis=0)
         return df_total
-        '''
                 
 
 # 이거 너무 복잡함 (절차지향적임)
