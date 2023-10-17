@@ -114,7 +114,7 @@ class ChartData():
             hovermode='x',
             template='plotly_white'  # You can choose different templates if you prefer
         )
-        return fig_line
+        return st.plotly_chart(fig_line)
 
     def make_running(self):
         for start in range(len(self.df_loop)):
@@ -146,14 +146,14 @@ class ChartData():
         self.df_loop = df_category['구분'].tolist()
 
     # -------------------------    누적 매출액 산출을 위해 필요 컬럼 정리 및 차트 제작    -------------------------------------
-    def select_columns_basic(self, column_select):
+    def select_columns_basic(self, column_select, title):
         # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
         self.df_select = self.df.groupby(column_select)['영수/환급보험료'].sum().reset_index(name='매출액')
         self.df_select.columns.values[0] = '구분'
         self.make_standard()
         self.make_running()
-        return self.df_total
-        # self.make_chart_line()
+        # return self.df_total
+        self.make_chart_line(title)
 
     '''
     # -------------------------------------------    누적 매출액 구하기    ---------------------------------------------------
