@@ -50,13 +50,14 @@ if authentication_status:
     ##########################################################################################################################
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
+    month = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
     start = time.time()
     df_year = pd.DataFrame()
     df_company = pd.DataFrame()
     df_product = pd.DataFrame()
     df_channel = pd.DataFrame()
-    for key in month_dict:
-        df_month = call_data(f"{key}")
+    for i in month:
+        df_month = call_data(i)
     
     st.dataframe(df_month)
 
