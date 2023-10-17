@@ -1,6 +1,7 @@
 ###########################################################################################################################
 ################################################     라이브러리 호출     ###################################################
 ###########################################################################################################################
+import pandas as pd
 import streamlit as st
 import streamlit_authenticator as stauth
 hashed_passwords = stauth.Hasher(['XXX']).generate()
@@ -8,7 +9,7 @@ import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-from utils import hide_st_style
+from utils import hide_st_style, call_data
 from utils import Charts, Toggles
 from utils import month_dict
 
@@ -48,5 +49,8 @@ if authentication_status:
     ##########################################################################################################################
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
+    df_year = pd.DataFrame()
     for key in month_dict:
-        st.write(key)
+        df_year = pd.concat([df_year, call_data(key)])
+    
+    st.dataframe(df_year)
