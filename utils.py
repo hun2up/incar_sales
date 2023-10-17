@@ -89,6 +89,8 @@ class Charts:
 
     # 누적매출액 구하기
     def running(self):
+        st.dataframe(self.df_select)
+        st.dataframe(self.df_total)
         for start in range(len(self.loop)):
             # 생명보험이나 손해보험만 남기기
             df_base = self.df_select[self.df_select.iloc[:,0] == self.loop[start]]
@@ -123,8 +125,6 @@ class Charts:
         self.loop = df_category['구분'].tolist()
         # 반복문 실행을 위한 초기 데이터프레임 제작
         self.df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
-        st.dataframe(self.df_select)
-        st.dataframe(self.df_total)
         self.running()
         
     
