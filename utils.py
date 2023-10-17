@@ -88,8 +88,8 @@ class Charts:
         # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
         df_chart = self.df.groupby(column_select)['영수/환급보험료'].sum().reset_index(name='매출액')
         # 구분 컬럼 추가
-        st.dataframe(df_chart)
         df_chart.columns.values[0] = '구분'
+        st.dataframe(df_chart)
         # 구분 고유값만 남기기 (보험종목, 보험회사 등)
         df_present = df_chart.groupby(['구분'])['구분'].count().reset_index(name="개수")
         # 영수일자 고유값만 남기기 (매출액 없어도 일자를 최대로 지정하기 위함)
