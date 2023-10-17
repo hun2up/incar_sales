@@ -149,7 +149,7 @@ class ChartData(Charts):
         self.df_select = self.df.groupby(column_select)['영수/환급보험료'].sum().reset_index(name='매출액')
         self.df_select.columns.values[0] = '구분'
         self.make_standard()
-        st.plotly_chart(super().make_chart_line(self.make_running, title))
+        st.plotly_chart(super().make_chart_line(df=self.make_running, title=title))
 
     '''
     # -------------------------------------------    누적 매출액 구하기    ---------------------------------------------------
