@@ -10,6 +10,7 @@ from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 from utils import hide_st_style, call_data_year
+from utils import Charts
 
 ###########################################################################################################################
 ################################################     인증페이지 설정     ###################################################
@@ -55,3 +56,20 @@ if authentication_status:
     year_merge = pd.merge(year_merge, year_product, on=['매출액','영수일자'], how='outer')
     year_merge = pd.merge(year_merge, year_channel, on=['매출액','영수일자'], how='outer')
     st.dataframe(year_merge)
+
+    instance_chart = Charts(year_merge)
+
+    sum_fake, sum_year = instance_chart.make_data_sum(column_select=['보험종목','영수일자'])
+    st.plotly_chart(instance_chart.make_chart_line(df=sum_year, title='보험종목별 매출액 추이'), use_container_width=True)
+
+    # -----------------------------------------  보험사별 매출액, 상품군별 매출액  ----------------------------------------------
+    fig_line_company, fig_line_product = st.columns(2)
+    company_fake, company_year = instance_chart.make_data_basic(column_select=['보험회사','영수일자'])
+    product_fake, product_year = instance_chart.make_data_basic(column_select=['상품군','영수일자'])
+    fig_line_company.plotly_chart(instance_chart.make_chart_line(df=company_year, title='보험회사별 매출액 추이'), use_container_width=True) # 보험회사별 매출액
+    fig_line_product.plotly_chart(instance_chart.make_chart_line(df=product_year, title='상품군별 매출액 추이'), use_container_width=True) # 상품군별 매출액
+    
+    # ---------------------------------------  소속부문별 매출액, 입사연차별 매출액  ---------------------------------------------
+    fig_line_channel, fig_line_career = st.columns(2)
+    channel_fake, channel_year = instance_chart.make_data_basic(column_select=['소속','영수일자'])
+    fig_line_channel.plotly_chart(instance_chart.make_chart_line(df=channel_year, title='소속부문별 매출액 추이') ,use_container_width=True)
