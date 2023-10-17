@@ -134,14 +134,14 @@ class ChartData:
         # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
         df_category = df_present['구분'].tolist()
         df_total = self.make_data_running(select=df_sum, dates=df_dates, category=df_category)
-        df_insurance = self.make_data_basic(column_select=column_select)
+        df_insurance = self.make_data_basic(column_select)
         df_total = pd.concat([df_insurance, df_total], axis=0)
         return df_total
 
 class Charts(ChartData):
     def __init__(self, df):
         super().__init__(df)
-        
+
     # -----------------------------------------------    꺾은선 그래프    ------------------------------------------------------
     def make_chart_line(self, df, title):
         fig_line = pl.graph_objs.Figure()
