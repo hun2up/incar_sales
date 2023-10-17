@@ -123,6 +123,8 @@ class Charts:
         self.loop = df_category['구분'].tolist()
         # 반복문 실행을 위한 초기 데이터프레임 제작
         self.df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
+        st.dataframe(self.df_select)
+        st.dataframe(self.df_total)
         self.running()
         
     
