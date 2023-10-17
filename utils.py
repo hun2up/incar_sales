@@ -82,10 +82,10 @@ def make_sidebar(dfv_sidebar, colv_sidebar):
 class Charts:
     def __init__(self, df) -> None:
         self.df = df
-        self.df_total = pd.DataFrame()
-        self.df_dates = pd.DataFrame()
-        self.select = pd.DataFrame()
-        self.loop = pd.DataFrame()
+        # self.df_total = pd.DataFrame()
+        # self.df_dates = pd.DataFrame()
+        # self.select = pd.DataFrame()
+        # self.loop = pd.DataFrame()
 
     # 누적매출액 구하기
     def running(self):
