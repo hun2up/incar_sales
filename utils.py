@@ -145,7 +145,7 @@ class ChartData:
         df_total = self.make_data_running(select=df_select, dates=df_dates, category=df_category)
         return self.make_chart_line(df=df_total, title=chart_title)
     
-    def make_data_sum(self, column_select):
+    def make_data_sum(self, column):
         df_sum = self.df.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
         df_sum['구분'] = '손생합계'
         df_sum = df_sum[['구분','영수일자','매출액']]
@@ -157,7 +157,7 @@ class ChartData:
         # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
         df_category = df_present['구분'].tolist()
         df_total = self.make_data_running(select=df_sum, dates=df_dates, category=df_category)
-        df_insurance = self.make_data_basic(column_select=column_select)
+        df_insurance = self.make_data_basic(column_select=column)
         df_total = pd.concat([df_insurance, df_total], axis=0)
         return df_total
         # return self.make_chart_line(df=df_total, title=chart_title)
