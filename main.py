@@ -52,10 +52,10 @@ if authentication_status:
     ##########################################################################################################################
     month = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
     start = time.time()
-    df_year = pd.DataFrame()
-    df_company = pd.DataFrame()
-    df_product = pd.DataFrame()
-    df_channel = pd.DataFrame()
+    # df_year = pd.DataFrame()
+    # df_company = pd.DataFrame()
+    # df_product = pd.DataFrame()
+    # df_channel = pd.DataFrame()
     for i in month:
         st.write(i)
         # df_month = call_data(i)
