@@ -49,8 +49,11 @@ if authentication_status:
     ##########################################################################################################################
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
+       
     df_year = pd.DataFrame()
     for key in month_dict:
-        df_year = pd.concat([df_year, call_data(key)])
+        df_month = call_data(key)
+        instance_month = Charts(df=df_month)
+        df_year = pd.concat([df_year, instance_month.make_monthly_data(column_select=['보험회사','영수일자'])], axis=0)
     
     st.dataframe(df_year)
