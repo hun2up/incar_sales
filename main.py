@@ -51,11 +51,12 @@ if authentication_status:
     ##################################################     차트 (현황)     ####################################################
     ##########################################################################################################################
     start = time.time()
-    
+
     df_year = pd.DataFrame()
     df_company = pd.DataFrame()
     df_product = pd.DataFrame()
     df_channel = pd.DataFrame()
+    
     df_month = call_data("jan")
     instance_chart = Charts(df=df_month)
     sum_jan, sum_month = instance_chart.make_data_sum(column_select=['보험종목','영수일자'])
@@ -66,6 +67,17 @@ if authentication_status:
     df_company = pd.concat([df_company, company_jan], axis=0)
     df_product = pd.concat([df_product, product_jan], axis=0)
     df_channel = pd.concat([df_channel, channel_jan], axis=0)
+    
+    df_month = call_data("feb")
+    instance_chart = Charts(df=df_month)
+    sum_feb, sum_month = instance_chart.make_data_sum(column_select=['보험종목','영수일자'])
+    company_feb, company_month = instance_chart.make_data_basic(column_select=['보험회사','영수일자'])
+    product_feb, product_month = instance_chart.make_data_basic(column_select=['상품군','영수일자'])
+    channel_feb, channel_month = instance_chart.make_data_basic(column_select=['소속','영수일자'])
+    df_year = pd.concat([df_year, sum_feb], axis=0)
+    df_company = pd.concat([df_company, company_feb], axis=0)
+    df_product = pd.concat([df_product, product_feb], axis=0)
+    df_channel = pd.concat([df_channel, channel_feb], axis=0)
     
     st.dataframe(df_year)
     st.dataframe(df_company)
