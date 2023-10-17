@@ -85,28 +85,27 @@ class Charts:
 
     # ----------------------------    그래프 제작을 위한 필요 컬럼 분류하고 누적값 구하기    -----------------------------------
     def make_chart(self, column_select):
-        # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경 -> 생명보험 / 영수일자 / 매출액
-        df_chart = self.df.groupby(column_select)['영수/환급보험료'].sum().reset_index(name='매출액')
-        # 구분 컬럼 추가
-        df_chart.columns.values[0] = '구분'
-        # 구분 고유값만 남기기 (보험종목, 보험회사 등) -> 구분 / 개수
-        df_present = df_chart.groupby(['구분'])['구분'].count().reset_index(name="개수")
-        # 영수일자 고유값만 남기기 (매출액 없어도 일자를 최대로 지정하기 위함) -> 영수일자 / 개수
-        df_date = df_chart.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
-        # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작 -> 구분
-        running = df_present['구분'].tolist()
-        # 반복문 실행을 위한 초기 데이터프레임 제작 -> 구분 / 영수일자 / 매출액
+        # 차트 제작용 (누적 매출액 산출)
+        # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
+        df_select = self.df.groupby(column_select)['영수/환급보험료'].sum().reset_index(name='매출액')
+        df_select.columns.values[0] = '구분'
+        # 구분 고유값만 남기기 (보험종목, 보험회사 등)
+        df_category = df_select.groupby(['구분'])['구분'].count().reset_index(name="개수")
+        # 영수일자 고유값만 남기기 (매출액 없어도 일자를 최대로 지정하기 위함)
+        df_dates = df_select.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
+        # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
+        loop = df_category['구분'].tolist()
+        # 반복문 실행을 위한 초기 데이터프레임 제작
         df_total = pd.DataFrame(columns=['구분','영수일자','매출액'])
         # 반복문 실행을 위한 구간 선언 
-        for dates in range(len(running)):
-            # 기본 데이터프레임에서 각 '구분' 항목과 일치하는 데이터만 추출하기 -> 구분 / 영수일자 / 매출액
-            df_base = df_chart[df_chart.iloc[:,0] == running[dates]]
-            # 영수일자를 기준으로 df_base 데이터프레임에 df_date 데이터프레임 결합 (개수 추가)
-            df_running = df_base.merge(df_date, on='영수일자', how='right')
+        for start in range(len(loop)):
+            # 생명보험이나 손해보험만 남기기
+            df_base = df_select[df_select.iloc[:,0] == loop[start]]
+            df_running = df_base.merge(df_dates, on='영수일자', how='right')
             # 최대한의 날짜프레임에 보험사별 매출현황 끼워넣기
             for insert in range(df_running.shape[0]):
                 if pd.isna(df_running.iloc[insert, 0]):
-                    df_running.iloc[insert,0] = running[dates]
+                    df_running.iloc[insert,0] = loop[start]
                     df_running.iloc[insert,2] = 0
                 else:
                     pass
@@ -118,7 +117,6 @@ class Charts:
                     pass
             df_total = pd.concat([df_total, df_running], axis=0)
         return df_total
-                
 
 # 이거 너무 복잡함 (절차지향적임)
 # --------------------------------    그래프 제작을 위한 필요 컬럼 분류하고 누적값 구하기    -----------------------------------
