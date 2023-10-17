@@ -76,7 +76,7 @@ if authentication_status:
     # st.write(f"feb_call : {end_feb_call - start_feb_call}")
     start_feb_instance = time.time()
     # instance_feb = Charts(df=df_feb)
-    instance_feb = sum_feb
+    # instance_feb = sum_feb
     end_feb_instance = time.time()
     st.write(f"feb_instance : {end_feb_instance - start_feb_instance}")
 
