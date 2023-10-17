@@ -128,7 +128,8 @@ class ChartData():
                     df_running.iloc[running+1,2] = df_running.iloc[running+1,2] + df_running.iloc[running,2]
                 except:
                     pass
-            return self.df_total = pd.concat([self.df_total, df_running], axis=0)
+            self.df_total = pd.concat([self.df_total, df_running], axis=0)
+            return(self.df_total)
 
     # ---------------------------------    고유값 정리를 위한 재정규화    -----------------------------------------------
     def make_standard(self):
@@ -150,7 +151,7 @@ class ChartData():
         return self.make_chart_line(title)
     
     # ------------------------------------------------    손생 합계    -------------------------------------------------------
-    def sum_lnf(self, column_select, title):
+    def make_sum_lnf(self, column_select, title):
         df_sum = self.df.groupby(['영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
         df_sum['구분'] = '손생합계'
         df_sum = df_sum[['구분','영수일자','매출액']]
