@@ -181,12 +181,14 @@ class Charts(ChartData):
         # 차트 제작용 (누적 매출액 산출)
         # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
         df_select = self.df.groupby(column_select)['영수/환급보험료'].sum().reset_index(name='매출액')
-        '''
         df_select.columns.values[0] = '구분'
         # 구분 고유값만 남기기 (보험종목, 보험회사 등)
         df_present = df_select.groupby(['구분'])['구분'].count().reset_index(name="개수")
+        st.dataframe(df_present, use_container_width=True)
         # 영수일자 고유값만 남기기 (매출액 없어도 일자를 최대로 지정하기 위함)
         df_dates = df_select.groupby(['영수일자'])['영수일자'].count().reset_index(name="개수")
+        st.dataframe(df_dates, use_container_width=True)
+        '''
         # 보험회사 또는 보험종목 개수 만큼 반복문 실행 위해 리스트 제작
         df_category = df_present['구분'].tolist()
         df_year, df_total = self.make_data_running(select=df_select, dates=df_dates, category=df_category)
