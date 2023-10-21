@@ -182,9 +182,9 @@ class Charts(ChartData):
         df_life = df_select[df_select['보험종목'] == '생명보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
         df_fire = df_select[df_select['보험종목'] == '손해보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
         df_select = pd.merge(df_life, df_fire, on=['영수일자'], how='outer')
-        dates = df_select.index.tolist()
-        life = df_select['생명보험'].tolist()
-        fire = df_select['손해보험'].tolist()
+        dates = {'영수일자':df_select.index.tolist()}
+        life = {'생명보험':df_select['생명보험'].tolist()}
+        fire = {'손해보험':df_select['손해보험'].tolist()}
         
         fig = pl.graph_objs.Figure(data=[
             pl.graph_objs.Bar(name='손보', x=dates, y=fire),
