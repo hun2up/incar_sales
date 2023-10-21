@@ -182,47 +182,14 @@ class Charts(ChartData):
         df_life = df_select[df_select['보험종목'] == '생명보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
         df_fire = df_select[df_select['보험종목'] == '손해보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
         df_select = pd.merge(df_life, df_fire, on=['영수일자'], how='outer')
-        '''
-        dates = df_result.index.tolist()
-        life = df_result['생명보험'].tolist()
-        fire = df_result['손해보험'].tolist()
-        '''
 
         fig = pl.graph_objs.Figure(data=[
-            pl.graph_objs.Bar(name='손보', x=df_select.index, y=df_select['손해보험'], marker={'color':'red'}),
-            pl.graph_objs.Bar(name='생보', x=df_select.index, y=df_select['생명보험'], marker={'color':'blue'})
+            pl.graph_objs.Bar(name='손보', x=df_select.index, y=df_select['손해보험'], marker={'color':'#fbb4ae'}),
+            pl.graph_objs.Bar(name='생보', x=df_select.index, y=df_select['생명보험'], marker={'color':'#b3cde3'})
         ])
         # Change the bar mode
         fig.update_layout(barmode='stack')
         return fig
-        
-
-    # --------------------------------------  Horizontal Bar Chart (Group) 제작 함수 정의  -----------------------------------------
-    # axis_a: 고유값 (신청인원, 수료인원) / axis_b: 누계값 (신청누계, 수료누계)
-    # Grouped Bar Chart 만들기
-    def make_hbarchart_group(self, df, category, axis_a, axis_b, title):
-        fig_chart_a = pl.graph_objs.Bar(
-            x=df[axis_a],
-            y=df[category],
-            name=axis_a,
-            text=df[axis_a],
-            marker={'color':'grey'},
-            orientation='h'
-        )
-        fig_chart_b = pl.graph_objs.Bar(
-            x=df[axis_b],
-            y=df[category],
-            name=axis_b,
-            text=df[axis_b],
-            marker={'color':self.generate_chart_colors(df)},
-            orientation='h'
-        )
-        data_chart = [fig_chart_a, fig_chart_b]
-        layout_chart = pl.graph_objs.Layout(title=title,yaxis={'categoryorder':'array', 'categoryarray':self.generate_barchart_orders(df,category)}, annotations=[dict(text='색상 차트는 누적인원(중복포함), 회색 차트는 고유인원(중복제거)',showarrow=False,xref='paper',yref='paper',x=0,y=1.1)])
-        return_chart = pl.graph_objs.Figure(data=data_chart,layout=layout_chart)
-        return_chart.update_traces(textposition=self.generate_chart_outsides(df))
-        return_chart.update_layout(showlegend=False)
-        return return_chart
 
 class Year(Charts):
     def __init__(self, df):
