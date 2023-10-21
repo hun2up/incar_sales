@@ -182,17 +182,13 @@ class Charts(ChartData):
         df_life = df_select[df_select['보험종목'] == '생명보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
         df_fire = df_select[df_select['보험종목'] == '손해보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
         df_result = pd.merge(df_life, df_fire, on=['영수일자'], how='outer')
-        '''
-        st.dataframe(df_result)
-        st.dataframe(df_result['생명보험'], use_container_width=True)
-        st.dataframe(df_result['손해보험'], use_container_width=True)
-        st.dataframe(df_result.index, use_container_width=True)
-        st.dataframe(df_result['영수일자'], use_container_width=True)
-        '''
+        dates = df_result.index.tolist()
+        life = df_result['생명보험'].tolist()
+        fire = df_result['손해보험'].tolist()
         
         fig = pl.graph_objs.Figure(data=[
-            pl.graph_objs.Bar(name='손보', x=df_result.index, y=df_result['손해보험']),
-            pl.graph_objs.Bar(name='생보', x=df_result.index, y=df_result['생명보험'])
+            pl.graph_objs.Bar(name='손보', x=dates, y=fire),
+            pl.graph_objs.Bar(name='생보', x=dates, y=life)
         ])
         # Change the bar mode
         fig.update_layout(barmode='stack')
