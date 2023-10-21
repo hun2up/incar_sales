@@ -181,12 +181,14 @@ class Charts(ChartData):
         df_select = self.df.groupby(['보험종목','영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
         df_life = df_select[df_select['보험종목'] == '생명보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
         df_fire = df_select[df_select['보험종목'] == '손해보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
-        dates = df_select['영수일자'].tolist()
         df_select = pd.merge(df_life, df_fire, on=['영수일자'], how='outer')
+        dates = df_select['영수일자'].tolist()
+        life = df_select['생명보험'].tolist()
+        fire = df_select['손해보험'].tolist()
         
         fig = pl.graph_objs.Figure(data=[
-            pl.graph_objs.Bar(name='손보', x=df_select.index, y=df_select['손해보험']),
-            pl.graph_objs.Bar(name='생보', x=df_select.index, y=df_select['생명보험'])
+            pl.graph_objs.Bar(name='손보', x=dates, y=fire),
+            pl.graph_objs.Bar(name='생보', x=dates, y=life)
         ])
         # Change the bar mode
         fig.update_layout(barmode='stack')
