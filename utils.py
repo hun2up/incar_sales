@@ -185,7 +185,8 @@ class Charts(ChartData):
         st.dataframe(df_result)
         st.dataframe(df_result['영수일자'], use_container_width=True)
         st.dataframe(df_result['생명보험'], use_container_width=True)
-        st.dataframe(df_result['손해보험'], use_container_width=Ture)
+        st.dataframe(df_result['손해보험'], use_container_width=True)
+        st.dataframe(df_result.index, use_container_width=True)
         
         '''
         fig = pl.graph_objs.Figure(data=[
