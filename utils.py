@@ -183,8 +183,10 @@ class Charts(ChartData):
         df_select = self.df.groupby(column_select)['영수/환급보험료'].sum().reset_index(name='매출액')
         df_life = df_select[df_select['보험종목'] == '생명보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
         df_fire = df_select[df_select['보험종목'] == '손해보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
-        df_select = pd.merge(df_life, df_fire, on=['영수일자'])
-        st.dataframe(df_select, use_container_width=True)
+        df_basic = pd.merge(df_life, df_fire, on=['영수일자'])
+        df_outer = pd.merge(df_life, df_fire, on=['영수일자'], how='outer')
+        st.dataframe(df_basic, use_container_width=True)
+        st.dataframe(df_outer, use_container_width=True)
         return df_select
 
 
