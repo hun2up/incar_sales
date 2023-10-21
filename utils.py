@@ -175,26 +175,17 @@ class Charts(ChartData):
             template='plotly_white'  # You can choose different templates if you prefer
         )
         return fig_line
-
-    # --------------------------------    그래프 제작을 위한 필요 컬럼 분류하고 누적값 구하기    -----------------------------------
-    def test(self, column_select):
-        # 차트 제작용 (누적 매출액 산출)
-        # 필요컬럼, 영수일자, 영수/환급보험료로 묶고, 영수/환급보험료 합계 구한 뒤 컬럼명을 '매출액'으로 변경
-        df_select = self.df.groupby(column_select)['영수/환급보험료'].sum().reset_index(name='매출액')
+    
+    def make_chart_stacked(self):
+        # 차트 제작을 위한 데이터프레임 편집
+        df_select = self.df.groupby(['보험종목','영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
         df_life = df_select[df_select['보험종목'] == '생명보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
         df_fire = df_select[df_select['보험종목'] == '손해보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
-        df_basic = pd.merge(df_life, df_fire, on=['영수일자'])
-        df_outer = pd.merge(df_life, df_fire, on=['영수일자'], how='outer')
-        st.dataframe(df_basic, use_container_width=True)
-        st.dataframe(df_outer, use_container_width=True)
-        return df_select
-
-
-    def make_chart_stacked(self, df):
+        df_select = pd.merge(df_life, df_fire, on=['영수일자'], how='outer')
         
         fig = pl.graph_objs.Figure(data=[
-            pl.graph_objs.Bar(name='손보', x=df['영수일자'], y=df['손해보험']),
-            pl.graph_objs.Bar(name='생보', x=df['영수일자'], y=df['생명보험'])
+            pl.graph_objs.Bar(name='손보', x=df_select['영수일자'], y=df_select['손해보험']),
+            pl.graph_objs.Bar(name='생보', x=df_select['영수일자'], y=df_select['생명보험'])
         ])
         # Change the bar mode
         fig.update_layout(barmode='stack')
