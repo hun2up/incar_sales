@@ -192,7 +192,7 @@ class Charts(ChartData):
         ])
         # Change the bar mode
         fig.update_layout(barmode='stack')
-        fig.show()
+        return fig
         
 
     # --------------------------------------  Horizontal Bar Chart (Group) 제작 함수 정의  -----------------------------------------
