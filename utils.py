@@ -181,11 +181,13 @@ class Charts(ChartData):
         df_select = self.df.groupby(['보험종목','영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
         df_life = df_select[df_select['보험종목'] == '생명보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
         df_fire = df_select[df_select['보험종목'] == '손해보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
-        df_select = pd.merge(df_life, df_fire, on=['영수일자'], how='outer')
-        dates = {'영수일자':df_select.index.tolist()}
-        life = {'생명보험':df_select['생명보험'].tolist()}
-        fire = {'손해보험':df_select['손해보험'].tolist()}
+        df_result = pd.merge(df_life, df_fire, on=['영수일자'], how='outer')
+        st.dataframe(df_result)
+        st.dataframe(df_result['영수일자'], use_container_width=True)
+        st.dataframe(df_result['생명보험'], use_container_width=True)
+        st.dataframe(df_result['손해보험'], use_container_width=Ture)
         
+        '''
         fig = pl.graph_objs.Figure(data=[
             pl.graph_objs.Bar(name='손보', x=dates, y=fire),
             pl.graph_objs.Bar(name='생보', x=dates, y=life)
@@ -193,6 +195,7 @@ class Charts(ChartData):
         # Change the bar mode
         fig.update_layout(barmode='stack')
         fig.show()
+        '''
 
     # --------------------------------------  Horizontal Bar Chart (Group) 제작 함수 정의  -----------------------------------------
     # axis_a: 고유값 (신청인원, 수료인원) / axis_b: 누계값 (신청누계, 수료누계)
