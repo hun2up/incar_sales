@@ -183,10 +183,11 @@ class Charts(ChartData):
         df_fire = df_select[df_select['보험종목'] == '손해보험'].pivot(index='영수일자',columns='보험종목',values='매출액')
         df_result = pd.merge(df_life, df_fire, on=['영수일자'], how='outer')
         st.dataframe(df_result)
-        st.dataframe(df_result['영수일자'], use_container_width=True)
+        
         st.dataframe(df_result['생명보험'], use_container_width=True)
         st.dataframe(df_result['손해보험'], use_container_width=True)
         st.dataframe(df_result.index, use_container_width=True)
+        st.dataframe(df_result['영수일자'], use_container_width=True)
         
         '''
         fig = pl.graph_objs.Figure(data=[
