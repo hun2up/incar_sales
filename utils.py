@@ -185,8 +185,8 @@ class Charts(ChartData):
         df_select = pd.merge(df_life, df_fire, on=['영수일자'], how='outer')
         
         fig = pl.graph_objs.Figure(data=[
-            pl.graph_objs.Bar(name='손보', x=df_select['영수일자'], y=df_select['손해보험']),
-            pl.graph_objs.Bar(name='생보', x=df_select['영수일자'], y=df_select['생명보험'])
+            pl.graph_objs.Bar(name='손보', x=df_select.index, y=df_select['손해보험']),
+            pl.graph_objs.Bar(name='생보', x=df_select.index, y=df_select['생명보험'])
         ])
         # Change the bar mode
         fig.update_layout(barmode='stack')
