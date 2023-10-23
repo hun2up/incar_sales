@@ -69,7 +69,7 @@ if authentication_status:
     ##########################################################################################################################
     instance_chart = Charts(df=df_month)
 
-    st.plotly_chart(instance_chart.make_chart_merged(), use_container_width=True)
+    st.plotly_chart(instance_chart.make_chart_merged(df=sum_month, title='제목'), use_container_width=True)
     st.plotly_chart(instance_chart.make_chart_stacked(), use_container_width=True)
 
     sum_year, sum_month = instance_chart.make_data_sum(column_select=['보험종목','영수일자'])
