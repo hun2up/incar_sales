@@ -272,9 +272,9 @@ class Toggles(MakeCard):
         df_fa = self.make_rank(columns=['담당자'])
         df_result = self.make_rank(reference)
         index = map[df_fa.iat[i,0] in range(5)]
-        for i in range(5):
-            st.markdown(f"{index[i]} 매출액 상위 {title}")
-            df_subrank = df_result[df_result['담당자'].isin([index[i]])].drop(columns=drop)
+        for a in range(5):
+            st.markdown(f"{index[a]} 매출액 상위 {title}")
+            df_subrank = df_result[df_result['담당자'].isin([index[a]])].drop(columns=drop)
             if form =='single':
                 self.make_card_single(df=df_subrank, number=5)
             if form == 'multiple':
@@ -285,9 +285,9 @@ class Toggles(MakeCard):
         df_company = self.make_rank(columns=['보험회사'])
         df_result = self.make_rank(reference)
         index = map[df_company.iat[i,0] in range(5)]
-        for i in range(5):
-            st.markdown(f"{index[i]} 매출액 상위 {title}")
-            df_subrank = df_result[df_result['보험회사'].isin([index[i]])].drop(columns=drop)
+        for a in range(5):
+            st.markdown(f"{index[a]} 매출액 상위 {title}")
+            df_subrank = df_result[df_result['보험회사'].isin([index[a]])].drop(columns=drop)
             if form =='single':
                 self.make_card_single(df=df_subrank, number=5)
             if form == 'multiple':
@@ -298,9 +298,9 @@ class Toggles(MakeCard):
         df_result = self.make_rank(reference)
         index = [['보장성','기타(보장성)'],['종신/CI'],['CEO정기보험'],['어린이'],['어린이(태아)'],['운전자'],['단독실손'],['연금','연금저축'],['변액연금']]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
-        for i in range(len(index)):
-            st.markdown(f"{index[i][0]} 매출액 상위 {title}")
-            df_subrank = [df_result[df_result['상품군'].isin([index[i][c]])].drop(columns=drop) for c in range(len(index[i]))]
+        for a in range(len(index)):
+            st.markdown(f"{index[a][0]} 매출액 상위 {title}")
+            df_subrank = [df_result[df_result['상품군'].isin([index[a][c]])].drop(columns=drop) for c in range(len(index[a]))]
             df_subrank = pd.concat(df_subrank, ignore_index=True)
             if form == 'single':
                 self.make_card_single(df=df_subrank, number=5)
@@ -311,9 +311,9 @@ class Toggles(MakeCard):
     def make_toggles_product(self, reference, select, drop, form):
         df_result = self.make_rank(reference)
         df_sub = self.make_rank(select)
-        for i in range(5):
-            st.markdown(f"##### {df_result.iat[i,0]} ({df_result.iat[i,1]})")
-            df_subrank = df_sub[df_sub['상품명'].isin([df_result.iat[i,0]])].drop(columns=drop)
+        for a in range(5):
+            st.markdown(f"##### {df_result.iat[a,0]} ({df_result.iat[a,1]})")
+            df_subrank = df_sub[df_sub['상품명'].isin([df_result.iat[a,0]])].drop(columns=drop)
             if form == 'single':
                 self.make_card_single(df=df_subrank, number=5)
             if form== 'multiple':
