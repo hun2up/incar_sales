@@ -4,6 +4,7 @@
 import pandas as pd
 import plotly as pl
 import streamlit as st
+from plotly.subplots import make_subplots
 import plotly.figure_factory as ff
 
 ########################################################################################################################
@@ -190,6 +191,46 @@ class Charts(ChartData):
         # Change the bar mode
         fig.update_layout(barmode='stack')
         return fig
+    
+    def make_chart_merged(self, df, title):
+        fig_merge = make_subplots(rows=1, cols=2, subplot_titles=['매출액 추이', '일자별 매출액'])
+
+        # Iterate over unique channels and add a trace for each
+        for reference in df['구분'].unique():
+            line_data = df[df['구분'] == reference]
+            fig_merge.add_trace(pl.graph_objs.Scatter(
+                x=line_data['영수일자'],
+                y=line_data['매출액'],
+                mode='lines+markers',
+                name=reference,
+            ), row=1, col=1)
+
+        # Update the layout of the line chart
+        fig_merge.update_xaxes(title_text='영수일자', row=1, col=1)
+        fig_merge.update_yaxes(title_text='매출액', row=1, col=1)
+
+        # Get data for stacked bar chart
+        df_select = self.df.groupby(['보험종목', '영수일자'])['영수/환급보험료'].sum().reset_index(name='매출액')
+        df_life = df_select[df_select['보험종목'] == '생명보험'].pivot(index='영수일자', columns='보험종목', values='매출액')
+        df_fire = df_select[df_select['보험종목'] == '손해보험'].pivot(index='영수일자', columns='보험종목', values='매출액')
+        df_select = pd.merge(df_life, df_fire, on=['영수일자'], how='outer')
+
+        # Create traces for stacked bar chart
+        trace1 = pl.graph_objs.Bar(x=df_select.index, y=df_select['손해보험'], name='손보', marker=dict(color='#fbb4ae'))
+        trace2 = pl.graph_objs.Bar(x=df_select.index, y=df_select['생명보험'], name='생보', marker=dict(color='#b3cde3'))
+
+        # Add traces to the stacked bar chart subplot
+        fig_merge.add_trace(trace1, row=1, col=2)
+        fig_merge.add_trace(trace2, row=1, col=2)
+
+        # Update the layout of the stacked bar chart
+        fig_merge.update_xaxes(title_text='영수일자', row=1, col=2)
+        fig_merge.update_yaxes(title_text='매출액', row=1, col=2)
+
+        # Update the layout of the entire figure
+        fig_merge.update_layout(title_text=title, showlegend=False)
+
+        return fig_merge
 
 class Year(Charts):
     def __init__(self, df):
