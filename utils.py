@@ -257,7 +257,7 @@ class Toggles(MakeCard):
     def make_toggles_channel(self, reference, title, form):
         df_channel = self.make_rank(columns=['소속'])
         df_result = self.make_rank(reference)
-        index = map[df_channel.iat[i,0] in range(6)]
+        index = [df_channel.iat[i,0] for i in range(6)]
         # 하위랭킹 제작을 위한 5개의 스타일카드 제목 생성
         for i in range(6):
             st.markdown(f"{index[i]} 매출액 상위 {title}")
@@ -271,7 +271,7 @@ class Toggles(MakeCard):
     def make_toggles_fa(self, reference, drop, title, form):
         df_fa = self.make_rank(columns=['담당자'])
         df_result = self.make_rank(reference)
-        index = map[df_fa.iat[i,0] in range(5)]
+        index = [df_fa.iat[i,0] for i in range(5)]
         for a in range(5):
             st.markdown(f"{index[a]} 매출액 상위 {title}")
             df_subrank = df_result[df_result['담당자'].isin([index[a]])].drop(columns=drop)
@@ -284,7 +284,7 @@ class Toggles(MakeCard):
     def make_toggles_company(self, reference, drop, title, form):
         df_company = self.make_rank(columns=['보험회사'])
         df_result = self.make_rank(reference)
-        index = map[df_company.iat[i,0] in range(5)]
+        index = [df_company.iat[i,0] for i in range(5)]
         for a in range(5):
             st.markdown(f"{index[a]} 매출액 상위 {title}")
             df_subrank = df_result[df_result['보험회사'].isin([index[a]])].drop(columns=drop)
